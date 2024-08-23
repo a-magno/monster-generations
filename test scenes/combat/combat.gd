@@ -35,9 +35,10 @@ func start_battle( fighters ):
 			timer.one_shot = true
 			combatant.add_child(timer)
 			ai.timer = timer
-			
+		
 		combatants.add_combatant(combatant)
-		combatant.health.dead.connect(_on_combatant_death)
+		if not battle_ui.combatant_dead.is_connected(_on_combatant_death):
+			battle_ui.combatant_dead.connect(_on_combatant_death)
 	battle_ui.start()
 	turn_queue.start()
 
@@ -50,8 +51,10 @@ func clear_combat():
 
 
 func finish_combat(winner, loser):
+	print("Waiting for UI to update...")
+	await battle_ui.update_over
+	print_debug("UI updated.")
 	battle_over.emit(winner, loser)
-
 
 func _on_combatant_death(combatant):
 	var winner

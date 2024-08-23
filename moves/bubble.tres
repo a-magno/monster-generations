@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BaseMove" load_steps=2 format=3 uid="uid://b5pvururjd5dh"]
+
+[ext_resource type="Script" path="res://src/scripts/BaseMove.gd" id="1_wofn1"]
+
+[resource]
+script = ExtResource("1_wofn1")
+id = &"bubble"
+name = "Bubble"
+max_uses = 5.0
+dmg_type = 1
+type = 3
+description = "Shoots bubbles."

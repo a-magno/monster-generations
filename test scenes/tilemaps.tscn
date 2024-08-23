@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=4 uid="uid://b711s4xnbwwa6"]
+[gd_scene load_steps=38 format=4 uid="uid://b711s4xnbwwa6"]
 
 [ext_resource type="Script" path="res://test scenes/map.gd" id="1_gpaf3"]
 [ext_resource type="Texture2D" uid="uid://cb1gmm0yqp7oa" path="res://src/assets/world.png" id="1_ktlhk"]
@@ -14,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://bax82jpfhqdix" path="res://src/assets/objects/grassrock2.png" id="5_hq6sw"]
 [ext_resource type="Texture2D" uid="uid://dxyhpf318wlv6" path="res://src/assets/objects/green_tree_bushy.png" id="6_nlgb1"]
 [ext_resource type="Texture2D" uid="uid://bblo1yflyw5as" path="res://src/assets/objects/green_tree_small.png" id="7_lj6xo"]
-[ext_resource type="PackedScene" uid="uid://bjyswwcnuiy7x" path="res://test scenes/player.tscn" id="10_64fyp"]
 [ext_resource type="Texture2D" uid="uid://dg8v10tdd86fk" path="res://src/assets/chest.png" id="11_u1q1w"]
 [ext_resource type="Script" path="res://test scenes/item_layer.gd" id="17_01ogs"]
 [ext_resource type="Texture2D" uid="uid://bm85ayk5shvvn" path="res://src/assets/indoor.png" id="17_0707a"]
@@ -992,6 +991,3 @@ ground = NodePath("../../Map")
 [node name="TallGrass" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAFAAQAAQAAAAAAAAAFAAUAAQAAAAAAAAAGAAQAAQAAAAAAAAAGAAUAAQAAAAAAAAAGAAYAAQAAAAAAAAAHAAQAAQAAAAAAAAAHAAUAAQAAAAAAAAAHAAYAAQAAAAAAAAAGAAMAAQAAAAAAAAAHAAMAAQAAAAAAAAAIAAMAAQAAAAAAAAAIAAQAAQAAAAAAAAAHAAIAAQAAAAAAAAAIAAIAAQAAAAAAAAAEAAMAAQAAAAAAAAAEAAQAAQAAAAAAAAAFAAMAAQAAAAAAAAANAAEAAQAAAAAAAAANAAIAAQAAAAAAAAAOAAEAAQAAAAAAAAAOAAIAAQAAAAAAAAAPAAEAAQAAAAAAAAAPAAIAAQAAAAAAAAAQAAEAAQAAAAAAAAAQAAIAAQAAAAAAAAAQAAMAAQAAAAAAAAARAAIAAQAAAAAAAAARAAEAAQAAAAAAAAASAAIAAQAAAAAAAAAEAAkAAQAAAAAAAAAEAAoAAQAAAAAAAAAFAAkAAQAAAAAAAAAFAAoAAQAAAAAAAAAGAAkAAQAAAAAAAAAGAAoAAQAAAAAAAAAHAAkAAQAAAAAAAAAHAAoAAQAAAAAAAAAIAAkAAQAAAAAAAAAIAAoAAQAAAAAAAAAJAAkAAQAAAAAAAAAJAAoAAQAAAAAAAAAEAP//AQAAAAAAAAAEAAAAAQAAAAAAAAAFAP//AQAAAAAAAAAFAAAAAQAAAAAAAAA=")
 tile_set = SubResource("TileSet_1a7ea")
-
-[node name="Player" parent="." instance=ExtResource("10_64fyp")]
-motion_mode = 1

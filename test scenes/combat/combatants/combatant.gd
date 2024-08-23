@@ -25,7 +25,7 @@ func _set_active(value):
 
 func set_data(_data : Monster):
 	data = _data
-	health = Health.new( data.get_stat(&"hp") )
+	health = Health.new( data )
 	add_child(health)
 	initiative = data.get_stat(&"spd").value
 
@@ -36,7 +36,6 @@ func attack( target : Combatant, move : BaseMove ):
 	await $Sprite.animation_finished
 	$Sprite.play("idle")
 	target.take_damage( dmg )
-	
 	end_turn()
 
 func consume(item):
@@ -48,7 +47,7 @@ func flee():
 #endregion
 func take_damage( amount ):
 	prints(name, "took %.1f damage" % amount)
-	data.decrease_stat(&"hp", amount)
+	#data.decrease_stat(&"hp", amount)
 	health.take_damage( amount )
 	# play hurt animation later
 

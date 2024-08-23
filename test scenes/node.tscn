@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cmv4mkkfcwyu7"]
+[gd_scene load_steps=9 format=3 uid="uid://cmv4mkkfcwyu7"]
 
 [ext_resource type="Script" path="res://test scenes/game.gd" id="1_4h63a"]
 [ext_resource type="PackedScene" uid="uid://b711s4xnbwwa6" path="res://test scenes/tilemaps.tscn" id="2_lfpq6"]
 [ext_resource type="PackedScene" uid="uid://vraeqh70pqet" path="res://src/scenes/ui/world_ui.tscn" id="4_f0pk2"]
 [ext_resource type="PackedScene" uid="uid://c6qnjpqg33mhg" path="res://test scenes/combat/combat.tscn" id="5_5bt0q"]
+[ext_resource type="PackedScene" uid="uid://bjyswwcnuiy7x" path="res://test scenes/player.tscn" id="5_mieqc"]
 
 [sub_resource type="Animation" id="Animation_qscco"]
 length = 0.001
@@ -71,5 +72,9 @@ visible = false
 [node name="World" parent="." instance=ExtResource("2_lfpq6")]
 
 [node name="WorldUI" parent="World" instance=ExtResource("4_f0pk2")]
+
+[node name="Player2" parent="World" instance=ExtResource("5_mieqc")]
+position = Vector2(384, 128)
+motion_mode = 1
 
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
