@@ -25,9 +25,9 @@ func _set_active(value):
 
 func set_data(_data : Monster):
 	data = _data
-	health = Health.new( data.get_stat("hp") )
+	health = Health.new( data.get_stat(&"hp") )
 	add_child(health)
-	initiative = data.get_stat("spd")
+	initiative = data.get_stat(&"spd").value
 
 #region actions
 func attack( target : Combatant, move : BaseMove ):
@@ -48,6 +48,7 @@ func flee():
 #endregion
 func take_damage( amount ):
 	prints(name, "took %.1f damage" % amount)
+	data.decrease_stat(&"hp", amount)
 	health.take_damage( amount )
 	# play hurt animation later
 
@@ -61,8 +62,8 @@ func _calculate_damage( target : Combatant, move : BaseMove ) -> int:
 	var WeakOrRes = 1
 	match(move.dmg_type):
 		BaseMove.DmgType.PHYSICAL, BaseMove.DmgType.SPECIAL:
-			var atk = self.data.get_stat( move.dmg_key )
-			var def = data.get_stat( move.dmg_key )
+			var atk = self.data.get_stat( move.dmg_key ).value
+			var def = data.get_stat( move.dmg_key ).value
 			
 			AttackStat = atk
 			AD = move.power/def

@@ -10,9 +10,9 @@ var value : int :
 		health_changed.emit(value)
 var max_value : int
 
-func _init(_max_value):
-	max_value = _max_value
-	value = max_value
+func _init(stat):
+	max_value = max(stat.max_value, stat.value)
+	value = stat.value
 
 func take_damage( amount ):
 	value -= max(amount, 1)

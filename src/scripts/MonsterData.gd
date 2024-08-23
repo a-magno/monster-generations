@@ -54,7 +54,8 @@ class Stat:
 	var owner : Monster
 	var formula_override = null
 	var base : float = 0.0
-	var value : float = 0.0
+	var max_value : float = 0.0
+	var value
 	var EV : float = 0.0
 	var IV : float = 0.0
 	var add : float = 0.0
@@ -66,7 +67,8 @@ class Stat:
 		formula_override = _formula
 		randomize()
 		IV = float(randi_range(1, 15))
-		value = calculate(formula_override)
+		max_value = calculate(formula_override)
+		value = max_value
 		#print("%s : %.0f" % [_id, value])
 		
 	func calculate(formula_override = self.formula_override) -> float:
@@ -93,6 +95,14 @@ class Stat:
 		value = res
 		value = (value + add) * (1.0 + mult)
 		return int(value)
+	
+	func increase(amount) -> void:
+		value += amount
+		value = clamp(value, 0, max_value)
+
+	func decrease(amount) -> void:
+		value -= min(amount, 1)
+		value = clamp(value, 0, max_value)
 
 @export var hp_base : float = 0.0
 @export var atk_base : float = 0.0
@@ -142,10 +152,18 @@ func acquire(new_nickname : String):
 	#acquired_monster.recalculate_stats(acquired_monster)
 	return acquired_monster 
 
-func get_stat(id : StringName) -> float:
+func get_stat(id : StringName):
 	if id in stats:
-		return stats[id].value
+		return stats[id]
 	return 0.0
+
+func decrease_stat(id, amount):
+	if id in stats:
+		stats[id].decrease(amount)
+
+func increase_stat(id, amount):
+	if id in stats:
+		stats[id].increase(amount)
 
 func get_nickname():
 	return nickname if nickname.length() > 0 else id.capitalize()

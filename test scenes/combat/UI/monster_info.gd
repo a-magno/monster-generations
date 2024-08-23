@@ -9,6 +9,7 @@ signal updated
 @onready var healthbar: ProgressBar = %Healthbar
 @onready var health_display: Label = %"Health Display"
 var hp_style : StyleBoxFlat
+var tween
 @onready var exp_bar: ProgressBar = %ExpBar
 @onready var gender_lbl: Label = %Gender
 
@@ -19,7 +20,7 @@ var hp_style : StyleBoxFlat
 	set(d):
 		data = d
 var combatant
-const display_format = "{0}/{1}"
+const display_format = "%d / %d"
 
 func _ready() -> void:
 	monster_name.text = data.get_nickname()
@@ -29,7 +30,13 @@ func _ready() -> void:
 		data.leveled_up.connect(_set_exp_bar)
 		_set_exp_bar(data.level)
 	_set_healthbar()
+	health_display.text = "%d / %d" % [healthbar.value, health_node.max_value]
 
+func _process(delta):
+	if not tween:
+		return
+	health_display.text = "%d / %d" % [healthbar.value, health_node.max_value]
+	
 func _set_healthbar():
 	if not hp_style:
 		hp_style = healthbar.get_theme_stylebox("fill")
@@ -48,7 +55,7 @@ func _set_exp_bar(level):
 
 func _on_exp_gained(_exp):
 	#exp_bar.value = exp
-	var tween = create_tween()
+	tween = create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(exp_bar, "value", _exp, 0.4).from_current()
 	await tween.finished
@@ -56,12 +63,11 @@ func _on_exp_gained(_exp):
 
 func _on_health_changed(new_value):
 	#healthbar.value = new_value
-	var tween = create_tween()
+	tween = create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(healthbar, "value", new_value, 0.4).from_current().set_ease(Tween.EASE_IN_OUT)
 	await tween.finished
 	_update_bar_color()
-	health_display.text = display_format.format([new_value, health_node.max_value])
 	updated.emit(combatant)
 
 func _get_hp_ratio():
