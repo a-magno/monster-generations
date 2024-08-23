@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Monster" load_steps=5 format=3 uid="uid://btsewgj1lhido"]
+
+[ext_resource type="Script" path="res://src/scripts/Learnset.gd" id="1_g4sgw"]
+[ext_resource type="PackedScene" uid="uid://bpopt6wbhebsy" path="res://test scenes/combat/combatants/battle_scenes/finsta.tscn" id="1_kv563"]
+[ext_resource type="Script" path="res://src/scripts/MonsterData.gd" id="2_kmimt"]
+[ext_resource type="Texture2D" uid="uid://colx74s4sp7um" path="res://src/assets/monsters/icons/Finsta.png" id="2_yelpr"]
+
+[resource]
+script = ExtResource("2_kmimt")
+id = &"finsta"
+type1 = 3
+type2 = -1
+battle_scene = ExtResource("1_kv563")
+icon = ExtResource("2_yelpr")
+learnset = Array[ExtResource("1_g4sgw")]([])
+hp_base = 44.0
+atk_base = 48.0
+spAtk_base = 50.0
+def_base = 65.0
+spDef_base = 64.0
+spd_base = 43.0

@@ -1,0 +1,86 @@
+[gd_scene load_steps=12 format=3 uid="uid://dc78hitk7yqf2"]
+
+[ext_resource type="Script" path="res://test scenes/loot_chest.gd" id="1_rilom"]
+[ext_resource type="Texture2D" uid="uid://d0p7hbkgglgxx" path="res://src/assets/objects/chest_001.png" id="1_rju0u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttski"]
+atlas = ExtResource("1_rju0u")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7okf1"]
+atlas = ExtResource("1_rju0u")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6b1if"]
+atlas = ExtResource("1_rju0u")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3k8a8"]
+atlas = ExtResource("1_rju0u")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwu7o"]
+atlas = ExtResource("1_rju0u")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6pw01"]
+atlas = ExtResource("1_rju0u")
+region = Rect2(64, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awa7a"]
+atlas = ExtResource("1_rju0u")
+region = Rect2(80, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oms5u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ttski")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7okf1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b1if")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3k8a8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pwu7o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6pw01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awa7a")
+}],
+"loop": false,
+"name": &"open",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4fycf"]
+size = Vector2(64, 64)
+
+[node name="Loot Chest" type="Area2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_rilom")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_oms5u")
+animation = &"open"
+autoplay = "default"
+frame = 5
+frame_progress = 1.0
+offset = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4fycf")

@@ -1,0 +1,119 @@
+[gd_scene load_steps=9 format=3 uid="uid://c6qnjpqg33mhg"]
+
+[ext_resource type="Script" path="res://test scenes/combat/combat.gd" id="1_o20eq"]
+[ext_resource type="Script" path="res://src/scripts/MonsterData.gd" id="2_n0dvl"]
+[ext_resource type="Texture2D" uid="uid://druax0t1ex102" path="res://test scenes/combat/backgrounds/forest.png" id="2_otcaw"]
+[ext_resource type="Script" path="res://test scenes/combat/combatants/combatants_list.gd" id="3_611aq"]
+[ext_resource type="Script" path="res://test scenes/combat/combatants/turn_queue.gd" id="4_3hk0a"]
+[ext_resource type="Script" path="res://test scenes/combat/combatants/battle_ui.gd" id="5_6wtr4"]
+[ext_resource type="Resource" uid="uid://btsewgj1lhido" path="res://src/monsters/finsta.tres" id="5_slllu"]
+[ext_resource type="Resource" uid="uid://b7fvuuyo6744t" path="res://src/monsters/sparchu.tres" id="6_0gd0y"]
+
+[node name="Combat" type="Node2D"]
+script = ExtResource("1_o20eq")
+test_fighters = Array[ExtResource("2_n0dvl")]([ExtResource("6_0gd0y"), ExtResource("5_slllu")])
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 640.0
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_otcaw")
+
+[node name="Combatants" type="Node2D" parent="."]
+script = ExtResource("3_611aq")
+
+[node name="PlayerMarker" type="Marker2D" parent="Combatants"]
+position = Vector2(192, 384)
+scale = Vector2(-2, 2)
+
+[node name="OpponentMarker" type="Marker2D" parent="Combatants"]
+position = Vector2(960, 256)
+
+[node name="TurnQueue" type="Node" parent="." node_paths=PackedStringArray("combatants_list")]
+script = ExtResource("4_3hk0a")
+combatants_list = NodePath("../Combatants")
+
+[node name="Battle UI" type="Control" parent="."]
+custom_minimum_size = Vector2(100, 110)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 640.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_6wtr4")
+
+[node name="MarginContainer" type="MarginContainer" parent="Battle UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Combatant UI" type="HBoxContainer" parent="Battle UI/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 320
+
+[node name="Control" type="Control" parent="Battle UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 64.0
+offset_top = 384.0
+offset_right = 1088.0
+offset_bottom = 576.0
+
+[node name="GridContainer" type="GridContainer" parent="Battle UI/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -516.0
+offset_top = -132.0
+grow_horizontal = 0
+grow_vertical = 0
+columns = 2
+
+[node name="Attack" type="Button" parent="Battle UI/Control/GridContainer"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+text = "Attack"
+
+[node name="UseItem" type="Button" parent="Battle UI/Control/GridContainer"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+text = "Item"
+
+[node name="Party" type="Button" parent="Battle UI/Control/GridContainer"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+text = "Party"
+
+[node name="Flee" type="Button" parent="Battle UI/Control/GridContainer"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+text = "Flee"
+
+[connection signal="active_changed" from="TurnQueue" to="Battle UI" method="_on_active_changed"]
+[connection signal="pressed" from="Battle UI/Control/GridContainer/Attack" to="Battle UI" method="_on_attack_pressed"]
+[connection signal="pressed" from="Battle UI/Control/GridContainer/UseItem" to="Battle UI" method="_on_use_item_pressed"]
+[connection signal="pressed" from="Battle UI/Control/GridContainer/Party" to="Battle UI" method="_on_party_pressed"]
+[connection signal="pressed" from="Battle UI/Control/GridContainer/Flee" to="Battle UI" method="_on_flee_pressed"]

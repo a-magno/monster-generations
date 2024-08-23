@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://bsyr0bp87r1av"]
+
+[ext_resource type="Texture2D" uid="uid://cntq5imvxnfiq" path="res://src/assets/SpriteSheet2X.png" id="1_2ppvv"]
+[ext_resource type="Script" path="res://src/scripts/BaseItem.gd" id="1_55igb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqnwm"]
+atlas = ExtResource("1_2ppvv")
+region = Rect2(128, 96, 32, 32)
+
+[resource]
+script = ExtResource("1_55igb")
+id = &"stick"
+name = "Stick"
+icon = SubResource("AtlasTexture_eqnwm")
+type = 3
+description = "A nicely sized stick. Could probably become a handle if treated properly."
+value = 1
+weight = 1.0

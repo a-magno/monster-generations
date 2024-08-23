@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://cmv4mkkfcwyu7"]
+
+[ext_resource type="Script" path="res://test scenes/game.gd" id="1_4h63a"]
+[ext_resource type="PackedScene" uid="uid://b711s4xnbwwa6" path="res://test scenes/tilemaps.tscn" id="2_lfpq6"]
+[ext_resource type="PackedScene" uid="uid://vraeqh70pqet" path="res://src/scenes/ui/world_ui.tscn" id="4_f0pk2"]
+[ext_resource type="PackedScene" uid="uid://c6qnjpqg33mhg" path="res://test scenes/combat/combat.tscn" id="5_5bt0q"]
+
+[sub_resource type="Animation" id="Animation_qscco"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8hpsx"]
+resource_name = "fade"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(2, 0.5),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o6tsp"]
+_data = {
+"RESET": SubResource("Animation_qscco"),
+"fade": SubResource("Animation_8hpsx")
+}
+
+[node name="Node" type="Node" node_paths=PackedStringArray("battle_scene", "world")]
+script = ExtResource("1_4h63a")
+battle_scene = NodePath("Combat")
+world = NodePath("World")
+
+[node name="CanvasModulate" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="ColorRect" type="ColorRect" parent="CanvasModulate"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_o6tsp")
+}
+
+[node name="Combat" parent="." instance=ExtResource("5_5bt0q")]
+visible = false
+
+[node name="World" parent="." instance=ExtResource("2_lfpq6")]
+
+[node name="WorldUI" parent="World" instance=ExtResource("4_f0pk2")]
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

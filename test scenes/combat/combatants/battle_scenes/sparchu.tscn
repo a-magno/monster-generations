@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://m36cfapr4mra"]
+
+[ext_resource type="Texture2D" uid="uid://cqccldwnjtw1m" path="res://src/assets/monsters/Sparchu.png" id="1_chpov"]
+[ext_resource type="PackedScene" uid="uid://crwbggn7bfem" path="res://test scenes/combat/combatants/combatant.tscn" id="1_rvs1p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4qje"]
+atlas = ExtResource("1_chpov")
+region = Rect2(0, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdyok"]
+atlas = ExtResource("1_chpov")
+region = Rect2(192, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_scxbw"]
+atlas = ExtResource("1_chpov")
+region = Rect2(384, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1v4qm"]
+atlas = ExtResource("1_chpov")
+region = Rect2(576, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7floh"]
+atlas = ExtResource("1_chpov")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7ymq"]
+atlas = ExtResource("1_chpov")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wl2m"]
+atlas = ExtResource("1_chpov")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xvws"]
+atlas = ExtResource("1_chpov")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tc2vo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4qje")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdyok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_scxbw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1v4qm")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7floh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7ymq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wl2m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3xvws")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Combatant" instance=ExtResource("1_rvs1p")]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_tc2vo")
+animation = &"attack"
+autoplay = "idle"

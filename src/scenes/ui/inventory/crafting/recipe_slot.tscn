@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dor7757s1uksd"]
+
+[node name="Recipe Slot" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 2

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://crwbggn7bfem"]
+
+[ext_resource type="Script" path="res://test scenes/combat/combatants/combatant.gd" id="1_kk02h"]
+
+[node name="Combatant" type="Node2D"]
+script = ExtResource("1_kk02h")
+
+[node name="BattleSprite" type="Node2D" parent="."]

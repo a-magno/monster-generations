@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemRecipe" load_steps=2 format=3 uid="uid://dh5v65bx3qqcn"]
+
+[ext_resource type="Script" path="res://ItemRecipe.gd" id="1_7m5ln"]
+
+[resource]
+script = ExtResource("1_7m5ln")
+id = &"shell_knife"
+materials = {
+1: &"stick",
+2: &"seashell"
+}

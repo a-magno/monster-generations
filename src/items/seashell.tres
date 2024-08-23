@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://bw7bqmm0ru828"]
+
+[ext_resource type="Texture2D" uid="uid://cntq5imvxnfiq" path="res://src/assets/SpriteSheet2X.png" id="1_1c6fo"]
+[ext_resource type="Script" path="res://src/scripts/BaseItem.gd" id="1_hvfcx"]
+[ext_resource type="Script" path="res://ItemRecipe.gd" id="2_8dran"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yo4fr"]
+atlas = ExtResource("1_1c6fo")
+region = Rect2(160, 64, 32, 32)
+
+[resource]
+script = ExtResource("1_hvfcx")
+id = &"seashell"
+name = "Sea Shell"
+icon = SubResource("AtlasTexture_yo4fr")
+type = 3
+description = "A flat seashell. May be good for cutting small things."
+value = 2
+weight = 0.1
+can_stack = true
+recipes = Array[ExtResource("2_8dran")]([])

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://d2h30c8ojkrpb"]
+
+[ext_resource type="Script" path="res://src/scripts/BaseItem.gd" id="1_e14nu"]
+[ext_resource type="Texture2D" uid="uid://cntq5imvxnfiq" path="res://src/assets/SpriteSheet2X.png" id="1_wqy0m"]
+[ext_resource type="Script" path="res://ItemRecipe.gd" id="2_rto74"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l5gdk"]
+atlas = ExtResource("1_wqy0m")
+region = Rect2(874, 32, 22, 22)
+
+[resource]
+script = ExtResource("1_e14nu")
+id = &"shell_knife"
+name = "Shell Knife"
+icon = SubResource("AtlasTexture_l5gdk")
+type = 1
+description = "A small knife made with a stick and a seashell. It's just sharp enough to allow you to make other tools."
+value = 100
+weight = 1.0
+can_stack = true
+max_stack = 1
+recipes = Array[ExtResource("2_rto74")]([])

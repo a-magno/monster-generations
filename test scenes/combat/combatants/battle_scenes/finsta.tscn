@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://bpopt6wbhebsy"]
+
+[ext_resource type="PackedScene" uid="uid://crwbggn7bfem" path="res://test scenes/combat/combatants/combatant.tscn" id="1_008j0"]
+[ext_resource type="Texture2D" uid="uid://d14hm475ln326" path="res://src/assets/monsters/Finsta.png" id="1_n3oki"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xy2l3"]
+atlas = ExtResource("1_n3oki")
+region = Rect2(0, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0s1w"]
+atlas = ExtResource("1_n3oki")
+region = Rect2(192, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ve8m"]
+atlas = ExtResource("1_n3oki")
+region = Rect2(384, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggmbu"]
+atlas = ExtResource("1_n3oki")
+region = Rect2(576, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7yp07"]
+atlas = ExtResource("1_n3oki")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d7jjx"]
+atlas = ExtResource("1_n3oki")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gddfu"]
+atlas = ExtResource("1_n3oki")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kk0h"]
+atlas = ExtResource("1_n3oki")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bxi06"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xy2l3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0s1w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ve8m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggmbu")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7yp07")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d7jjx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gddfu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kk0h")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Combatant" instance=ExtResource("1_008j0")]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_bxi06")
+animation = &"attack"
+autoplay = "idle"

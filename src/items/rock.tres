@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://jde807ddw60i"]
+
+[ext_resource type="Texture2D" uid="uid://cntq5imvxnfiq" path="res://src/assets/SpriteSheet2X.png" id="1_4iie4"]
+[ext_resource type="Script" path="res://src/scripts/BaseItem.gd" id="1_vn3y3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjueg"]
+atlas = ExtResource("1_4iie4")
+region = Rect2(192, 96, 32, 32)
+
+[resource]
+script = ExtResource("1_vn3y3")
+id = &"rock"
+name = "Rock"
+icon = SubResource("AtlasTexture_qjueg")
+type = 3
+description = "It's a rock."
+value = 1
+weight = 1.0
