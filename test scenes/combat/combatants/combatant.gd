@@ -26,6 +26,7 @@ func _set_active(value):
 func set_data(_data : Monster):
 	data = _data
 	health = Health.new( data.get_stat(&"hp") )
+	health.combatant = self
 	add_child(health)
 	initiative = data.get_stat(&"spd").value
 
@@ -35,7 +36,7 @@ func attack( target : Combatant, move : BaseMove ):
 	$Sprite.play("attack")
 	await $Sprite.animation_finished
 	$Sprite.play("idle")
-	target.take_damage( dmg )
+	await target.take_damage( dmg )
 	
 	end_turn()
 
@@ -46,10 +47,11 @@ func consume(item):
 func flee():
 	end_turn()
 #endregion
+
 func take_damage( amount ):
-	prints(name, "took %.1f damage" % amount)
 	data.decrease_stat(&"hp", amount)
-	health.take_damage( amount )
+	await health.take_damage( amount )
+	prints(name, "took %.1f damage" % amount)
 	# play hurt animation later
 
 ## Calculates damage based on the Gen1 formula
@@ -60,6 +62,7 @@ func _calculate_damage( target : Combatant, move : BaseMove ) -> int:
 	var AD = 0
 	var STAB = 1.0
 	var WeakOrRes = 1
+	var level = data.get_level()
 	match(move.dmg_type):
 		BaseMove.DmgType.PHYSICAL, BaseMove.DmgType.SPECIAL:
 			var atk = self.data.get_stat( move.dmg_key ).value
@@ -70,15 +73,16 @@ func _calculate_damage( target : Combatant, move : BaseMove ) -> int:
 		_:
 			AttackStat = 1
 	
-	#if data.get_types().has( Type.to_str(move.move_type) ):
-		#STAB = 1.5
-	#
-	#WeakOrRes = Type.matchup(move.move_type, target.pokemon_data.get_types())
+	if move.type in data.get_typing():
+		STAB = 1.5
+	
+	for t in target.data.get_typing():
+		WeakOrRes += Typing.matchup( t, move.type)
 	
 	randomize()
 	var RandomNumber = randi_range(85, 100)
 	
-	damage = ((((2 * data.level / 5 + 2) * AttackStat * AD) / 50) + 2) * STAB * WeakOrRes * RandomNumber / 100
+	damage = ((((2 * level / 5 + 2) * AttackStat * AD) / 50) + 2) * STAB * WeakOrRes * RandomNumber / 100
 	return int(damage)
 
 func end_turn():

@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://cf5pwrbfppvvi"]
+
+[ext_resource type="Script" path="res://src/scenes/ui/party list/monster_slot.gd" id="1_fuste"]
+[ext_resource type="Texture2D" uid="uid://d28rh1qxwew1c" path="res://src/assets/monsters/icons/Cindrill.png" id="2_fht8u"]
+
+[node name="MonsterSlot" type="PanelContainer"]
+custom_minimum_size = Vector2(96, 96)
+offset_right = 96.0
+offset_bottom = 96.0
+size_flags_horizontal = 2
+script = ExtResource("1_fuste")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_fht8u")
+expand_mode = 2
+stretch_mode = 3
+
+[node name="Info" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Identity" type="Label" parent="MarginContainer/HBoxContainer/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "(M) Cindrill - Lv. 100
+Fire/Fire"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/Info"]
+layout_mode = 2
+
+[node name="Stats" type="GridContainer" parent="MarginContainer/HBoxContainer/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 3
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Info/Stats"]
+layout_mode = 2
+text = "HP: 100"
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Info/Stats"]
+layout_mode = 2
+text = "HP: 100"
+
+[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/Info/Stats"]
+layout_mode = 2
+text = "HP: 100"
+
+[node name="Label4" type="Label" parent="MarginContainer/HBoxContainer/Info/Stats"]
+layout_mode = 2
+text = "HP: 100"
+
+[node name="Label5" type="Label" parent="MarginContainer/HBoxContainer/Info/Stats"]
+layout_mode = 2
+text = "HP: 100"
+
+[node name="Label6" type="Label" parent="MarginContainer/HBoxContainer/Info/Stats"]
+layout_mode = 2
+text = "HP: 100"

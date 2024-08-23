@@ -5,6 +5,9 @@ class_name Player
 @onready var sprite: Sprite2D = $Sprite
 @onready var animation_tree: AnimationTree = $AnimationTree
 
+#testing
+@onready var label = $PlayerUI/Label
+
 
 var parent : Node2D
 enum States { IDLE, MOVING, BATTLING, BUSY }
@@ -43,7 +46,7 @@ func _physics_process(delta: float) -> void:
 		States.BUSY:
 			pass
 	
-	#$CanvasLayer/Label.text = "Looking at: %s\nStepping on: %s" % [str(looking_at), str(parent.is_stepping_on(position))]
+	label.text = "State: %s\nStepping on: %s" % [States.keys()[state], str(parent.is_stepping_on(position))]
 
 func move_to(target_position):
 	if state == States.MOVING: return

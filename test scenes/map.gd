@@ -28,14 +28,7 @@ func _ready():
 	prints("Known containers:", known_containers)
 	items.set_item( known_containers.pick_random(), ItemManager.get_random_item() )
 	items.set_item( known_containers.pick_random(), ItemManager.get_random_item() )
-	items.set_item( known_containers.pick_random(), ItemManager.get_random_item() )
-	items.set_item( known_containers.pick_random(), ItemManager.get_random_item() )
-	items.set_item( known_containers.pick_random(), ItemManager.get_random_item() )
-	items.set_item( known_containers.pick_random(), ItemManager.get_random_item() )
-	items.set_item( known_containers.pick_random(), ItemManager.get_random_item() )
-	items.set_item( known_containers.pick_random(), ItemManager.get_random_item() )
 	items.set_item( Vector2i(14, 5), ItemManager.get_random_item() )
-	
 
 func is_stepping_on(pos : Vector2):
 	var cell_pos = tall_grass.local_to_map(pos)

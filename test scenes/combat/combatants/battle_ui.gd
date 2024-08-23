@@ -9,10 +9,8 @@ const MONSTER_INFO = preload("res://test scenes/combat/UI/monster_info.tscn")
 func start():
 	for combatant : Combatant in combatants_list.get_combatants():
 		var info = MONSTER_INFO.instantiate()
-		info.data = combatant.data
-		info.health_node = combatant.health
-		info.combatant = combatant
 		combatant_ui.add_child(info)
+		info.combatant = combatant
 		info.updated.connect(_on_info_updated)
 
 func free_info_nodes():
@@ -20,9 +18,9 @@ func free_info_nodes():
 		c.queue_free()
 
 func _on_attack_pressed() -> void:
-	print_debug("enter attack pressed")
+	#print_debug("enter attack pressed")
 	if not combatants_list.get_node("Player").active:
-		print_debug("not player turn")
+		#print_debug("not player turn")
 		return
 	var test_move = load("res://src/moves/tackle.tres")
 	combatants_list.get_node("Player").attack( combatants_list.get_node("Opponent"), test_move )

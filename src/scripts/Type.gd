@@ -1,4 +1,7 @@
 extends Node
+const WEAKNESS = 2.0
+const RESISTANCE = 0.5
+const IMMUNITY = 0.0
 
 enum Types {
 	NULL,
@@ -23,56 +26,68 @@ enum Types {
 }
 var type_matchups : Array = [
 	# Normal
-	{ 2.0: [Types.FIGHTING], 0.5: [], 0.0: [Types.GHOST] },
+	{ WEAKNESS: [Types.FIGHTING], RESISTANCE: [], IMMUNITY: [Types.GHOST] },
 	
 	# Fire
-	{ 2.0: [Types.WATER, Types.GROUND, Types.ROCK], 0.5: [Types.FIRE], 0.0: [] },
+	{ WEAKNESS: [Types.WATER, Types.GROUND, Types.ROCK], RESISTANCE: [Types.FIRE], IMMUNITY: [] },
 	
 	# Water
-	{ 2.0: [Types.ELECTRIC, Types.GRASS], 0.5: [Types.FIRE, Types.WATER, Types.ICE, Types.STEEL], 0.0: [] },
+	{ WEAKNESS: [Types.ELECTRIC, Types.GRASS], RESISTANCE: [Types.FIRE, Types.WATER, Types.ICE, Types.STEEL], IMMUNITY: [] },
 	
 	# Electric
-	{ 2.0: [Types.GROUND], 0.5: [Types.ELECTRIC, Types.FLYING, Types.STEEL], 0.0: [Types.GROUND] },
+	{ WEAKNESS: [Types.GROUND], RESISTANCE: [Types.ELECTRIC, Types.FLYING, Types.STEEL], IMMUNITY: [Types.GROUND] },
 	
 	# Grass
-	{ 2.0: [Types.FIRE, Types.FLYING, Types.BUG], 0.5: [Types.WATER, Types.GRASS, Types.ELECTRIC, Types.GROUND], 0.0: [] },
+	{ WEAKNESS: [Types.FIRE, Types.FLYING, Types.BUG], RESISTANCE: [Types.WATER, Types.GRASS, Types.ELECTRIC, Types.GROUND], IMMUNITY: [] },
 	
 	# Ice
-	{ 2.0: [Types.FIRE, Types.STEEL], 0.5: [Types.ICE, Types.WATER, Types.GRASS, Types.GROUND], 0.0: [] },
+	{ WEAKNESS: [Types.FIRE, Types.STEEL], RESISTANCE: [Types.ICE, Types.WATER, Types.GRASS, Types.GROUND], IMMUNITY: [] },
 	
 	# Fighting
-	{ 2.0: [Types.FLYING, Types.PSYCHIC, Types.FAIRY], 0.5: [Types.BUG, Types.ROCK, Types.DARK], 0.0: [] },
+	{ WEAKNESS: [Types.FLYING, Types.PSYCHIC, Types.FAIRY], RESISTANCE: [Types.BUG, Types.ROCK, Types.DARK], IMMUNITY: [] },
 	
 	# Poison
-	{ 2.0: [Types.GROUND, Types.PSYCHIC], 0.5: [Types.GRASS, Types.FIGHTING, Types.POISON, Types.BUG, Types.FAIRY], 0.0: [] },
+	{ WEAKNESS: [Types.GROUND, Types.PSYCHIC], RESISTANCE: [Types.GRASS, Types.FIGHTING, Types.POISON, Types.BUG, Types.FAIRY], IMMUNITY: [] },
 	
 	# Ground
-	{ 2.0: [Types.WATER, Types.GRASS, Types.ICE], 0.5: [Types.POISON, Types.ROCK, Types.ELECTRIC], 0.0: [Types.ELECTRIC] },
+	{ WEAKNESS: [Types.WATER, Types.GRASS, Types.ICE], RESISTANCE: [Types.POISON, Types.ROCK, Types.ELECTRIC], IMMUNITY: [Types.ELECTRIC] },
 	
 	# Flying
-	{ 2.0: [Types.ELECTRIC, Types.ICE, Types.ROCK], 0.5: [Types.GRASS, Types.FIGHTING, Types.BUG], 0.0: [] },
+	{ WEAKNESS: [Types.ELECTRIC, Types.ICE, Types.ROCK], RESISTANCE: [Types.GRASS, Types.FIGHTING, Types.BUG], IMMUNITY: [] },
 	
 	# Psychic
-	{ 2.0: [Types.BUG, Types.GHOST, Types.DARK], 0.5: [Types.FIGHTING, Types.PSYCHIC], 0.0: [] },
+	{ WEAKNESS: [Types.BUG, Types.GHOST, Types.DARK], RESISTANCE: [Types.FIGHTING, Types.PSYCHIC], IMMUNITY: [] },
 	
 	# Bug
-	{ 2.0: [Types.FIRE, Types.FLYING, Types.ROCK], 0.5: [Types.GRASS, Types.FIGHTING, Types.GROUND, Types.BUG], 0.0: [] },
+	{ WEAKNESS: [Types.FIRE, Types.FLYING, Types.ROCK], RESISTANCE: [Types.GRASS, Types.FIGHTING, Types.GROUND, Types.BUG], IMMUNITY: [] },
 	
 	# Rock
-	{ 2.0: [Types.WATER, Types.GRASS, Types.FIGHTING, Types.STEEL], 0.5: [Types.NORMAL, Types.FIRE, Types.POISON, Types.FLYING], 0.0: [] },
+	{ WEAKNESS: [Types.WATER, Types.GRASS, Types.FIGHTING, Types.STEEL], RESISTANCE: [Types.NORMAL, Types.FIRE, Types.POISON, Types.FLYING], IMMUNITY: [] },
 	
 	# Ghost
-	{ 2.0: [Types.GHOST, Types.DARK], 0.5: [Types.POISON, Types.BUG], 0.0: [Types.NORMAL, Types.FIGHTING] },
+	{ WEAKNESS: [Types.GHOST, Types.DARK], RESISTANCE: [Types.POISON, Types.BUG], IMMUNITY: [Types.NORMAL, Types.FIGHTING] },
 	
 	# Dragon
-	{ 2.0: [Types.ICE, Types.DRAGON, Types.FAIRY], 0.5: [Types.FIRE, Types.WATER, Types.ELECTRIC, Types.GRASS], 0.0: [] },
+	{ WEAKNESS: [Types.ICE, Types.DRAGON, Types.FAIRY], RESISTANCE: [Types.FIRE, Types.WATER, Types.ELECTRIC, Types.GRASS], IMMUNITY: [] },
 	
 	# Dark
-	{ 2.0: [Types.FIGHTING, Types.BUG, Types.FAIRY], 0.5: [Types.GHOST, Types.DARK], 0.0: [] },
+	{ WEAKNESS: [Types.FIGHTING, Types.BUG, Types.FAIRY], RESISTANCE: [Types.GHOST, Types.DARK], IMMUNITY: [] },
 	
 	# Steel
-	{ 2.0: [Types.FIRE, Types.FIGHTING, Types.GROUND], 0.5: [Types.NORMAL, Types.GRASS, Types.ICE, Types.FLYING, Types.PSYCHIC, Types.BUG, Types.ROCK, Types.DRAGON, Types.STEEL, Types.FAIRY], 0.0: [] },
+	{ WEAKNESS: [Types.FIRE, Types.FIGHTING, Types.GROUND], RESISTANCE: [Types.NORMAL, Types.GRASS, Types.ICE, Types.FLYING, Types.PSYCHIC, Types.BUG, Types.ROCK, Types.DRAGON, Types.STEEL, Types.FAIRY], IMMUNITY: [] },
 	
 	# Fairy
-	{ 2.0: [Types.POISON, Types.STEEL], 0.5: [Types.FIGHTING, Types.BUG, Types.DARK], 0.0: [] }
+	{ WEAKNESS: [Types.POISON, Types.STEEL], RESISTANCE: [Types.FIGHTING, Types.BUG, Types.DARK], IMMUNITY: [] }
 ]
+
+func matchup( def_type : Types, atk_type : Types ):
+	if atk_type in type_matchups[def_type].get(WEAKNESS, null):
+		return WEAKNESS
+	if atk_type in type_matchups[def_type].get(RESISTANCE, null):
+		return RESISTANCE
+	if atk_type in type_matchups[def_type].get(IMMUNITY, null):
+		return IMMUNITY
+	return 1.0
+
+func as_string( type : Types ):
+	return Types.keys()[type]

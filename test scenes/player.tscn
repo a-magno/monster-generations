@@ -282,7 +282,6 @@ script = ExtResource("1_sum0i")
 [node name="PlayerUI" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="PlayerUI"]
-visible = false
 offset_top = 64.0
 offset_right = 40.0
 offset_bottom = 87.0

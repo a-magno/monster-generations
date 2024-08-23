@@ -22,9 +22,11 @@ func start_battle( fighters ):
 		var combatant = data.battle_scene.instantiate() as Combatant
 		combatant.set_data( data )
 		if data.captured_status == Monster.TAMED:
+			combatant.add_to_group(&"players")
 			combatant.name = "Player"
 			#print_debug("Player monster level: %d" % data.level)
 		else:
+			combatant.add_to_group(&"opponents")
 			var ai = WildAi.new()
 			ai.combatant = combatant
 			ai.list = combatants
@@ -52,9 +54,13 @@ func clear_combat():
 func finish_combat(winner, loser):
 	battle_over.emit(winner, loser)
 
-
 func _on_combatant_death(combatant):
-	var winner
+	var winner 
+	if _check_for_tag_ins(combatant):
+		#This is where switch logic goes
+		
+		#--
+		pass
 	if not combatant.name == "Player":
 		winner = combatants.get_node("Player")
 	else:
@@ -62,4 +68,14 @@ func _on_combatant_death(combatant):
 			if not n.name == "Player":
 				winner = n
 				break
+	give_exp( winner, combatant )
 	finish_combat(winner, combatant)
+
+func _check_for_tag_ins( combatant ):
+	return false
+
+func give_exp( to : Combatant, from : Combatant ):
+	if not to.is_in_group("player"):
+		return
+		
+# EOF #

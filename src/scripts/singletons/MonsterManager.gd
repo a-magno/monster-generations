@@ -45,7 +45,7 @@ func generate_wild_monster(monster_id : StringName) -> Monster:
 	if monster_id in monsters:
 		var wild_monster = monsters[monster_id].duplicate()
 		wild_monster.initialize() # Ensure the monster is initialized
-		print("Generated wild monster: %s" % wild_monster.get_nickname())
+		print("Generated wild monster: %s" % wild_monster.nickname)
 		return wild_monster
 	else:
 		print("Error: Monster with ID '%s' not found." % monster_id)
@@ -59,13 +59,13 @@ func generate_tamed_monster(monster_id : StringName, nickname: String = "", leve
 		tamed_monster = tamed_monster.acquire(_nickname) # Ensure the monster is initialized
 		
 		if level > 1:
-			for i in range(level-1):
-				tamed_monster.level_up(tamed_monster)
+			while tamed_monster.get_level() in range(level):
+				tamed_monster.level.gain_exp( tamed_monster.level.exp_cap+1, tamed_monster )
 
 		# Assume some taming process is handled here
 		tamed_monster.captured_status = Monster.TAMED
 		tamed_monster.captured_by = PlayerData.player_name  # Assign the monster to the player
-		print("Generated tamed monster: %s at level %d" % [tamed_monster.get_nickname(), level])
+		print("Generated tamed monster: %s at level %d" % [tamed_monster.nickname, tamed_monster.get_level()])
 
 		return tamed_monster
 	else:

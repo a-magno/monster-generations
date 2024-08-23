@@ -1,8 +1,11 @@
 extends Node
 
+const MONSTER_SLOT = preload("res://src/scenes/ui/party list/monster_slot.tscn")
+
 var test_nickanmes = ["Biscuit", "Boba"]
 @export var battle_scene : Node2D
 @export var world : Node2D
+@onready var party_list = $"World/WorldUI/Party List"
 
 func _ready():
 	battle_scene.battle_over.connect(_on_battle_finished)
@@ -12,12 +15,12 @@ func _ready():
 	var starter = MonsterManager.generate_tamed_monster( MonsterManager.monsters.keys().pick_random(), test_nickanmes.pick_random(), 5)
 	PlayerData.add_to_party( starter )
 
-	var party_list : HBoxContainer = HBoxContainer.new()
-	$World/WorldUI.add_child( party_list )
+	for c in party_list.get_children():
+		c.queue_free()
 	for member in PlayerData.party:
-		var text_rect = TextureRect.new()
-		text_rect.texture = member.icon
-		party_list.add_child( text_rect )
+		var mon_slot = MONSTER_SLOT.instantiate()
+		party_list.add_child( mon_slot )
+		mon_slot.set_data(member)
 
 func start_battle( combatant : Monster ):
 	PlayerData.player_instance.state = Player.States.BATTLING

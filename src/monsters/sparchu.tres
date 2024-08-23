@@ -8,14 +8,15 @@
 [resource]
 script = ExtResource("2_cc71u")
 id = &"sparchu"
+genderless = false
 type1 = 2
-type2 = -1
+type2 = 0
 battle_scene = ExtResource("1_d68j3")
 icon = ExtResource("2_24mca")
 learnset = Array[ExtResource("1_csuod")]([])
 hp_base = 39.0
 atk_base = 52.0
-spAtk_base = 60.0
 def_base = 43.0
+spAtk_base = 60.0
 spDef_base = 50.0
 spd_base = 65.0

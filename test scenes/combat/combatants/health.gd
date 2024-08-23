@@ -4,21 +4,34 @@ class_name Health
 signal dead( combatant )
 signal health_changed( new_value )
 
-var value : int : 
+@onready var combatant : Combatant
+
+var value : float : 
 	set(v):
 		value = v
 		health_changed.emit(value)
-var max_value : int
+var max_value : float
 
-func _init(stat):
-	max_value = max(stat.max_value, stat.value)
+func _init( stat : Dictionary ):
+	max_value = stat.max
 	value = stat.value
 
 func take_damage( amount ):
-	value -= max(amount, 1)
+	#value -= max(amount, 1)
+	await _tween_amount( -amount )
 	if value <= 0:
-		clamp(value, 0, max_value)
-		dead.emit( get_parent() )
+		combatant.active = false
+		# TODO: Replace with death anim later
+		await get_tree().create_timer(1.0).timeout
+		
+		dead.emit( combatant )
+		
 
 func heal( amount ):
 	value += max(amount, 0)
+
+func _tween_amount( amount ):
+	var tween = create_tween()
+	var target_v = clamp(value+amount, 0, max_value)
+	tween.tween_property(self, "value", target_v, 0.4)
+	await tween.finished
