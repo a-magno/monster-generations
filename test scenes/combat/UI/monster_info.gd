@@ -8,67 +8,95 @@ signal updated
 @onready var level_lbl: Label = %Level
 @onready var healthbar: ProgressBar = %Healthbar
 @onready var health_display: Label = %"Health Display"
-var hp_style : StyleBoxFlat
-var tween
+
 @onready var exp_bar: ProgressBar = %ExpBar
 @onready var gender_lbl: Label = %Gender
 
-@onready var health_node : Health :
+var combatant : Combatant
+var health_node : Health :
 	set(h):
 		health_node = h
-@onready var data : Monster : 
+var data : Monster : 
 	set(d):
 		data = d
-var combatant
-const display_format = "%d / %d"
 
-func _ready() -> void:
-	monster_name.text = data.get_nickname()
-	#print_debug("monster level %d" % data.level)
-	if data.captured_status == Monster.TAMED:
-		exp_bar.show()
-		data.leveled_up.connect(_set_exp_bar)
-		_set_exp_bar(data.level)
-	_set_healthbar()
-	health_display.text = "%d / %d" % [healthbar.value, health_node.max_value]
+var hp_style : StyleBoxFlat
+var tween
+
+const HP_DISPLAY = "%d / %d"
+
+func _ready():
+	combatant.turn_done.connect(
+		func():
+			updated.emit(combatant)
+	)
 
 func _process(delta):
 	if not tween:
 		return
-	health_display.text = "%d / %d" % [healthbar.value, health_node.max_value]
-	
-func _set_healthbar():
+	health_display.text = HP_DISPLAY % [int(health_node.value), int(health_node.max_value)]
+
+func set_data(_data : Monster):
+	data = _data
+	monster_name.text = data.get_nickname()
+	#print_debug("monster level %d" % data.level)
+	if data.captured_status == Monster.TAMED:
+		exp_bar.show()
+		set_exp_bar(data.level)
+		data.leveled_up.connect(update)
+	else:
+		exp_bar.hide()
+		set_exp_bar(data.level)
+
+func set_healthbar(_health : Health):
+	health_node = _health
 	if not hp_style:
 		hp_style = healthbar.get_theme_stylebox("fill")
 	healthbar.max_value = health_node.max_value
-	health_display.text = display_format.format([int(health_node.value), int(health_node.max_value)])
-	health_node.health_changed.connect(_on_health_changed)
+	healthbar.value = health_node.value
+	health_display.text = HP_DISPLAY % [int(health_node.value), int(health_node.max_value)]
+	if not health_node.health_changed.is_connected(_on_health_changed):
+		health_node.health_changed.connect(_on_health_changed)
 	_update_bar_color()
 	#updated.emit()
 
-func _set_exp_bar(level):
+func set_exp_bar(level):
 	level_lbl.text = "Lv. %d" %  max(data.level, 1)
 	exp_bar.max_value = data._calculate_exp_to_next_level(level)
 	exp_bar.value = data.total_exp
-	data.gained_exp.connect(_on_exp_gained)
+	if not data.gained_exp.is_connected(_on_exp_gained):
+		data.gained_exp.connect(_on_exp_gained)
 	#updated.emit()
 
-func _on_exp_gained(_exp):
-	#exp_bar.value = exp
-	tween = create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(exp_bar, "value", _exp, 0.4).from_current()
-	await tween.finished
+func update():
+	set_healthbar( health_node )
+	set_exp_bar( data.level )
 	updated.emit(combatant)
 
-func _on_health_changed(new_value):
+#region SIGNAL FUNCTIONS #
+
+func _on_exp_gained(_exp, discrete := true):
+	#exp_bar.value = exp
+	if not discrete:
+		tween = create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(exp_bar, "value", _exp, 0.4).from_current()
+		await tween.finished
+	else:
+		exp_bar.value = _exp
+	update()
+
+func _on_health_changed(new_value, discrete := false):
 	#healthbar.value = new_value
-	tween = create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(healthbar, "value", new_value, 0.4).from_current().set_ease(Tween.EASE_IN_OUT)
-	await tween.finished
+	if not discrete:
+		tween = create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(healthbar, "value", new_value, 0.4).from_current().set_ease(Tween.EASE_IN_OUT)
+		await tween.finished
+	else:
+		healthbar.value = new_value
 	_update_bar_color()
-	updated.emit(combatant)
+	update()
 
 func _get_hp_ratio():
 	return healthbar.value / healthbar.max_value
@@ -76,3 +104,5 @@ func _get_hp_ratio():
 func _update_bar_color():
 	hp_style.bg_color = ( hp_gradient.sample( _get_hp_ratio() ) )
 	healthbar.add_theme_stylebox_override( "fill", hp_style )
+#endregion
+# EOF #

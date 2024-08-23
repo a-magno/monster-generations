@@ -4,21 +4,26 @@ class_name Health
 signal dead( combatant )
 signal health_changed( new_value )
 
+var data : Monster
+
 var value : int : 
 	set(v):
 		value = v
 		health_changed.emit(value)
 var max_value : int
 
-func _init(stat):
-	max_value = max(stat.max_value, stat.value)
-	value = stat.value
+func _init(_data):
+	data = _data
+	max_value = data.get_stat(&"hp").max_value
+	value = data.get_stat(&"hp").value
 
 func take_damage( amount ):
-	value -= max(amount, 1)
+	data.decrease_stat(&"hp", amount)
+	value = data.get_stat(&"hp").value
 	if value <= 0:
-		clamp(value, 0, max_value)
+		#clamp(value, 0, max_value)
 		dead.emit( get_parent() )
 
 func heal( amount ):
-	value += max(amount, 0)
+	data.increase_stat(&"hp", amount)
+	value = data.get_stat(&"hp").max_value

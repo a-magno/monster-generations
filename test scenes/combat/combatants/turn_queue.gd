@@ -11,8 +11,11 @@ func start():
 	play_turn()
 
 func play_turn():
-	#await get_parent().get_node("Battle UI").update_over
 	await active_combatant.turn_done
+	print("%s turn over." % active_combatant.name)
+	print("Waiting for UI to update...")
+	await get_parent().get_node("Battle UI").update_over
+	print_debug("UI updated.")
 	get_next_in_queue()
 	play_turn()
 
