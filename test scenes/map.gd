@@ -82,7 +82,7 @@ func _roll_encounter(encounter_chance):
 func check_for_item( target_pos ):
 	var target_cell = items.local_to_map( target_pos )
 	var data : TileData = items.get_item(target_cell)
-	print(data)
+	#print(data)
 
 ##TODO: Make it so this script only handles requests from the player
 
@@ -96,6 +96,7 @@ func request_items( target_pos : Vector2 ):
 	var tile_pos = items.local_to_map( target_pos )
 	var _item_present = items.get_items( tile_pos )
 	items.remove_item(tile_pos)
+	objects.open_container(tile_pos)
 	if _item_present:
 		return {
 			"success" : true,
@@ -116,7 +117,7 @@ func request_examine( target_pos : Vector2 ):
 	if data:
 		return {
 			"success" : true,
-			"dialogue" : "It's a %s." % data,
+			"dialogue" : "It's a %s." % data.replace("_", " "),
 			"contents" : _item_present if _item_present else []
 		}
 	return {

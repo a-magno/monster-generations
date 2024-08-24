@@ -9,7 +9,7 @@ signal updated( combatant )
 @onready var healthbar: ProgressBar = %Healthbar
 @onready var health_display: Label = %"Health Display"
 @onready var exp_bar: ProgressBar = %ExpBar
-@onready var gender_lbl: Label = %Gender
+@onready var gender_icon = %Gender
 @onready var health_node : Health :
 	set(h):
 		health_node = h
@@ -34,6 +34,7 @@ func set_combatant( c : Combatant ):
 func set_data( _data : Monster ):
 	data = _data
 	monster_name.text = data.nickname
+	gender_icon.texture.region.size.x = 0 if data.gender == Monster.Gender.FEMALE else 16
 	if data.captured_status == Monster.TAMED:
 		exp_bar.show()
 		data.leveled_up.connect(update)

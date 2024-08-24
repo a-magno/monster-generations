@@ -21,14 +21,13 @@ func set_item( pos : Vector2i, item : Item ):
 		items = [item]
 	else:
 		items.push_back(item)
-	
-	for i in items:
-		print(i.id)
+	#for i in items:
+		#print(i.id)
 	stack = {pos : items}
 	items_present.merge( stack )
 	set_cell( pos, 0, Vector2(9, 8) )
-	for s in items_present:
-		print(JSON.stringify(stack))
+	#for s in items_present:
+		#print(JSON.stringify(stack))
 	#print("Item [%s] set at %s" % [item.id, str(pos)])
 
 func get_item( pos : Vector2i )->Item:

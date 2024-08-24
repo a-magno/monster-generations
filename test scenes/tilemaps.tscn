@@ -872,29 +872,37 @@ texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, 64)
 0:0/0/y_sort_origin = -64
-0:0/0/custom_data_2 = "tree"
+0:0/0/custom_data_2 = &"tree"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0a5mq"]
 texture = ExtResource("3_7y7ao")
 texture_region_size = Vector2i(60, 60)
 0:0/0 = 0
-0:0/0/custom_data_2 = "rock"
+0:0/0/custom_data_2 = &"rock"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0l30m"]
 texture = ExtResource("11_u1q1w")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/custom_data_1 = true
-0:0/0/custom_data_2 = "golden_chest"
+0:0/0/custom_data_2 = &"golden_chest"
+2:0/next_alternative_id = 4
 2:0/0 = 0
 2:0/0/custom_data_1 = true
-2:0/0/custom_data_2 = "chest"
+2:0/0/custom_data_2 = &"chest"
+1:0/0 = 0
+1:0/0/custom_data_1 = true
+1:0/0/custom_data_2 = &"open_chest"
+3:0/next_alternative_id = 2
+3:0/0 = 0
+3:0/0/custom_data_1 = true
+3:0/0/custom_data_2 = &"open_chest"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1pduq"]
 texture = ExtResource("5_hq6sw")
 texture_region_size = Vector2i(56, 60)
 0:0/0 = 0
-0:0/0/custom_data_2 = "rock"
+0:0/0/custom_data_2 = &"rock"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sh437"]
 texture = ExtResource("6_nlgb1")
@@ -903,7 +911,7 @@ texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, 64)
 0:0/0/y_sort_origin = -64
-0:0/0/custom_data_2 = "tree"
+0:0/0/custom_data_2 = &"tree"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hmofp"]
 texture = ExtResource("7_lj6xo")
@@ -912,7 +920,7 @@ texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, 32)
 0:0/0/y_sort_origin = -32
-0:0/0/custom_data_2 = "tree"
+0:0/0/custom_data_2 = &"tree"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hsxnq"]
 texture = ExtResource("4_e536a")
@@ -927,7 +935,7 @@ custom_data_layer_0/type = 1
 custom_data_layer_1/name = "container"
 custom_data_layer_1/type = 1
 custom_data_layer_2/name = "object_name"
-custom_data_layer_2/type = 4
+custom_data_layer_2/type = 21
 sources/1 = SubResource("TileSetAtlasSource_bf8no")
 sources/2 = SubResource("TileSetAtlasSource_0a5mq")
 sources/4 = SubResource("TileSetAtlasSource_1pduq")

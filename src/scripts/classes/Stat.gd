@@ -59,7 +59,7 @@ func _init(_id: StringName, _base: float, _o: Monster, _formula = null):
 	_max_value = calculate()
 	# Initialize _value to _max_value
 	_value = int(_max_value)
-	print_debug(_value, "/", _max_value)
+	#print_debug(_value, "/", _max_value)
 	# Emit initial signals
 	max_value_changed.emit(_max_value)
 	value_changed.emit(_value)

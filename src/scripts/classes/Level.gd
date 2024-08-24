@@ -21,7 +21,6 @@ var curr_exp : int = 0 :
 var total_exp : int = 0 :
 	set(v):
 		total_exp = v
-		prints(total_exp, v)
 
 func _init( starting_level := 1, growth_type : Growth = Growth.FAST):
 	level = starting_level
@@ -48,7 +47,7 @@ func level_up(monster : Monster, discrete := false):
 	await recalculate_stats(monster)
 	if not discrete:
 		print("%s leveled up to level %d!" % [monster.nickname, level])
-		print_debug("level: %d\nexp: %d" % [level, curr_exp])
+		#print_debug("level: %d\nexp: %d" % [level, curr_exp])
 	
 
 func recalculate_stats(monster: Monster) -> void:
