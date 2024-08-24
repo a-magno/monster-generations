@@ -4,6 +4,7 @@ class_name Player
 @onready var ray: RayCast2D = $RayCast2D
 @onready var sprite: Sprite2D = $Sprite
 @onready var animation_tree: AnimationTree = $AnimationTree
+@onready var floating_label = %FloatingLabel
 
 #testing
 @onready var label = $PlayerUI/Label
@@ -28,7 +29,7 @@ func _ready():
 				label.text = "Day %0*d - %0*d : %0*d" % [2, data.day, 2, data.hour, 2, data.minute]
 			else:
 				daytime = WorldTime.TimeOfDay.get(data.hour, daytime)
-				label.text = "%s" % daytime
+				label.text = "Day %3d - %s" % [data.day, daytime]
 	)
 
 func _physics_process(delta: float) -> void:
@@ -39,7 +40,7 @@ func _physics_process(delta: float) -> void:
 	
 	match(state):
 		States.IDLE:
-			FloatingText.position = position - Vector2(32, 64)
+			#FloatingText.position = position - Vector2(32, 64)
 			if not target_position == Vector2.ZERO :
 				if parent.can_move_to(position + target_position) and ray_look_at(target_position):
 					move_to(target_position)
@@ -48,10 +49,10 @@ func _physics_process(delta: float) -> void:
 					turn_to(target_position)
 		
 			if Input.is_action_just_pressed("EXAMINE"):
-				FloatingText.position = position - Vector2(32, 64)
+				#FloatingText.position = position - Vector2(32, 64)
 				examine( looking_at )
 			if Input.is_action_just_pressed("GRAB"):
-				FloatingText.position = position - Vector2(32, 64)
+				#FloatingText.position = position - Vector2(32, 64)
 				grab_items( looking_at )
 		States.BUSY:
 			pass
@@ -112,8 +113,7 @@ func turn_to( towards ):
 func examine(target_position):
 	var response = parent.request_examine( target_position )
 	#FloatingText.init_pos = position - Vector2(32, 64)
-	await FloatingText.display_text(response.dialogue, 0.5)
-	FloatingText._reset()
+	floating_label.queue_text( response.dialogue )
 	
 	if response.get("contents", null):
 		#FloatingText.position = position - Vector2(32, 64)
@@ -121,7 +121,7 @@ func examine(target_position):
 		var item_count = response.contents.size()
 		var txt : String = "Found {0}".format(["%d items here!" % item_count if item_count > 1 else "an item here!"])
 
-		await FloatingText.display_text( txt, 0.5)
+		floating_label.queue_text( txt )
 
 func grab_items(target_position):
 	var response = parent.request_items(target_position)
@@ -133,5 +133,7 @@ func grab_items(target_position):
 			#print(i)
 			PlayerData.add_item( i )
 			var txt : String = "Picked up [color=cyan]%s[/color]!" % i.name
-			await FloatingText.display_text( txt, 0.5)
-			
+			EventLog.log_text(txt)
+			floating_label.queue_text( txt )
+	else:
+		floating_label.queue_text( response.contents )

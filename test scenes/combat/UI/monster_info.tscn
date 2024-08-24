@@ -1,9 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://n24kpqw8ry6g"]
+[gd_scene load_steps=14 format=3 uid="uid://n24kpqw8ry6g"]
 
 [ext_resource type="Script" path="res://test scenes/combat/UI/monster_info.gd" id="1_dqxqw"]
 [ext_resource type="Gradient" uid="uid://fe1nkhw3h4rk" path="res://test scenes/combat/UI/hp_fill.tres" id="2_1tk30"]
 [ext_resource type="FontFile" uid="uid://bvry3xxuyun5w" path="res://src/assets/fonts/dogicapixelbold.otf" id="2_j7md4"]
 [ext_resource type="Texture2D" uid="uid://b1xjpi8rv0cc0" path="res://src/assets/gender_sprites.png" id="3_axng0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u20bt"]
+
+[sub_resource type="Gradient" id="Gradient_ixwga"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.207, 0.563)
+colors = PackedColorArray(0.15, 0.045, 0.0625, 1, 0.15, 0.12725, 0.045, 1, 0.05025, 0.15, 0.045, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hkt5b"]
 bg_color = Color(0.146186, 0.154583, 0.178104, 0.8)
@@ -19,12 +27,6 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 shadow_size = 4
 shadow_offset = Vector2(-4, 4)
-
-[sub_resource type="Gradient" id="Gradient_ixwga"]
-resource_local_to_scene = true
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.207, 0.563)
-colors = PackedColorArray(0.15, 0.045, 0.0625, 1, 0.15, 0.12725, 0.045, 1, 0.05025, 0.15, 0.045, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ev5a"]
 atlas = ExtResource("3_axng0")
@@ -86,26 +88,36 @@ custom_minimum_size = Vector2(384, 16)
 offset_right = 384.0
 offset_bottom = 94.0
 size_flags_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hkt5b")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_u20bt")
 script = ExtResource("1_dqxqw")
 hp_gradient = ExtResource("2_1tk30")
 hp_bg_gradient = SubResource("Gradient_ixwga")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="SkewNode" type="Node2D" parent="."]
+skew = -0.195477
+
+[node name="PanelContainer" type="PanelContainer" parent="SkewNode"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 380.0
+offset_bottom = 90.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hkt5b")
+
+[node name="MarginContainer" type="MarginContainer" parent="SkewNode/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SkewNode/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Gender" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Gender" type="TextureRect" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(32, 32)
@@ -113,7 +125,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 texture = SubResource("AtlasTexture_6ev5a")
 
-[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Name" type="Label" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
@@ -124,7 +136,7 @@ theme_override_constants/shadow_outline_size = 4
 theme_override_fonts/font = ExtResource("2_j7md4")
 text = "Monster"
 
-[node name="Level" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Level" type="Label" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -135,24 +147,27 @@ theme_override_constants/shadow_outline_size = 4
 theme_override_fonts/font = ExtResource("2_j7md4")
 text = "Lv. 1"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+[node name="Node2D" type="Node2D" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer"]
+position = Vector2(8, 42)
+
+[node name="PanelContainer" type="PanelContainer" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2yxmk")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0.631373, 0.752941, 1, 0.25098)
 theme_override_constants/shadow_offset_x = 2
@@ -161,7 +176,7 @@ theme_override_fonts/font = ExtResource("2_j7md4")
 theme_override_font_sizes/font_size = 16
 text = "HP"
 
-[node name="Healthbar" type="ProgressBar" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Healthbar" type="ProgressBar" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 20)
 layout_mode = 2
@@ -171,7 +186,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_x1pho")
 value = 50.0
 show_percentage = false
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/Healthbar"]
+[node name="MarginContainer" type="MarginContainer" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/Healthbar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -183,7 +198,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Health Display" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/Healthbar/MarginContainer"]
+[node name="Health Display" type="Label" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/Healthbar/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.498039)
@@ -194,7 +209,7 @@ text = "100/100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExpBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+[node name="ExpBar" type="ProgressBar" parent="SkewNode/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2

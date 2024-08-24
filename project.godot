@@ -21,8 +21,8 @@ Typing="*res://src/scripts/Type.gd"
 PlayerData="*res://src/scripts/singletons/PlayerData.gd"
 MonsterManager="*res://src/scripts/singletons/MonsterManager.gd"
 ItemManager="*res://src/scripts/singletons/ItemManager.gd"
-FloatingText="*res://src/scenes/ui/floating_text.tscn"
 WorldTime="*res://src/scripts/singletons/WorldTime.gd"
+EventLog="*res://test scenes/event_log.tscn"
 
 [editor]
 

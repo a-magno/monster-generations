@@ -10,7 +10,7 @@ var gradient_texture = preload("res://src/scripts/day-night-cycle/daynightcycle-
 
 # TODO: Expose in game settings later
 #var INGAME_SPEED = 20.0
-var INGAME_SPEED = 70.0
+var INGAME_SPEED = 15.0
 var INITIAL_HOUR = 5:
 	set(h):
 		INITIAL_HOUR = h
@@ -19,8 +19,10 @@ var INITIAL_HOUR = 5:
 var time:float= 0.0
 var past_minute:int= -1
 var paused := false
+
 const TimeOfDay : Dictionary = {
 	0 : "MIDNIGHT",
+	5 : "DAWN",
 	4 : "DAWN",
 	8 : "MORNING",
 	12 : "NOON",

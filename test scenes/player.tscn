@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bjyswwcnuiy7x"]
+[gd_scene load_steps=35 format=3 uid="uid://bjyswwcnuiy7x"]
 
 [ext_resource type="Texture2D" uid="uid://riggd2tlknj0" path="res://src/assets/player.png" id="1_0fs5x"]
 [ext_resource type="Script" path="res://test scenes/player.gd" id="1_sum0i"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" path="res://test scenes/player_reflection.gdshader" id="4_njqgf"]
 [ext_resource type="Texture2D" uid="uid://6xu0l2ibiaq6" path="res://src/assets/light textures/flickering_light.png" id="5_7lgld"]
 [ext_resource type="Script" path="res://test scenes/player_light.gd" id="6_co3es"]
+[ext_resource type="PackedScene" uid="uid://36frx02mxla2" path="res://src/scenes/ui/floating_text.tscn" id="7_0s2yh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_reiwm"]
 shader = ExtResource("4_njqgf")
@@ -128,7 +129,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_3t1fo"]
 resource_name = "walk_down"
-length = 0.500008
+length = 0.666675
 loop_mode = 1
 step = 0.0833333
 tracks/0/type = "value"
@@ -138,15 +139,15 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5, 0.666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0, 1, 2, 3]
+"values": [0, 1, 2, 3, 3]
 }
 
 [sub_resource type="Animation" id="Animation_25xoi"]
 resource_name = "walk_left"
-length = 0.500008
+length = 0.666675
 loop_mode = 1
 step = 0.0833333
 tracks/0/type = "value"
@@ -156,15 +157,15 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.333334, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.166667, 0.333334, 0.5, 0.666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [4, 5, 6, 7]
+"values": [4, 5, 6, 7, 7]
 }
 
 [sub_resource type="Animation" id="Animation_txn42"]
 resource_name = "walk_right"
-length = 0.500008
+length = 0.666675
 loop_mode = 1
 step = 0.0833333
 tracks/0/type = "value"
@@ -174,15 +175,15 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.333334, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(2.23517e-08, 0.166667, 0.333333, 0.5, 0.666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [8, 9, 10, 11]
+"values": [8, 9, 10, 11, 11]
 }
 
 [sub_resource type="Animation" id="Animation_xlnp8"]
 resource_name = "walk_up"
-length = 0.500008
+length = 0.666675
 loop_mode = 1
 step = 0.0833333
 tracks/0/type = "value"
@@ -192,10 +193,10 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.333334, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.166667, 0.333334, 0.5, 0.666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [12, 13, 14, 15]
+"values": [12, 13, 14, 15, 15]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b1hht"]
@@ -327,6 +328,12 @@ scale = Vector2(2.5, 2.5)
 energy = 0.6
 texture = ExtResource("5_7lgld")
 script = ExtResource("6_co3es")
+
+[node name="FloatingLabel" parent="Sprite" instance=ExtResource("7_0s2yh")]
+unique_name_in_owner = true
+visible = false
+light_mask = 1
+position = Vector2(32, -24)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(32, 32)

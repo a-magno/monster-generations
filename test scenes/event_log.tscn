@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://8t0jttopqolr"]
+
+[sub_resource type="GDScript" id="GDScript_jhq55"]
+resource_name = "text_log"
+script/source = "extends CanvasLayer
+
+@onready var label = $PanelContainer/MarginContainer/ScrollContainer/Label
+
+const LOG_TEXT = \"[{time}] : {text}\"
+const LOG_NO_TIME = \"{text}\"
+
+func _ready():
+	label.text = \"\"
+
+func log_text( _t : String, include_timestamp := false ):
+	var txt
+	if include_timestamp:
+		var data = await WorldTime.time_tick
+		var time = \"%0*d : %0*d\" % [2, data.hour, 2, data.minute]
+		txt = LOG_TEXT.format({\"time\" : time, \"text\": _t})
+	else:
+		txt = LOG_NO_TIME.format({\"text\": _t})
+	label.text += txt
+"
+
+[node name="Log" type="CanvasLayer"]
+script = SubResource("GDScript_jhq55")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 8.0
+offset_top = 544.0
+offset_right = 480.0
+offset_bottom = 640.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="PanelContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+fit_content = true

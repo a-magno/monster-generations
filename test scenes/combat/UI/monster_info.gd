@@ -36,9 +36,11 @@ func set_data( _data : Monster ):
 	monster_name.text = data.nickname
 	gender_icon.texture.region.size.x = 0 if data.gender == Monster.Gender.FEMALE else 16
 	if data.captured_status == Monster.TAMED:
+		$SkewNode.skew = deg_to_rad( 7.5 )
 		exp_bar.show()
 		data.leveled_up.connect(update)
 	else:
+		$SkewNode.skew = deg_to_rad( -7.5 )
 		exp_bar.hide()
 		_simplify()
 	set_exp(data.get_level())

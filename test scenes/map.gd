@@ -13,23 +13,15 @@ signal encounter_triggered( encounter )
 func _ready():
 	var map_data = []
 	var map_occupied = map.get_used_cells()
-	#for cell in map_occupied:
-		#var tile_volume = items.get_tile_volume( cell )
-		#items.set_cell(cell, 0, Vector2i(9, 8))
-		#items.get_cell_tile_data( cell ).set_custom_data("items", [])
-		#if items.get_tile_volume(cell) <= 0.0:
-			#items.set_tile_volume(cell, tile_volume)
-		#print("%s volume is %f" % [cell, items.get_tile_volume(cell)])
 
 	var objects_data = []
 	var objects_occupied = objects.get_used_cells()
-	var known_containers = objects.get_known_containers()
-	
-	prints("Known containers:", known_containers)
-	items.set_item( known_containers.keys().pick_random(), ItemManager.get_random_item() )
-	items.set_item( known_containers.keys().pick_random(), ItemManager.get_random_item() )
-	items.set_item( Vector2i(14, 5), ItemManager.get_random_item() )
+	var drop_point_candidates : Array = objects.known_containers.keys()
+	#drop_point_candidates.append(Vector2i(14, 5))
+	prints("drop point candidates:", drop_point_candidates)
+	drop_item(drop_point_candidates.pick_random(), ItemManager.get_random_item())
 
+#region MOVEMENT
 func is_stepping_on(pos : Vector2):
 	var cell_pos = tall_grass.local_to_map(pos)
 	if tall_grass.get_cell_tile_data(cell_pos): return "tall_grass"
@@ -66,6 +58,7 @@ func _check_map(target_position)->bool:
 
 func check_encounter(target_position):
 	return tall_grass.check_encounter(target_position)
+#endregion
 
 func check_for_item( target_pos ):
 	var target_cell = items.local_to_map( target_pos )
@@ -76,16 +69,34 @@ func check_for_item( target_pos ):
 
 #region requests
 
+func drop_item( at : Vector2, item : Item):
+	var has_container = objects.get_known_container( at )
+	print("has_container: ", has_container)
+	if has_container:
+		print("Item to be dropped in container %s" % str(at))
+		var stored = objects.store_in_container(at, item)
+		if not stored:
+			print("Could not store item")
+		print("Item stored")
+	else:
+		print("Item to be dropped on ground at %s" % str(at))
+		items.set_item( at, item )
+
 func loot_items( target_pos : Vector2 ):
 	var items = request_items( target_pos )
 	return items if items else null
 
 func request_items( target_pos : Vector2 ):
 	var tile_pos = items.local_to_map( target_pos )
-	var _item_present = items.get_items( tile_pos )
-	items.remove_item(tile_pos)
-	objects.open_container(tile_pos)
-	if _item_present:
+	var _container_present = objects.get_known_container( tile_pos )
+	var _item_present : Array
+	if _container_present is Object:
+		_item_present = objects.open_container( tile_pos )
+	else:
+		_item_present = items.get_items( tile_pos )
+		items.remove_item(tile_pos)
+	
+	if not _item_present.is_empty():
 		return {
 			"success" : true,
 			"contents" : _item_present if _item_present else []

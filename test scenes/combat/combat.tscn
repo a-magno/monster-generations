@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c6qnjpqg33mhg"]
+[gd_scene load_steps=11 format=3 uid="uid://c6qnjpqg33mhg"]
 
 [ext_resource type="Script" path="res://test scenes/combat/combat.gd" id="1_o20eq"]
 [ext_resource type="Script" path="res://src/scripts/MonsterData.gd" id="2_n0dvl"]
@@ -9,6 +9,21 @@
 [ext_resource type="Resource" uid="uid://btsewgj1lhido" path="res://src/monsters/finsta.tres" id="5_slllu"]
 [ext_resource type="Resource" uid="uid://b7fvuuyo6744t" path="res://src/monsters/sparchu.tres" id="6_0gd0y"]
 [ext_resource type="FontFile" uid="uid://bvry3xxuyun5w" path="res://src/assets/fonts/dogicapixelbold.otf" id="9_2s5qb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mlpmy"]
+bg_color = Color(0.146186, 0.154583, 0.178104, 0.8)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.631373, 0.752941, 1, 0.25098)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_size = 4
+shadow_offset = Vector2(-4, 4)
 
 [node name="Combat" type="Node2D"]
 script = ExtResource("1_o20eq")
@@ -99,6 +114,7 @@ custom_minimum_size = Vector2(256, 64)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("9_2s5qb")
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_mlpmy")
 text = "Attack"
 
 [node name="UseItem" type="Button" parent="Battle UI/Control/PanelContainer/MarginContainer/Actions"]
@@ -106,6 +122,7 @@ custom_minimum_size = Vector2(256, 64)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("9_2s5qb")
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_mlpmy")
 text = "Item"
 
 [node name="Party" type="Button" parent="Battle UI/Control/PanelContainer/MarginContainer/Actions"]
@@ -113,6 +130,7 @@ custom_minimum_size = Vector2(256, 64)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("9_2s5qb")
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_mlpmy")
 text = "Party"
 
 [node name="Flee" type="Button" parent="Battle UI/Control/PanelContainer/MarginContainer/Actions"]
@@ -120,6 +138,7 @@ custom_minimum_size = Vector2(256, 64)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("9_2s5qb")
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_mlpmy")
 text = "Flee"
 
 [connection signal="active_changed" from="TurnQueue" to="Battle UI" method="_on_active_changed"]
