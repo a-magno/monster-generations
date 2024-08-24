@@ -7,7 +7,8 @@ class_name Player
 
 #testing
 @onready var label = $PlayerUI/Label
-
+@export var precise_timekeeping := true
+@onready var daytime = WorldTime.TimeOfDay.get(WorldTime.INITIAL_HOUR)
 
 var parent : Node2D
 enum States { IDLE, MOVING, BATTLING, BUSY }
@@ -20,6 +21,15 @@ func _ready():
 	animation_tree.active = true
 	parent = get_parent()
 	PlayerData.player_instance = self
+	WorldTime.time_tick.connect(
+		func(data):
+			label.text = ""
+			if precise_timekeeping:
+				label.text = "Day %0*d - %0*d : %0*d" % [2, data.day, 2, data.hour, 2, data.minute]
+			else:
+				daytime = WorldTime.TimeOfDay.get(data.hour, daytime)
+				label.text = "%s" % daytime
+	)
 
 func _physics_process(delta: float) -> void:
 	
@@ -45,8 +55,7 @@ func _physics_process(delta: float) -> void:
 				grab_items( looking_at )
 		States.BUSY:
 			pass
-	
-	label.text = "State: %s\nStepping on: %s" % [States.keys()[state], str(parent.is_stepping_on(position))]
+	#"State: %s\nStepping on: %s" % [States.keys()[state], str(parent.is_stepping_on(position))]
 
 func move_to(target_position):
 	if state == States.MOVING: return

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhcx2ilc3oqbo"
-path="res://.godot/imported/sprite_mask.png-15a9dd39ea9ae9e72b8e4715345aae19.ctex"
+uid="uid://sbjasocni83f"
+path="res://.godot/imported/2d_lights_and_shadows_neutral_point_light.webp-5ea758a68ef4483ca3721968dcd75698.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/assets/sprite_mask.png"
-dest_files=["res://.godot/imported/sprite_mask.png-15a9dd39ea9ae9e72b8e4715345aae19.ctex"]
+source_file="res://src/assets/2d_lights_and_shadows_neutral_point_light.webp"
+dest_files=["res://.godot/imported/2d_lights_and_shadows_neutral_point_light.webp-5ea758a68ef4483ca3721968dcd75698.ctex"]
 
 [params]
 

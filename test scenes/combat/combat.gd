@@ -7,7 +7,7 @@ signal battle_over(winner, loser)
 @export var test_fighters : Array[Monster]
 
 @onready var combatants: Node2D = $Combatants
-@onready var battle_ui: Control = $"Battle UI"
+@onready var battle_ui: CanvasLayer = $"Battle UI"
 @onready var turn_queue: Node = $TurnQueue
 
 #func _ready():

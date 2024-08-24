@@ -23,6 +23,7 @@ func _ready():
 		mon_slot.set_data(member)
 
 func start_battle( combatant : Monster ):
+	WorldTime.pause()
 	PlayerData.player_instance.state = Player.States.BATTLING
 	
 	var combatants = []
@@ -44,11 +45,11 @@ func start_battle( combatant : Monster ):
 	$AnimationPlayer.play_backwards("fade")
 
 func _on_battle_finished(winner, loser):
-	
 	remove_child(battle_scene)
 	#play fade in animation
 	$AnimationPlayer.play_backwards("fade")
 	add_child(world)
+	WorldTime.pause(false)
 	
 	if winner.name == "Player":
 		print("Player Win")
@@ -63,6 +64,3 @@ func _on_battle_finished(winner, loser):
 	#play some dialogue
 	battle_scene.clear_combat()
 	PlayerData.player_instance.state = Player.States.IDLE
-
-func _on_tree_exiting() -> void:
-	print_orphan_nodes()

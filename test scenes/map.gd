@@ -43,12 +43,15 @@ func can_move_to(target_position)->bool:
 
 func _check_objects(target_position)->bool:
 	var target_cell = objects.local_to_map(target_position)
-
-	if target_cell:
-		var cell_data : TileData = objects.get_cell_tile_data(target_cell)
-		if not cell_data: return true
-
-		return cell_data.get_custom_data("walkable")
+	var occupied_cells = objects.get_used_cells()
+	if target_cell in occupied_cells:
+		return false
+	
+	#if target_cell:
+		#var cell_data : TileData = objects.get_cell_tile_data(target_cell)
+		#if not cell_data: return true
+#
+		#return cell_data.get_custom_data("walkable")
 	return true
 
 func _check_map(target_position)->bool:

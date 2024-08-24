@@ -1,10 +1,11 @@
-extends Control
+extends CanvasLayer
 
 signal update_over
 
 const MONSTER_INFO = preload("res://test scenes/combat/UI/monster_info.tscn")
 @onready var combatants_list: Node2D = $"../Combatants"
 @onready var combatant_ui: HBoxContainer = $"MarginContainer/Combatant UI"
+@onready var actions = %Actions
 
 func start():
 	for combatant : Combatant in combatants_list.get_combatants():
@@ -44,7 +45,7 @@ func _on_flee_pressed() -> void:
 	get_parent().finish_combat(winner, loser)
 
 func _on_active_changed(active_combatant: Combatant) -> void:
-		for c in $Control/GridContainer.get_children():
+		for c in actions.get_children():
 			c.disabled = !active_combatant.name == "Player"
 
 func _on_info_updated(combatant : Combatant):

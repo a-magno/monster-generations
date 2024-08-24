@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cmv4mkkfcwyu7"]
+[gd_scene load_steps=10 format=3 uid="uid://cmv4mkkfcwyu7"]
 
 [ext_resource type="Script" path="res://test scenes/game.gd" id="1_4h63a"]
 [ext_resource type="PackedScene" uid="uid://b711s4xnbwwa6" path="res://test scenes/tilemaps.tscn" id="2_lfpq6"]
+[ext_resource type="Script" path="res://src/scripts/day-night-cycle/daynightcycle.gd" id="2_qoarc"]
+[ext_resource type="Texture2D" uid="uid://ugepioyfokfv" path="res://src/scripts/day-night-cycle/daynightcycle-gradient-texture.tres" id="3_t0k1o"]
 [ext_resource type="PackedScene" uid="uid://vraeqh70pqet" path="res://src/scenes/ui/world_ui.tscn" id="4_f0pk2"]
 [ext_resource type="PackedScene" uid="uid://c6qnjpqg33mhg" path="res://test scenes/combat/combat.tscn" id="5_5bt0q"]
 
@@ -64,6 +66,11 @@ metadata/_edit_use_anchors_ = true
 libraries = {
 "": SubResource("AnimationLibrary_o6tsp")
 }
+
+[node name="CanvasModulate2" type="CanvasModulate" parent="."]
+color = Color(0.168627, 0.180392, 0.333333, 1)
+script = ExtResource("2_qoarc")
+gradient_texture = ExtResource("3_t0k1o")
 
 [node name="Combat" parent="." instance=ExtResource("5_5bt0q")]
 visible = false
