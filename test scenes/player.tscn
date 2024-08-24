@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://test scenes/player.gd" id="1_sum0i"]
 [ext_resource type="Texture2D" uid="uid://drgegqv5emgsu" path="res://src/assets/shadow.png" id="2_hljgw"]
 [ext_resource type="Shader" path="res://test scenes/player_reflection.gdshader" id="4_njqgf"]
-[ext_resource type="Texture2D" uid="uid://sbjasocni83f" path="res://src/assets/2d_lights_and_shadows_neutral_point_light.webp" id="5_u0pjn"]
+[ext_resource type="Texture2D" uid="uid://6xu0l2ibiaq6" path="res://src/assets/light textures/flickering_light.png" id="5_7lgld"]
 [ext_resource type="Script" path="res://test scenes/player_light.gd" id="6_co3es"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_reiwm"]
@@ -321,10 +321,11 @@ region_rect = Rect2(0, 0, 512, 512)
 script = SubResource("GDScript_noiyn")
 
 [node name="PointLight2D" type="PointLight2D" parent="Sprite"]
-position = Vector2(32, -3.8147e-06)
-scale = Vector2(0.75, 1)
-energy = 0.3
-texture = ExtResource("5_u0pjn")
+show_behind_parent = true
+position = Vector2(32, 16)
+scale = Vector2(2.5, 2.5)
+energy = 0.6
+texture = ExtResource("5_7lgld")
 script = ExtResource("6_co3es")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

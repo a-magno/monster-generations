@@ -8,10 +8,9 @@ var timer : Timer
 const TACKLE = preload("res://src/moves/tackle.tres")
 
 func act():
-	if not combatant.active:return
 	if not timer.is_inside_tree(): return
 	if not timer.is_stopped(): return
-
+	if not combatant.active:return
 	print("AI attacking...")
 	timer.start()
 	await timer.timeout
@@ -20,7 +19,7 @@ func act():
 		if not c == combatant:
 			target = c
 			break
-			
+
 	queue_action.emit(
 		
 		{

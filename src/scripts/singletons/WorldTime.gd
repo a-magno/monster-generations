@@ -8,8 +8,10 @@ signal time_tick( data : Dictionary )
 
 var gradient_texture = preload("res://src/scripts/day-night-cycle/daynightcycle-gradient-texture.tres")
 
-var INGAME_SPEED = 15.0
-var INITIAL_HOUR = 4:
+# TODO: Expose in game settings later
+#var INGAME_SPEED = 20.0
+var INGAME_SPEED = 70.0
+var INITIAL_HOUR = 5:
 	set(h):
 		INITIAL_HOUR = h
 		time = INGAME_TO_REAL_MINUTE_DURATION * MINUTES_PER_HOUR * INITIAL_HOUR

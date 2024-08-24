@@ -79,6 +79,7 @@ func move_to(target_position):
 	
 	if parent.is_stepping_on(position) == "tall_grass" and parent.check_encounter(position):
 		print("Trigger Encounter")
+		state = States.BUSY
 
 func get_player_input()->Vector2i:
 	if Input.is_action_pressed("LEFT"):

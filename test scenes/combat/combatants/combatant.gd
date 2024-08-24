@@ -5,6 +5,14 @@ signal turn_done
 signal queue_action( data : Dictionary )
 signal turn_start
 
+enum CombatantState {
+	ALIVE,
+	PARALYZED,
+	FROZEN,
+	ASLEEP,
+	FAINTED
+}
+
 @export var data : Monster
 var initiative
 
@@ -32,6 +40,7 @@ func set_data(_data : Monster):
 
 #region actions
 func attack( target : Combatant, move : BaseMove ):
+	if not active: return
 	var dmg = _calculate_damage( target, move )
 	$Sprite.play("attack")
 	await $Sprite.animation_finished
