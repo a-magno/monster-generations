@@ -50,18 +50,23 @@ var level : Level
 @export_category("Sprites")
 @export var battle_scene : PackedScene
 @export var icon : Texture
+@export var dex_color : Color = Color.WHITE
 @export_subgroup("Moves")
 ## It is recommended to have multiple learnsets, such as a TM list and a level up list
 @export var learnset : Array[Learnset]
 var learned_moves : Array[BaseMove] #Change to Array[Move] later
 
 @export_category("Statistics")
+@export var base_exp_worth : int = 0
 @export var hp_base : float = 0.0
 @export var atk_base : float = 0.0
 @export var def_base : float = 0.0
 @export var spAtk_base : float = 0.0
 @export var spDef_base : float = 0.0
 @export var spd_base : float = 0.0
+
+## key = stat_id, value = EV value
+@export var ev_yields : Dictionary = {}
 
 ## Stats as a dictionary will be responsible for holding EVs, IVs, and growth values
 

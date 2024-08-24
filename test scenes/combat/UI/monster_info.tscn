@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://n24kpqw8ry6g"]
+[gd_scene load_steps=11 format=3 uid="uid://n24kpqw8ry6g"]
 
 [ext_resource type="Script" path="res://test scenes/combat/UI/monster_info.gd" id="1_dqxqw"]
+[ext_resource type="Gradient" uid="uid://fe1nkhw3h4rk" path="res://test scenes/combat/UI/hp_fill.tres" id="2_1tk30"]
 [ext_resource type="FontFile" uid="uid://bvry3xxuyun5w" path="res://src/assets/fonts/dogicapixelbold.otf" id="2_j7md4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hkt5b"]
@@ -18,18 +19,18 @@ corner_radius_bottom_left = 8
 shadow_size = 4
 shadow_offset = Vector2(-4, 4)
 
-[sub_resource type="Gradient" id="Gradient_rlg4h"]
+[sub_resource type="Gradient" id="Gradient_ixwga"]
 resource_local_to_scene = true
 interpolation_mode = 1
 offsets = PackedFloat32Array(0, 0.207, 0.563)
-colors = PackedColorArray(1, 0.0745098, 0.156863, 1, 1, 0.866667, 0.34902, 1, 0.186774, 0.882326, 0.211833, 1)
+colors = PackedColorArray(0.15, 0.045, 0.0625, 1, 0.15, 0.12725, 0.045, 1, 0.05025, 0.15, 0.045, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2yxmk"]
 content_margin_left = 8.0
 content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
-bg_color = Color(0, 0, 0, 0.321569)
+bg_color = Color(0, 0, 0, 0.4)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
@@ -37,7 +38,7 @@ corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t5oh6"]
 resource_local_to_scene = true
-bg_color = Color(0, 0.0235294, 0, 0.498039)
+bg_color = Color(0, 0.1198, 0, 0.878431)
 border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
@@ -76,12 +77,14 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="MonsterInfo" type="PanelContainer"]
-custom_minimum_size = Vector2(384, 128)
+custom_minimum_size = Vector2(384, 16)
 offset_right = 384.0
-offset_bottom = 128.0
+offset_bottom = 106.0
+size_flags_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hkt5b")
 script = ExtResource("1_dqxqw")
-hp_gradient = SubResource("Gradient_rlg4h")
+hp_gradient = ExtResource("2_1tk30")
+hp_bg_gradient = SubResource("Gradient_ixwga")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -153,7 +156,7 @@ text = "HP"
 
 [node name="Healthbar" type="ProgressBar" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(128, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/background = SubResource("StyleBoxFlat_t5oh6")
@@ -176,7 +179,6 @@ theme_override_constants/margin_bottom = 8
 [node name="Health Display" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/Healthbar/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.498039)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
@@ -187,6 +189,7 @@ vertical_alignment = 1
 
 [node name="ExpBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_v3upt")
 theme_override_styles/fill = SubResource("StyleBoxFlat_3mgrj")

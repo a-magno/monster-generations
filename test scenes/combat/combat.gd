@@ -63,19 +63,26 @@ func _on_combatant_death(combatant):
 		pass
 	if not combatant.name == "Player":
 		winner = combatants.get_node("Player")
+		await give_exp( winner, combatant )
 	else:
 		for n in combatants.get_children():
 			if not n.name == "Player":
 				winner = n
 				break
-	give_exp( winner, combatant )
 	finish_combat(winner, combatant)
 
 func _check_for_tag_ins( combatant ):
 	return false
 
 func give_exp( to : Combatant, from : Combatant ):
-	if not to.is_in_group("player"):
+	if not to.is_in_group(&"players"):
 		return
-		
+	#Experience = ((Base Experience * Level) * Trainer * Wild) / 7
+	var data : Monster = from.data
+	var is_wild = 1.5 if data.captured_status == Monster.NPC_TAMED else 1.0
+	var exp = ( data.base_exp_worth * data.get_level() * is_wild) / 7
+	to.data.level.gain_exp( exp, to.data )
+	print("%s gained %d EXP." % [to.data.nickname, exp])
+	await battle_ui.update_over
+
 # EOF #

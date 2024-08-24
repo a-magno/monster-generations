@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bpopt6wbhebsy"]
+[gd_scene load_steps=13 format=3 uid="uid://bpopt6wbhebsy"]
 
 [ext_resource type="PackedScene" uid="uid://crwbggn7bfem" path="res://test scenes/combat/combatants/combatant.tscn" id="1_008j0"]
 [ext_resource type="Texture2D" uid="uid://d14hm475ln326" path="res://src/assets/monsters/Finsta.png" id="1_n3oki"]
+[ext_resource type="Texture2D" uid="uid://drgegqv5emgsu" path="res://src/assets/shadow.png" id="2_8jgvc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xy2l3"]
 atlas = ExtResource("1_n3oki")
@@ -74,7 +75,12 @@ animations = [{
 
 [node name="Combatant" instance=ExtResource("1_008j0")]
 
-[node name="Sprite" type="AnimatedSprite2D" parent="." index="1"]
+[node name="Shadow" type="Sprite2D" parent="." index="1"]
+position = Vector2(-5.5, 29)
+scale = Vector2(2.25, 1.4)
+texture = ExtResource("2_8jgvc")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." index="2"]
 sprite_frames = SubResource("SpriteFrames_bxi06")
 animation = &"attack"
 autoplay = "idle"

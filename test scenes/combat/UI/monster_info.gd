@@ -3,6 +3,7 @@ extends PanelContainer
 signal updated( combatant )
 
 @export var hp_gradient : Gradient
+@export var hp_bg_gradient : Gradient
 @onready var monster_name: Label = %Name
 @onready var level_lbl: Label = %Level
 @onready var healthbar: ProgressBar = %Healthbar
@@ -16,6 +17,7 @@ signal updated( combatant )
 
 var combatant : Combatant : set = set_combatant
 var hp_style : StyleBoxFlat
+var hp_bg : StyleBoxFlat
 var tween
 const HP_DISPLAY = "%d / %d"
 const LVL_DISPLAY = "Lv. %d"
@@ -37,12 +39,15 @@ func set_data( _data : Monster ):
 		data.leveled_up.connect(update)
 	else:
 		exp_bar.hide()
+		_simplify()
 	set_exp(data.get_level())
 
 func set_health_node( node : Health ):
 	health_node = node
 	if not hp_style:
 		hp_style = healthbar.get_theme_stylebox("fill")
+	if not hp_bg:
+		hp_bg = healthbar.get_theme_stylebox("background")
 
 	healthbar.max_value = health_node.max_value
 	healthbar.value = health_node.value
@@ -65,23 +70,30 @@ func update():
 	_update_bar_color()
 	updated.emit(combatant)
 
+func _simplify():
+	$"%Health Display".hide()
+	healthbar.custom_minimum_size = Vector2(128, 16)
+
 func _get_hp_ratio():
 	return healthbar.value / healthbar.max_value
 
 func _update_bar_color():
 	hp_style.bg_color = ( hp_gradient.sample( _get_hp_ratio() ) )
 	healthbar.add_theme_stylebox_override( "fill", hp_style )
+	hp_bg.bg_color = ( hp_bg_gradient.sample( _get_hp_ratio() ) )
+	healthbar.add_theme_stylebox_override( "background", hp_bg )
 
 #region SIGNAL FUNCTIONS
-func _on_exp_gained( _exp, discrete := true ):
+func _on_exp_gained( _exp, discrete := false ):
 	if not discrete:
 		tween = create_tween()
 		tween.set_parallel(true)
-		tween.tween_property(exp_bar, "value", _exp, 0.4).from_current()
+		tween.tween_property(exp_bar, "value", _exp, 0.4)
 		await tween.finished
+		update()
 	else:
 		exp_bar.value = _exp
-	update()
+		update()
 
 func _on_health_changed( _health, discrete := true ):
 	healthbar.value = _health

@@ -49,3 +49,4 @@ func _on_active_changed(active_combatant: Combatant) -> void:
 
 func _on_info_updated(combatant : Combatant):
 	update_over.emit()
+	print("UI Update over...")
