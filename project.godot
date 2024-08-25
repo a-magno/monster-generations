@@ -22,7 +22,8 @@ PlayerData="*res://src/scripts/singletons/PlayerData.gd"
 MonsterManager="*res://src/scripts/singletons/MonsterManager.gd"
 ItemManager="*res://src/scripts/singletons/ItemManager.gd"
 WorldTime="*res://src/scripts/singletons/WorldTime.gd"
-EventLog="*res://test scenes/event_log.tscn"
+EventLog="res://test scenes/event_log.tscn"
+DialogueBox="*res://dialogue/ui/dialogue_box.tscn"
 
 [editor]
 
@@ -84,6 +85,7 @@ PARTY={
 2d_physics/layer_1="Player"
 2d_physics/layer_2="World"
 2d_physics/layer_3="Objects"
+2d_physics/layer_4="NPCs"
 
 [rendering]
 

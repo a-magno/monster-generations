@@ -97,3 +97,8 @@ func increase(amount: int) -> void:
 
 func decrease(amount: int) -> void:
 	value = _value - amount
+
+func connect_to_signal( callable : Callable, signal_name : StringName):
+	if not is_connected(signal_name, callable):
+		connect(signal_name, callable)
+	

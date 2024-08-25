@@ -80,11 +80,14 @@ visible = false
 [node name="WorldUI" parent="World" instance=ExtResource("4_f0pk2")]
 
 [node name="Party List" type="VBoxContainer" parent="World/WorldUI"]
+visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -96.0
-offset_right = 360.0
+offset_left = 776.0
+offset_top = -632.0
+offset_right = 1136.0
+offset_bottom = -536.0
 grow_vertical = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3

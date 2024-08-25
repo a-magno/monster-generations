@@ -24,6 +24,7 @@ func log_text( _t : String, include_timestamp := false ):
 "
 
 [node name="Log" type="CanvasLayer"]
+visible = false
 script = SubResource("GDScript_jhq55")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

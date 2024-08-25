@@ -4,10 +4,21 @@ extends PanelContainer
 @onready var info = %Info
 @onready var identity = %Identity
 @onready var stats = %Stats
+
+@onready var healthbar = %Healthbar
+@onready var health_display = %"Health Display"
+@onready var exp_bar = %ExpBar
+
+var t
 var data : Monster
-const IDENTITY_FORMAT = "{name} ({gender}) - Lv.{level}\n[{types}]"
+#const IDENTITY_FORMAT = "{name} ({gender}) - Lv.{level}\n[{types}]"
+const IDENTITY_FORMAT = "{name} ({gender}) - Lv.{level}"
 const STAT_FORMAT = "[{id}: {value}]"
 const HP_FORMAT = "[{id}: {value}/{max}]"
+
+func _process(delta):
+	if t:
+		health_display.text = "%3d/%3d" % [ healthbar.value, healthbar.max_value]
 
 func set_data( d : Monster):
 	if not data:
@@ -16,11 +27,27 @@ func set_data( d : Monster):
 	identity.text = IDENTITY_FORMAT.format({
 		"name" : data.nickname,
 		"gender": ["-", "M", "F"][data.gender],
-		"level": data.get_level(),
+		"level": "%3d" % data.get_level(),
 		"types" : "%s / %s" % [Typing.as_string(data.type1), Typing.as_string(data.type2)] if data.type2 else Typing.as_string(data.type1)
 	})
-	set_stats()
+	
+	data.get_stat(&"hp").self.connect_to_signal(_update_max_health, "max_value_changed")
+	data.get_stat(&"hp").self.connect_to_signal(_update_health, "value_changed")
+	healthbar.value = data.get_stat(&"hp").value
+	healthbar.max_value = data.get_stat(&"hp").max
+	health_display.text = "%3d/%3d" % [ healthbar.value, healthbar.max_value]
+	#set_stats()
 	open()
+
+func _update_health(new_value):
+	#healthbar.value = new_value
+	t = create_tween()
+	t.set_parallel(true)
+	t.tween_property(healthbar, "value", new_value, 0.3).from_current().set_ease(Tween.EASE_IN)
+	await t.finished
+
+func _update_max_health(new_value):
+	healthbar.max_value = new_value
 
 func open():
 	info.show()

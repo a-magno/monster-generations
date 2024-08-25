@@ -246,13 +246,13 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_43jc5"]
 advance_mode = 2
-advance_expression = "state == MOVING"
+advance_expression = "state == States.MOVING"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3at7k"]
 break_loop_at_end = true
 switch_mode = 1
 advance_mode = 2
-advance_expression = "state == IDLE"
+advance_expression = "state == States.IDLE"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ms5ra"]
 states/idle/node = SubResource("AnimationNodeBlendSpace2D_xnagp")
@@ -262,7 +262,7 @@ states/walk/position = Vector2(477.333, 100.321)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_wfy5s"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_43jc5"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_3at7k")]
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "ray", "animation_tree")]
-collision_mask = 14
+collision_mask = 2
 script = ExtResource("1_sum0i")
 sprite = NodePath("Sprite")
 ray = NodePath("RayCast2D")
@@ -281,7 +281,6 @@ theme_override_constants/outline_size = 8
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 clip_children = 2
-z_index = 1
 texture = ExtResource("1_0fs5x")
 offset = Vector2(32, 0)
 hframes = 4
@@ -289,8 +288,8 @@ vframes = 4
 region_rect = Rect2(0, 0, 512, 512)
 
 [node name="Shadow" type="Sprite2D" parent="Sprite"]
-z_as_relative = false
-position = Vector2(32, 32)
+z_index = -1
+position = Vector2(34, 54)
 texture = ExtResource("2_hljgw")
 
 [node name="Camera2D" type="Camera2D" parent="Sprite"]

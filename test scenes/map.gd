@@ -29,30 +29,20 @@ func is_stepping_on(pos : Vector2):
 	var data = map.get_cell_tile_data(cell_pos).get_custom_data("floor_type")
 	return data
 
-func can_move_to(target_position)->bool:
-	PlayerData.map_pos = map.local_to_map( target_position )
-	return _check_map(target_position) and _check_objects(target_position)
+func request_move(target_position)->bool:
+	var target_cell = map.local_to_map(target_position)
+	return _check_map(target_cell) and _check_objects(target_cell)
 
-func _check_objects(target_position)->bool:
-	var target_cell = objects.local_to_map(target_position)
+func _check_objects(target_cell)->bool:
 	var occupied_cells = objects.get_used_cells()
 	if target_cell in occupied_cells:
 		return false
-	
-	#if target_cell:
-		#var cell_data : TileData = objects.get_cell_tile_data(target_cell)
-		#if not cell_data: return true
-#
-		#return cell_data.get_custom_data("walkable")
 	return true
 
-func _check_map(target_position)->bool:
-	var target_cell = map.local_to_map(target_position)
-
+func _check_map(target_cell)->bool:
 	if target_cell:
 		var cell_data : TileData = map.get_cell_tile_data(target_cell)
 		if not cell_data: return true
-
 		return cell_data.get_custom_data("walkable")
 	return true
 
@@ -88,6 +78,7 @@ func loot_items( target_pos : Vector2 ):
 
 func request_items( target_pos : Vector2 ):
 	var tile_pos = items.local_to_map( target_pos )
+	print_debug(tile_pos)
 	var _container_present = objects.get_known_container( tile_pos )
 	var _item_present : Array
 	if _container_present is Object:

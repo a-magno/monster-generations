@@ -1,17 +1,14 @@
-[gd_scene load_steps=36 format=3 uid="uid://bjyswwcnuiy7x"]
+[gd_scene load_steps=33 format=3 uid="uid://bwd4o33meotkk"]
 
-[ext_resource type="Texture2D" uid="uid://riggd2tlknj0" path="res://src/assets/player.png" id="1_0fs5x"]
-[ext_resource type="Script" path="res://test scenes/player.gd" id="1_sum0i"]
-[ext_resource type="Texture2D" uid="uid://drgegqv5emgsu" path="res://src/assets/shadow.png" id="2_hljgw"]
-[ext_resource type="Shader" path="res://test scenes/player_reflection.gdshader" id="4_njqgf"]
-[ext_resource type="Texture2D" uid="uid://6xu0l2ibiaq6" path="res://src/assets/light textures/flickering_light.png" id="5_7lgld"]
-[ext_resource type="Script" path="res://test scenes/reflection.gd" id="5_uhu7m"]
-[ext_resource type="Script" path="res://test scenes/player_light.gd" id="6_co3es"]
-[ext_resource type="PackedScene" uid="uid://36frx02mxla2" path="res://src/scenes/ui/floating_text.tscn" id="7_0s2yh"]
-[ext_resource type="Script" path="res://src/scripts/PlayerInput.gd" id="9_01iev"]
+[ext_resource type="Texture2D" uid="uid://bisk3hf3irkgw" path="res://src/assets/straw.png" id="1_ad876"]
+[ext_resource type="Script" path="res://src/scripts/Actor.gd" id="1_yda4w"]
+[ext_resource type="Texture2D" uid="uid://drgegqv5emgsu" path="res://src/assets/shadow.png" id="3_n75s1"]
+[ext_resource type="Shader" path="res://test scenes/player_reflection.gdshader" id="4_x7ari"]
+[ext_resource type="Script" path="res://test scenes/reflection.gd" id="5_l802h"]
+[ext_resource type="PackedScene" uid="uid://36frx02mxla2" path="res://src/scenes/ui/floating_text.tscn" id="7_61yuw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_reiwm"]
-shader = ExtResource("4_njqgf")
+shader = ExtResource("4_x7ari")
 shader_parameter/hFrames = 4
 shader_parameter/vFrames = 4
 shader_parameter/enableMovement = true
@@ -246,13 +243,13 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_43jc5"]
 advance_mode = 2
-advance_expression = "state == MOVING"
+advance_expression = "state == States.MOVING"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3at7k"]
 break_loop_at_end = true
 switch_mode = 1
 advance_mode = 2
-advance_expression = "state == IDLE"
+advance_expression = "state == States.IDLE"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ms5ra"]
 states/idle/node = SubResource("AnimationNodeBlendSpace2D_xnagp")
@@ -261,62 +258,43 @@ states/walk/node = SubResource("AnimationNodeBlendSpace2D_nxx7a")
 states/walk/position = Vector2(477.333, 100.321)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_wfy5s"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_43jc5"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_3at7k")]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "ray", "animation_tree")]
-collision_mask = 14
-script = ExtResource("1_sum0i")
+[node name="NPC" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "ray", "animation_tree")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_yda4w")
 sprite = NodePath("Sprite")
 ray = NodePath("RayCast2D")
 animation_tree = NodePath("AnimationTree")
-
-[node name="PlayerUI" type="CanvasLayer" parent="."]
-
-[node name="Label" type="Label" parent="PlayerUI"]
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 56.0
-offset_bottom = 39.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
 
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 clip_children = 2
 z_index = 1
-texture = ExtResource("1_0fs5x")
+texture = ExtResource("1_ad876")
 offset = Vector2(32, 0)
 hframes = 4
 vframes = 4
 region_rect = Rect2(0, 0, 512, 512)
 
 [node name="Shadow" type="Sprite2D" parent="Sprite"]
-z_as_relative = false
+z_index = -1
 position = Vector2(32, 32)
-texture = ExtResource("2_hljgw")
-
-[node name="Camera2D" type="Camera2D" parent="Sprite"]
+texture = ExtResource("3_n75s1")
 
 [node name="Reflection" type="Sprite2D" parent="Sprite" node_paths=PackedStringArray("source")]
 z_index = -90
 material = SubResource("ShaderMaterial_reiwm")
 position = Vector2(64, 128)
-texture = ExtResource("1_0fs5x")
+texture = ExtResource("1_ad876")
 offset = Vector2(-32, -16)
 flip_v = true
 hframes = 4
 vframes = 4
 region_rect = Rect2(0, 0, 512, 512)
-script = ExtResource("5_uhu7m")
+script = ExtResource("5_l802h")
 source = NodePath("..")
 
-[node name="PointLight2D" type="PointLight2D" parent="Sprite"]
-show_behind_parent = true
-position = Vector2(32, 16)
-scale = Vector2(2.5, 2.5)
-energy = 0.6
-texture = ExtResource("5_7lgld")
-script = ExtResource("6_co3es")
-
-[node name="FloatingLabel" parent="Sprite" instance=ExtResource("7_0s2yh")]
+[node name="FloatingLabel" parent="Sprite" instance=ExtResource("7_61yuw")]
 unique_name_in_owner = true
 visible = false
 light_mask = 1
@@ -337,14 +315,12 @@ tree_root = SubResource("AnimationNodeStateMachine_ms5ra")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 parameters/idle/blend_position = Vector2(0.00248134, 0.97076)
-parameters/walk/blend_position = Vector2(0, -0.568047)
+parameters/walk/blend_position = Vector2(-0.00765306, 0.0591717)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2(32, 32)
-target_position = Vector2(0, 64)
+enabled = false
+target_position = Vector2(0, 32)
 collision_mask = 8
 collide_with_areas = true
-
-[node name="PlayerInput" type="Node2D" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("9_01iev")
-player = NodePath("..")
+collide_with_bodies = false

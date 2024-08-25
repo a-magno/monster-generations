@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://b711s4xnbwwa6"]
+[gd_scene load_steps=39 format=4 uid="uid://b711s4xnbwwa6"]
 
 [ext_resource type="Script" path="res://test scenes/map.gd" id="1_gpaf3"]
 [ext_resource type="Texture2D" uid="uid://bluaq172jl3xu" path="res://src/assets/objects/green_tree.png" id="2_7pvy0"]
@@ -20,6 +20,8 @@
 [ext_resource type="Texture2D" uid="uid://bm85ayk5shvvn" path="res://src/assets/indoor.png" id="17_0707a"]
 [ext_resource type="Script" path="res://test scenes/objects_layer.gd" id="17_v847g"]
 [ext_resource type="Script" path="res://test scenes/tall_grass_layer.gd" id="21_jhil0"]
+[ext_resource type="PackedScene" uid="uid://bwd4o33meotkk" path="res://test scenes/npc.tscn" id="21_vk30d"]
+[ext_resource type="Script" path="res://dialogue/dialogue_player.gd" id="22_tlbht"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wp21u"]
 texture = ExtResource("2_444ap")
@@ -372,6 +374,7 @@ tile_map_data = PackedByteArray("AAARAAgAAgABAAcAAAARAAcAAgABAAcAAAARAAAAAgABAAM
 tile_set = ExtResource("8_yee4h")
 
 [node name="Objects" type="TileMapLayer" parent="."]
+z_index = 1
 y_sort_enabled = true
 tile_map_data = PackedByteArray("AAAHAAAAAQAAAAAAAAACAAAABAAAAAAAAAACAAYAAgAAAAAAAAAKAAcAAgAAAAAAAAAOAAUABAAAAAAAAAABAAgABQAAAAAAAAALAAkABQAAAAAAAAACAAIAAQAAAAAAAAALAAQABgAAAAAAAAAJAAAAAwACAAAAAAA=")
 tile_set = SubResource("TileSet_o0kmj")
@@ -388,4 +391,12 @@ tile_set = SubResource("TileSet_1a7ea")
 script = ExtResource("21_jhil0")
 
 [node name="Player" parent="." instance=ExtResource("10_64fyp")]
+position = Vector2(64, 192)
 motion_mode = 1
+
+[node name="NPC" parent="." instance=ExtResource("21_vk30d")]
+position = Vector2(128, 192)
+
+[node name="DialoguePlayer" type="Node" parent="NPC"]
+script = ExtResource("22_tlbht")
+dialogue_file = "res://test resources/npc.json"

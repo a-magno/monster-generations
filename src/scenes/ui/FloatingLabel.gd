@@ -2,6 +2,7 @@
 extends Node2D
 class_name FloatingLabel
 
+@export var enabled : bool = true
 var text_queue : Array
 var timer : Timer
 @onready var label = %Label
@@ -16,6 +17,8 @@ func _ready():
 	add_child(timer)
 
 func _process(delta):
+	if not enabled:
+		return
 	if text_queue.size() > 0 and timer.is_stopped() and not animation_player.is_playing():
 		play_text()
 
@@ -34,4 +37,3 @@ func play_text():
 
 func queue_text( _text : String):
 	text_queue.push_back(_text)
-	print_debug(text_queue)

@@ -15,16 +15,16 @@ func _ready():
 	var starter = MonsterManager.generate_tamed_monster( MonsterManager.monsters.keys().pick_random(), test_nickanmes.pick_random(), 5)
 	PlayerData.add_to_party( starter )
 
-	#for c in party_list.get_children():
-		#c.queue_free()
-	#for member in PlayerData.party:
-		#var mon_slot = MONSTER_SLOT.instantiate()
-		#party_list.add_child( mon_slot )
-		#mon_slot.set_data(member)
+	for c in party_list.get_children():
+		c.queue_free()
+	for member in PlayerData.party:
+		var mon_slot = MONSTER_SLOT.instantiate()
+		party_list.add_child( mon_slot )
+		mon_slot.set_data(member)
 
 func start_battle( combatant : Monster ):
 	WorldTime.pause()
-	PlayerData.player_instance.state = Player.States.BATTLING
+	PlayerData.player_instance.state = Player.BATTLING
 	
 	var combatants = []
 	if not combatant.is_instance:
@@ -63,4 +63,4 @@ func _on_battle_finished(winner, loser):
 	var player = PlayerData.get_player()
 	#play some dialogue
 	battle_scene.clear_combat()
-	PlayerData.player_instance.state = Player.States.IDLE
+	PlayerData.player_instance.state = Player.IDLE
