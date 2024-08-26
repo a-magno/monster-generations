@@ -61,6 +61,7 @@ func generate_tamed_monster(monster_id : StringName, nickname: String = "", leve
 		if level > 1:
 			while tamed_monster.get_level() in range(level):
 				tamed_monster.level.gain_exp( tamed_monster.level.exp_cap+1, tamed_monster )
+				tamed_monster.level.leveled_up
 
 		# Assume some taming process is handled here
 		tamed_monster.captured_status = Monster.TAMED

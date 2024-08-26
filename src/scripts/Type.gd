@@ -3,6 +3,27 @@ const WEAKNESS = 2.0
 const RESISTANCE = 0.5
 const IMMUNITY = 0.0
 
+const colours = {
+	Types.NULL : '#68a192',
+	Types.NORMAL: '#A8A77A',
+	Types.FIRE: '#EE8130',
+	Types.WATER: '#6390F0',
+	Types.ELECTRIC: '#F7D02C',
+	Types.GRASS: '#7AC74C',
+	Types.ICE: '#96D9D6',
+	Types.FIGHTING: '#C22E28',
+	Types.POISON: '#A33EA1',
+	Types.GROUND: '#E2BF65',
+	Types.FLYING: '#A98FF3',
+	Types.PSYCHIC: '#F95587',
+	Types.BUG: '#A6B91A',
+	Types.ROCK: '#B6A136',
+	Types.GHOST: '#735797',
+	Types.DRAGON: '#6F35FC',
+	Types.DARK: '#705746',
+	Types.STEEL: '#B7B7CE',
+	Types.FAIRY: '#D685AD',
+}
 enum Types {
 	NULL,
 	NORMAL,
@@ -90,4 +111,6 @@ func matchup( def_type : Types, atk_type : Types ):
 	return 1.0
 
 func as_string( type : Types ):
-	return Types.keys()[type]
+	var types = Types.keys()
+	types[0] = "???"
+	return types[type]

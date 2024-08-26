@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="Monster" load_steps=5 format=3 uid="uid://b7fvuuyo6744t"]
+[gd_resource type="Resource" script_class="Monster" load_steps=7 format=3 uid="uid://b7fvuuyo6744t"]
 
-[ext_resource type="Script" path="res://src/scripts/Learnset.gd" id="1_csuod"]
 [ext_resource type="PackedScene" uid="uid://m36cfapr4mra" path="res://test scenes/combat/combatants/battle_scenes/sparchu.tscn" id="1_d68j3"]
 [ext_resource type="Texture2D" uid="uid://qxr453hkrtdn" path="res://src/assets/monsters/icons/Sparchu.png" id="2_24mca"]
 [ext_resource type="Script" path="res://src/scripts/MonsterData.gd" id="2_cc71u"]
+[ext_resource type="Resource" uid="uid://ckwatxkvomrc4" path="res://src/moves/scratch.tres" id="3_caqum"]
+[ext_resource type="Resource" uid="uid://cg5fpmpkayhpi" path="res://src/moves/growl.tres" id="4_4d7se"]
+[ext_resource type="Resource" uid="uid://c23r2ufmlltsr" path="res://src/moves/ember.tres" id="5_ci183"]
 
 [resource]
 script = ExtResource("2_cc71u")
@@ -14,7 +16,14 @@ type2 = 0
 battle_scene = ExtResource("1_d68j3")
 icon = ExtResource("2_24mca")
 dex_color = Color(1, 0.505558, 0.224577, 1)
-learnset = Array[ExtResource("1_csuod")]([])
+learnsets = {
+"hidden": {},
+"level_up": {
+1: [ExtResource("3_caqum"), ExtResource("4_4d7se")],
+4: ExtResource("5_ci183")
+},
+"tutored": {}
+}
 base_exp_worth = 62
 hp_base = 39.0
 atk_base = 52.0

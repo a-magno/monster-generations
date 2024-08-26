@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BaseMove" load_steps=2 format=3 uid="uid://cg5fpmpkayhpi"]
+
+[ext_resource type="Script" path="res://src/scripts/BaseMove.gd" id="1_spbim"]
+
+[resource]
+script = ExtResource("1_spbim")
+id = &"ember"
+name = "Ember"
+max_uses = 25.0
+category = 1
+power = 40.0
+accuracy = 100.0
+type = 2
+description = ""

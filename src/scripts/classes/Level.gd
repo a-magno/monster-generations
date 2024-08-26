@@ -12,6 +12,7 @@ enum Growth {
 }
 
 var level : int = 1
+var owner : Monster
 var growth : Growth
 var exp_cap : int = 0
 var curr_exp : int = 0 :
@@ -22,7 +23,8 @@ var total_exp : int = 0 :
 	set(v):
 		total_exp = v
 
-func _init( starting_level := 1, growth_type : Growth = Growth.FAST):
+func _init( _o : Monster, starting_level := 1, growth_type : Growth = Growth.FAST):
+	owner = _o
 	level = starting_level
 	growth = growth_type
 	exp_cap = _calculate_exp_to_next_level( growth, starting_level+1 )
@@ -39,15 +41,16 @@ func handle_level_ups( monster: Monster ) -> void:
 	while _can_level_up():
 		curr_exp -= exp_cap
 		level_up(monster)
-	leveled_up.emit(level)
+		await owner.move_learned
 
 func level_up(monster : Monster, discrete := false):
 	level += 1
 	exp_cap = _calculate_exp_to_next_level( self.growth, level )
-	await recalculate_stats(monster)
+	recalculate_stats(monster)
 	if not discrete:
 		print("%s leveled up to level %d!" % [monster.nickname, level])
 		#print_debug("level: %d\nexp: %d" % [level, curr_exp])
+	leveled_up.emit(level)
 	
 
 func recalculate_stats(monster: Monster) -> void:

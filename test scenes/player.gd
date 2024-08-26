@@ -49,7 +49,7 @@ func interact(target_position):
 		)
 		state = BUSY
 	return dialogue_node
-#
+
 func examine(target_position):
 	target_position += position
 	print_debug(target_position)

@@ -46,6 +46,8 @@ func move( target_position ):
 	sprite.position = Vector2.ZERO
 	tween = null
 	state = IDLE
+	
+	parent.check_encounter(position)
 
 ## Asks parent if movement is possible
 func request_move( towards ):

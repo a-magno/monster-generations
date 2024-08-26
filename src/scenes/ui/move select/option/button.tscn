@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://buuy6d8wo8rwq"]
+
+[ext_resource type="Script" path="res://src/scenes/ui/move select/option/move_button.gd" id="1_5n81y"]
+[ext_resource type="FontFile" uid="uid://bvry3xxuyun5w" path="res://src/assets/fonts/dogicapixelbold.otf" id="1_hgrro"]
+[ext_resource type="Resource" uid="uid://bnnlq11wu2rxk" path="res://src/moves/tackle.tres" id="2_k4q58"]
+
+[node name="Button" type="Button" node_paths=PackedStringArray("move_name", "description_label", "panel")]
+custom_minimum_size = Vector2(128, 64)
+offset_right = 160.0
+offset_bottom = 64.0
+script = ExtResource("1_5n81y")
+data = ExtResource("2_k4q58")
+move_name = NodePath("MarginContainer/VBoxContainer/Name")
+description_label = NodePath("MarginContainer/VBoxContainer/Description")
+panel = NodePath("")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Name" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.333333)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("1_hgrro")
+text = "Tackle"
+horizontal_alignment = 1
+
+[node name="Description" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.333333)
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_outline_size = 4
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "[center]PP: 10/10
+[Physical]"
+fit_content = true

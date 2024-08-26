@@ -3,9 +3,17 @@ extends CanvasLayer
 signal update_over
 
 const MONSTER_INFO = preload("res://test scenes/combat/UI/monster_info.tscn")
+const MOVE_BUTTON = preload("res://src/scenes/ui/move select/option/button.tscn")
+
 @onready var combatants_list: Node2D = $"../Combatants"
 @onready var combatant_ui: HBoxContainer = $"MarginContainer/Combatant UI"
 @onready var actions = %Actions
+@onready var move_list = %MoveList
+
+func _ready():
+	move_list.hide()
+	for c in move_list.get_children():
+		c.queue_free()
 
 func start():
 	for combatant : Combatant in combatants_list.get_combatants():
@@ -13,6 +21,13 @@ func start():
 		combatant_ui.add_child(info)
 		info.combatant = combatant
 		info.updated.connect(_on_info_updated)
+		if combatant.data.captured_status == Monster.TAMED:
+			var moves = combatant.data.get_battle_moves()
+			for move in moves:
+				var move_btn = MOVE_BUTTON.instantiate()
+				move_list.add_child(move_btn)
+				move_btn.set_data(combatant.data)
+				move_btn.move_selected.connect(_on_move_selected)
 
 func free_info_nodes():
 	for c in combatant_ui.get_children():
@@ -23,8 +38,16 @@ func _on_attack_pressed() -> void:
 	if not combatants_list.get_node("Player").active:
 		#print_debug("not player turn")
 		return
-	var test_move = load("res://src/moves/tackle.tres")
-	combatants_list.get_node("Player").attack( combatants_list.get_node("Opponent"), test_move )
+	actions.hide()
+	move_list.show()
+
+func _on_move_selected( move : BaseMove):
+	var target = combatants_list.get_node("Opponent")
+	var user = combatants_list.get_node("Player")
+	move.use_move(target, user)
+	move_list.hide()
+	actions.show()
+	
 
 func _on_use_item_pressed() -> void:
 	if not combatants_list.get_node("Player").active:
