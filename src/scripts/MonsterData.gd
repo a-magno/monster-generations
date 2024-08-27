@@ -8,8 +8,8 @@ enum {WILD,TAMED,NPC_TAMED,BOSS}
 
 #var id, species, type, nickname, level, stats, ability, learnset, learned_move
 var is_instance := false
-@export_category("Information")
 @export var id : StringName
+@export_category("Information")
 var nickname : StringName = "" :
 	get():
 		if not nickname.is_empty():

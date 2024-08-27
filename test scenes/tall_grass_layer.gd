@@ -12,7 +12,7 @@ func check_encounter(target_position):
 		#encounter_triggered.emit( target_cell )
 		if _roll_encounter(chance):
 			var wild_one : Monster = MonsterManager.generate_random_wild_monster()
-			get_parent().encounter_triggered.emit( wild_one )
+			CombatHandler.wild_encounter_triggered.emit( [wild_one] )
 	
 func _roll_encounter(encounter_chance):
 	randomize()

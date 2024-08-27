@@ -10,38 +10,41 @@ signal battle_over(winner, loser)
 @onready var battle_ui: CanvasLayer = $"Battle UI"
 @onready var turn_queue: Node = $TurnQueue
 
-#func _ready():
+func _ready():
+	CombatHandler.battle_started.connect(start_battle)
+	CombatHandler.battle_over.connect(finish_combat)
 	#var fighters = test_fighters # debug
 	#start_battle(fighters)
 
 func start_battle( fighters ):
-
-	for data : Monster in fighters:
-		if not data.is_instance:
-			data = data.initialize()
-		var combatant = data.battle_scene.instantiate() as Combatant
-		combatant.set_data( data )
-		if data.captured_status == Monster.TAMED:
-			combatant.add_to_group(&"players")
-			combatant.name = "Player"
-			#print_debug("Player monster level: %d" % data.level)
-		else:
-			combatant.add_to_group(&"opponents")
-			var ai = WildAi.new()
-			ai.combatant = combatant
-			ai.list = combatants
-			combatant.add_child(ai)
-			combatant.turn_start.connect(ai.act)
-			var timer = Timer.new()
-			timer.wait_time = 0.25
-			timer.one_shot = true
-			combatant.add_child(timer)
-			ai.timer = timer
-			
-		combatants.add_combatant(combatant)
-		combatant.health.dead.connect(_on_combatant_death)
-	battle_ui.start()
-	turn_queue.start()
+	print_debug(fighters)
+	pass
+	#for data : Monster in fighters:
+		#if not data.is_instance:
+			#data = data.initialize()
+		#var combatant = data.battle_scene.instantiate() as Combatant
+		#combatant.set_data( data )
+		#if data.captured_status == Monster.TAMED:
+			#combatant.add_to_group(&"players")
+			#combatant.name = "Player"
+			##print_debug("Player monster level: %d" % data.level)
+		#else:
+			#combatant.add_to_group(&"opponents")
+			#var ai = WildAi.new()
+			#ai.combatant = combatant
+			#ai.list = combatants
+			#combatant.add_child(ai)
+			#combatant.turn_start.connect(ai.act)
+			#var timer = Timer.new()
+			#timer.wait_time = 0.25
+			#timer.one_shot = true
+			#combatant.add_child(timer)
+			#ai.timer = timer
+			#
+		#combatants.add_combatant(combatant)
+		#combatant.health.dead.connect(_on_combatant_death)
+	#battle_ui.start()
+	#turn_queue.start()
 
 func clear_combat():
 	for n in combatants.get_children():

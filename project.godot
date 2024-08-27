@@ -25,6 +25,7 @@ ItemManager="*res://src/scripts/singletons/ItemManager.gd"
 WorldTime="*res://src/scripts/singletons/WorldTime.gd"
 EventLog="res://test scenes/event_log.tscn"
 DialogueBox="*res://dialogue/ui/dialogue_box.tscn"
+CombatHandler="*res://src/scripts/singletons/CombatEventHandler.gd"
 
 [editor]
 
@@ -32,7 +33,7 @@ run/main_run_args="--rendering-driver opengl3 --verbose"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ScriptEditorQoL/plugin.cfg")
+enabled=PackedStringArray()
 
 [gui]
 

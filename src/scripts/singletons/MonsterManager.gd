@@ -37,6 +37,7 @@ func unload_monster(monster_id : StringName) -> void:
 		print("Error: Monster with ID '%s' not found." % monster_id)
 
 func generate_random_wild_monster():
+	randomize()
 	var monster_id = monsters.keys().pick_random()
 	return generate_wild_monster(monster_id)
 
