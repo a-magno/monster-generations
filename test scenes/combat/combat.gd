@@ -81,8 +81,8 @@ func give_exp( to : Combatant, from : Combatant ):
 	var data : Monster = from.data
 	var is_wild = 1.5 if data.captured_status == Monster.NPC_TAMED else 1.0
 	var exp = ( data.base_exp_worth * data.get_level() * is_wild) / 7
-	to.data.level.gain_exp( exp, to.data )
-	print("%s gained %d EXP." % [to.data.nickname, exp])
+	to.data.level.gain_exp( exp *100, to.data )
+	#print("%s gained %d EXP." % [to.data.nickname, exp])
 	await battle_ui.update_over
 
 # EOF #

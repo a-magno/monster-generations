@@ -45,10 +45,11 @@ func get_typing():
 signal gained_exp( new_amount )
 signal leveled_up( new_level )
 
+@export var growth_type : Level.Growth = Level.Growth.FAST
+@export var starting_level : int = 0
 var level : Level
-
 func _on_level_up( level ):
-	print_debug("Attempting to learn move...")
+	#print_debug("Attempting to learn move...")
 	await learn_move(&"level_up", level)
 #endregion
 
@@ -59,9 +60,9 @@ func _on_level_up( level ):
 @export_subgroup("Moves")
 ## It is recommended to have multiple learnsets, such as a TM list and a level up list
 @export var learnsets : Dictionary = {
-	"level_up" : {},
-	"tutored" : {},
-	"hidden" : {}
+	&"level_up" : {},
+	&"tutored" : {},
+	&"hidden" : {}
 }
 var learned_moves : Array[BaseMove] #Change to Array[Move] later
 
@@ -87,7 +88,7 @@ func initialize():
 	var d : Monster = self.duplicate()
 	d.is_instance = true
 	d.gender = randi_range(1, 2) if not genderless else 0
-	d.level = Level.new(self)
+	d.level = Level.new(d, growth_type, starting_level)
 	
 	var base_values = {
 		&"hp": [hp_base, "( (IV + 2 * base + (EV/4) ) * level/100 ) + 10 + level"],
@@ -102,8 +103,6 @@ func initialize():
 		var formula = base_values[stat_id][1]
 		d.stats[stat_id] = Stat.new(stat_id, base, d, formula)
 		#print(d.stats[stat_id].value)
-		
-	
 	return d
 
 ## Duplicates the resouce of a 'wild' monster, so it can be added to the player's roster
@@ -117,8 +116,8 @@ func acquire(new_nickname : String):
 			acquired_monster.stats[stat_id].calculate()
 	#acquired_monster.recalculate_stats(acquired_monster)
 	
-	acquired_monster.level.leveled_up.connect(_on_level_up)
-	print(acquired_monster.level.leveled_up.get_connections())
+	#acquired_monster.level.leveled_up.connect(_on_level_up)
+	#print_debug(acquired_monster.level.leveled_up.get_connections())
 	return acquired_monster 
 
 func get_stat(id : StringName):
@@ -128,15 +127,15 @@ func get_stat(id : StringName):
 			&"value" : stats[id].value,
 			&"max" : stats[id].max_value
 		}
-	return 0.0
+	return {}
 
 func get_level(as_data := false):
 	if as_data:
 		return {
-			"current": level.level,
-			"exp_cap": level.exp_cap,
-			"curr_exp": level.curr_exp,
-			"total": level.total_exp
+			&"current": level.level,
+			&"exp_cap": level.exp_cap,
+			&"curr_exp": level.curr_exp,
+			&"total": level.total_exp
 		}
 	return level.level
 
@@ -149,23 +148,23 @@ func increase_stat(id, amount):
 		stats[id].increase(amount)
 
 #region Moves
-#func learn_move( learnset : StringName, move_key ):
-	#if learnsets.has(learnset)
 
 func learn_move( learnset_key : StringName, move_key ):
-	print_debug("learnset_key %s\nmove_key %s" % [learnset_key, move_key])
 	var learnset = learnsets.get(learnset_key, null)
-	print(learnset)
 	if not learnset: return
-	var moves = learnset.get(move_key, null)
-	if not moves: return
-	for move in moves:
+	
+	var to_learn = learnset.get(move_key, null)
+	if not to_learn: return
+	
+	print_debug(to_learn)
+	for move in to_learn:
 		learned_moves.push_front(move)
 		print("%s learned %s!" % [nickname, move.name])
 		move_learned.emit(move)
+	return
 
-func get_battle_moves():
-	var first_four : Array
+func get_battle_moves()->Array[BaseMove]:
+	var first_four : Array[BaseMove]
 	for move in learned_moves:
 		if first_four.size() < 4:
 			first_four.push_back(move)

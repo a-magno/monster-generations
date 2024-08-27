@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="BaseMove" load_steps=2 format=3 uid="uid://c23r2ufmlltsr"]
+[gd_resource type="Resource" script_class="BaseMove" load_steps=2 format=3 uid="uid://dvc3oghy52s16"]
 
 [ext_resource type="Script" path="res://src/scripts/BaseMove.gd" id="1_1hef8"]
 
 [resource]
 script = ExtResource("1_1hef8")
-id = &"scratch"
-name = "Scratch"
+id = &"ember"
+name = "Ember"
 max_uses = 35.0
 category = 0
 power = 40.0

@@ -23,10 +23,11 @@ func start():
 		info.updated.connect(_on_info_updated)
 		if combatant.data.captured_status == Monster.TAMED:
 			var moves = combatant.data.get_battle_moves()
+			moves.reverse()
 			for move in moves:
 				var move_btn = MOVE_BUTTON.instantiate()
 				move_list.add_child(move_btn)
-				move_btn.set_data(combatant.data)
+				move_btn.set_data(move)
 				move_btn.move_selected.connect(_on_move_selected)
 
 func free_info_nodes():

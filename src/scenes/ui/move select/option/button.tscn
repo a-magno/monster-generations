@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" uid="uid://bvry3xxuyun5w" path="res://src/assets/fonts/dogicapixelbold.otf" id="1_hgrro"]
 [ext_resource type="Resource" uid="uid://bnnlq11wu2rxk" path="res://src/moves/tackle.tres" id="2_k4q58"]
 
-[node name="Button" type="Button" node_paths=PackedStringArray("move_name", "description_label", "panel")]
+[node name="Button" type="Button" node_paths=PackedStringArray("move_name", "description_label")]
 custom_minimum_size = Vector2(128, 64)
 offset_right = 160.0
 offset_bottom = 64.0
@@ -12,7 +12,6 @@ script = ExtResource("1_5n81y")
 data = ExtResource("2_k4q58")
 move_name = NodePath("MarginContainer/VBoxContainer/Name")
 description_label = NodePath("MarginContainer/VBoxContainer/Description")
-panel = NodePath("")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

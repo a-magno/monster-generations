@@ -23,7 +23,8 @@ func set_data( _data : BaseMove ):
 	if not _data: return
 	move_name.text = data.name
 	update()
-	data.move_used.connect(update)
+	if not data.move_used.is_connected(update):
+		data.move_used.connect(update)
 
 func update():
 	description_label.text = DESC_FORMAT.format({

@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="MonsterGenerator"
+config/tags=PackedStringArray("2d", "demo", "game_project", "pokemon")
 run/main_scene="res://test scenes/node.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"

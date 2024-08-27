@@ -11,7 +11,7 @@ enum Growth {
 	SLOW
 }
 
-var level : int = 1
+var level : int = 0
 var owner : Monster
 var growth : Growth
 var exp_cap : int = 0
@@ -23,11 +23,13 @@ var total_exp : int = 0 :
 	set(v):
 		total_exp = v
 
-func _init( _o : Monster, starting_level := 1, growth_type : Growth = Growth.FAST):
+func _init( _o : Monster, starting_level := 0, growth_type : Growth = Growth.FAST):
 	owner = _o
-	level = starting_level
 	growth = growth_type
 	exp_cap = _calculate_exp_to_next_level( growth, starting_level+1 )
+	leveled_up.connect(owner._on_level_up)
+	while level < starting_level:
+		gain_exp( exp_cap, owner )
 
 #region
 func gain_exp( amount, monster: Monster ) -> void:
@@ -35,7 +37,7 @@ func gain_exp( amount, monster: Monster ) -> void:
 	total_exp += amount
 	await handle_level_ups(monster)
 	print("%s gained %d EXP!" % [monster.nickname, amount])
-	gained_exp.emit(amount)
+	gained_exp.emit(curr_exp)
 
 func handle_level_ups( monster: Monster ) -> void:
 	while _can_level_up():
@@ -52,7 +54,6 @@ func level_up(monster : Monster, discrete := false):
 		#print_debug("level: %d\nexp: %d" % [level, curr_exp])
 	leveled_up.emit(level)
 	
-
 func recalculate_stats(monster: Monster) -> void:
 	for stat_id in monster.stats.keys():
 		#if monster.stats[stat_id].value == 0.0:
