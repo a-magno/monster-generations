@@ -13,7 +13,7 @@ func check_encounter(target_position):
 		if _roll_encounter(chance):
 			var wild_one : Monster = MonsterManager.generate_random_wild_monster()
 			var wild_ones : Array[Monster]
-			wild_ones.append(wild_one)
+			wild_ones.push_back(wild_one)
 			CombatHandler.wild_encounter_triggered.emit( wild_ones )
 	
 func _roll_encounter(encounter_chance):

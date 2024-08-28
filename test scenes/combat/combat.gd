@@ -10,47 +10,43 @@ signal battle_over(winner, loser)
 @onready var battle_ui: CanvasLayer = $"Battle UI"
 @onready var turn_queue: Node = $TurnQueue
 
-#func _ready():
-	#CombatHandler.battle_started.connect(start_battle)
+func _ready():
+	CombatHandler.battle_started.connect(start_battle)
 	#CombatHandler.battle_over.connect(finish_combat)
 	#var fighters = test_fighters # debug
 	#start_battle(fighters)
 
 func start_battle( monsters : Array[Monster] ):
-	print_debug(monsters)
-	for monster : Monster in monsters:
+	for monster in monsters:
+		print(monster.nickname)
 		monster = monster if monster.is_instance else monster.initialize()
 		var combatant = monster.battle_scene.instantiate() as Combatant
 		combatant.set_data(monster)
-		
-		if monster.captured_status == Monster.TAMED:
-			_add_player_combatant(combatant)
-		else:
-			_add_opponent_combatant(combatant)
+		_add_combatant(combatant)
+
 		combatants.add_combatant(combatant)
 		combatant.health.dead.connect(_on_combatant_death)
-
+		
 	battle_ui.start()
 	turn_queue.start()
 
-func _add_player_combatant(combatant: Combatant):
-
-	combatant.name = "Player"
-
-func _add_opponent_combatant(combatant: Combatant):
-	combatant.add_to_group("opponents")
-	
-	var ai = WildAi.new()
-	ai.combatant = combatant
-	ai.list = combatants
-	combatant.add_child(ai)
-	combatant.turn_start.connect(ai.act)
-	
-	var timer = Timer.new()
-	timer.wait_time = 0.25
-	timer.one_shot = true
-	combatant.add_child(timer)
-	ai.timer = timer
+func _add_combatant(combatant : Combatant):
+	if combatant.data.captured_status == Monster.TAMED:
+		combatant.add_to_group(&"players")
+		combatant.name = "Player"
+		#print_debug("Player monster level: %d" % data.level)
+	else:
+		combatant.add_to_group(&"opponents")
+		var ai = WildAi.new()
+		ai.combatant = combatant
+		ai.list = combatants
+		combatant.add_child(ai)
+		combatant.turn_start.connect(ai.act)
+		var timer = Timer.new()
+		timer.wait_time = 0.25
+		timer.one_shot = true
+		combatant.add_child(timer)
+		ai.timer = timer
 
 func clear_combat():
 	for n in combatants.get_children():
@@ -88,9 +84,9 @@ func give_exp( to : Combatant, from : Combatant ):
 	#Experience = ((Base Experience * Level) * Trainer * Wild) / 7
 	var data : Monster = from.data
 	var is_wild = 1.5 if data.captured_status == Monster.NPC_TAMED else 1.0
-	var exp = ( data.base_exp_worth * data.get_level() * is_wild) / 7
-	to.data.level.gain_exp( exp *100, to.data )
-	#print("%s gained %d EXP." % [to.data.nickname, exp])
-	await battle_ui.update_over
+	var worth = data.base_exp_worth
+	var exp = roundf(( worth * data.get_level() * is_wild) / 7)
+	to.data.level.gain_exp( exp * 100, to.data )
+	print("%s gained %d EXP." % [to.data.nickname, exp])
 
 # EOF #

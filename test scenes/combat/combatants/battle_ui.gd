@@ -33,6 +33,8 @@ func start():
 func free_info_nodes():
 	for c in combatant_ui.get_children():
 		c.queue_free()
+	for c in move_list.get_children():
+		c.queue_free()
 
 func _on_attack_pressed() -> void:
 	#print_debug("enter attack pressed")

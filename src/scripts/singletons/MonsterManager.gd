@@ -57,7 +57,7 @@ func generate_tamed_monster(monster_id : StringName, nickname: String = "", leve
 	if monster_id in monsters:
 		var tamed_monster : Monster = monsters[monster_id].duplicate()
 		var _nickname = nickname if nickname != "" else monster_id.capitalize()
-		tamed_monster = tamed_monster.acquire(_nickname) # Ensure the monster is initialized
+		tamed_monster = await tamed_monster.acquire(_nickname) # Ensure the monster is initialized
 		
 		if level > 1:
 			while tamed_monster.get_level() in range(level):

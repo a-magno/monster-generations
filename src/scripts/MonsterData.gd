@@ -46,11 +46,12 @@ signal gained_exp( new_amount )
 signal leveled_up( new_level )
 
 @export var growth_type : Level.Growth = Level.Growth.FAST
-@export var starting_level : int = 0
+@export var starting_level : int = 1
 var level : Level
 func _on_level_up( level ):
-	#print_debug("Attempting to learn move...")
+	print_debug("Attempting to learn move...")
 	await learn_move(&"level_up", level)
+	await calculate_stats(self)
 #endregion
 
 @export_category("Sprites")
@@ -90,25 +91,13 @@ func initialize():
 	d.gender = randi_range(1, 2) if not genderless else 0
 	d.level = Level.new(d, growth_type, starting_level)
 	
-	var base_values = {
-		&"hp": [hp_base, "( (IV + 2 * base + (EV/4) ) * level/100 ) + 10 + level"],
-		&"atk": [atk_base, null],
-		&"def": [def_base, null],
-		&"spAtk": [spAtk_base, null],
-		&"spDef": [spDef_base, null],
-		&"spd": [spd_base, null]
-	}
-	for stat_id in base_values.keys():
-		var base = base_values[stat_id][0]
-		var formula = base_values[stat_id][1]
-		d.stats[stat_id] = Stat.new(stat_id, base, d, formula)
-		#print(d.stats[stat_id].value)
-	print_debug("%s initialized" % d.nickname)
+	calculate_stats(d)
+	
 	return d
 
 ## Duplicates the resouce of a 'wild' monster, so it can be added to the player's roster
 func acquire(new_nickname : String):
-	var acquired_monster = initialize()
+	var acquired_monster = await initialize()
 	if new_nickname.length() > 0:
 		acquired_monster.nickname = new_nickname
 	acquired_monster.captured_by = PlayerData.player_name
@@ -121,15 +110,6 @@ func acquire(new_nickname : String):
 	#print_debug(acquired_monster.level.leveled_up.get_connections())
 	return acquired_monster 
 
-func get_stat(id : StringName):
-	if id in stats:
-		return {
-			&"self" : stats[id],
-			&"value" : stats[id].value,
-			&"max" : stats[id].max_value
-		}
-	return {}
-
 func get_level(as_data := false):
 	if as_data:
 		return {
@@ -139,6 +119,30 @@ func get_level(as_data := false):
 			&"total": level.total_exp
 		}
 	return level.level
+
+func get_stat(id : StringName):
+	if id in stats:
+		return {
+			&"self" : stats[id],
+			&"value" : stats[id].value,
+			&"max" : stats[id].max_value
+		}
+	return {}
+
+func calculate_stats(monster : Monster):
+	var base_values = {
+		&"hp": [hp_base, "( (IV + 2 * base + (EV/4) ) * level/100 ) + 10 + level"],
+		&"atk": [atk_base, null],
+		&"def": [def_base, null],
+		&"spAtk": [spAtk_base, null],
+		&"spDef": [spDef_base, null],
+		&"spd": [spd_base, null]
+	}
+	for stat_id in base_values.keys():
+		var base = base_values[stat_id][0]
+		var formula = base_values[stat_id][1]
+		monster.stats[stat_id] = Stat.new(stat_id, base, monster, formula)
+		#print(monster.stats[stat_id].value)
 
 func decrease_stat(id, amount):
 	if id in stats:
@@ -159,7 +163,7 @@ func learn_move( learnset_key : StringName, move_key ):
 	
 	print_debug(to_learn)
 	for move in to_learn:
-		learned_moves.push_front(move)
+		learned_moves.push_front(move.duplicate())
 		print("%s learned %s!" % [nickname, move.name])
 		move_learned.emit(move)
 	return

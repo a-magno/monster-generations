@@ -6,9 +6,9 @@
 script = ExtResource("1_wofn1")
 id = &"bubble"
 name = "Bubble"
-max_uses = 5.0
+max_uses = 30.0
 category = 1
-power = 10.0
+power = 40.0
 accuracy = 100.0
 type = 3
 description = "Shoots bubbles."
