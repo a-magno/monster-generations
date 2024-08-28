@@ -66,6 +66,6 @@ func take_damage( amount ):
 
 func end_turn():
 	#await info_node.updated
-	turn_done.emit()
+	CombatHandler.turn_ended.emit(self)
 
 # EOF #

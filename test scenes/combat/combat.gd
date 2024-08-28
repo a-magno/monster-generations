@@ -10,41 +10,47 @@ signal battle_over(winner, loser)
 @onready var battle_ui: CanvasLayer = $"Battle UI"
 @onready var turn_queue: Node = $TurnQueue
 
-func _ready():
-	CombatHandler.battle_started.connect(start_battle)
-	CombatHandler.battle_over.connect(finish_combat)
+#func _ready():
+	#CombatHandler.battle_started.connect(start_battle)
+	#CombatHandler.battle_over.connect(finish_combat)
 	#var fighters = test_fighters # debug
 	#start_battle(fighters)
 
-func start_battle( fighters ):
-	print_debug(fighters)
-	pass
-	#for data : Monster in fighters:
-		#if not data.is_instance:
-			#data = data.initialize()
-		#var combatant = data.battle_scene.instantiate() as Combatant
-		#combatant.set_data( data )
-		#if data.captured_status == Monster.TAMED:
-			#combatant.add_to_group(&"players")
-			#combatant.name = "Player"
-			##print_debug("Player monster level: %d" % data.level)
-		#else:
-			#combatant.add_to_group(&"opponents")
-			#var ai = WildAi.new()
-			#ai.combatant = combatant
-			#ai.list = combatants
-			#combatant.add_child(ai)
-			#combatant.turn_start.connect(ai.act)
-			#var timer = Timer.new()
-			#timer.wait_time = 0.25
-			#timer.one_shot = true
-			#combatant.add_child(timer)
-			#ai.timer = timer
-			#
-		#combatants.add_combatant(combatant)
-		#combatant.health.dead.connect(_on_combatant_death)
-	#battle_ui.start()
-	#turn_queue.start()
+func start_battle( monsters : Array[Monster] ):
+	print_debug(monsters)
+	for monster : Monster in monsters:
+		monster = monster if monster.is_instance else monster.initialize()
+		var combatant = monster.battle_scene.instantiate() as Combatant
+		combatant.set_data(monster)
+		
+		if monster.captured_status == Monster.TAMED:
+			_add_player_combatant(combatant)
+		else:
+			_add_opponent_combatant(combatant)
+		combatants.add_combatant(combatant)
+		combatant.health.dead.connect(_on_combatant_death)
+
+	battle_ui.start()
+	turn_queue.start()
+
+func _add_player_combatant(combatant: Combatant):
+
+	combatant.name = "Player"
+
+func _add_opponent_combatant(combatant: Combatant):
+	combatant.add_to_group("opponents")
+	
+	var ai = WildAi.new()
+	ai.combatant = combatant
+	ai.list = combatants
+	combatant.add_child(ai)
+	combatant.turn_start.connect(ai.act)
+	
+	var timer = Timer.new()
+	timer.wait_time = 0.25
+	timer.one_shot = true
+	combatant.add_child(timer)
+	ai.timer = timer
 
 func clear_combat():
 	for n in combatants.get_children():
@@ -53,13 +59,12 @@ func clear_combat():
 		combatants.combatants.clear()
 	battle_ui.free_info_nodes()
 
-
 func finish_combat(winner, loser):
-	battle_over.emit(winner, loser)
+	CombatHandler.battle_over.emit(winner, loser)
 
 func _on_combatant_death(combatant):
 	var winner 
-	if _check_for_tag_ins(combatant):
+	if check_for_tag_ins(combatant):
 		#This is where switch logic goes
 		
 		#--
@@ -74,7 +79,7 @@ func _on_combatant_death(combatant):
 				break
 	finish_combat(winner, combatant)
 
-func _check_for_tag_ins( combatant ):
+func check_for_tag_ins( combatant ):
 	return false
 
 func give_exp( to : Combatant, from : Combatant ):

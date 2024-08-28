@@ -103,6 +103,7 @@ func initialize():
 		var formula = base_values[stat_id][1]
 		d.stats[stat_id] = Stat.new(stat_id, base, d, formula)
 		#print(d.stats[stat_id].value)
+	print_debug("%s initialized" % d.nickname)
 	return d
 
 ## Duplicates the resouce of a 'wild' monster, so it can be added to the player's roster

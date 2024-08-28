@@ -1,6 +1,9 @@
 extends Node
 
-signal wild_encounter_triggered( monsters : Array[Monster] )
+const PLAYER_GROUP = &"players"
+const OPPONENT_GROUP = &"opponents"
+
+signal wild_encounter_triggered( monsters : Array )
 signal npc_encounter_triggered( npc_data : Tamer )
 
 signal battle_started()

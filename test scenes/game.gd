@@ -10,8 +10,8 @@ func _ready():
 	CombatHandler.battle_over.connect(_on_battle_finished)
 	remove_child(battle_scene)
 	
-	#var starter = MonsterManager.generate_tamed_monster( MonsterManager.monsters.keys().pick_random(), test_nickanmes.pick_random(), 5)
-	#PlayerData.add_to_party( starter )
+	var starter = MonsterManager.generate_tamed_monster( MonsterManager.monsters.keys().pick_random(), "Pika de Fogo", 5)
+	PlayerData.add_to_party( starter )
 #
 	#for c in party_list.get_children():
 		#c.queue_free()
@@ -20,20 +20,16 @@ func _ready():
 		#party_list.add_child( mon_slot )
 		#mon_slot.set_data(member)
 
-func _start_wild_battle( monsters : Array[Monster] ):
+func _start_wild_battle( monsters : Array ):
 	WorldTime.pause()
 	PlayerData.player_instance.state = Player.BATTLING
-	
-	for monster in monsters:
-		if not monster.is_instance:
-			monster = monster.initialize()
-
 	monsters.push_front(PlayerData.get_party_leader())
 	
-	_fade_out()
+	await _fade_out()
 	remove_child(world)
 	add_child( battle_scene )
 	battle_scene.show()
+	await _fade_in()
 	battle_scene.start_battle(monsters)
 	
 

@@ -14,7 +14,7 @@ func play_turn():
 	#await get_parent().get_node("Battle UI").update_over
 	if not active_combatant.active:
 		return
-	await active_combatant.turn_done
+	active_combatant = await CombatHandler.turn_ended
 	get_next_in_queue()
 	play_turn()
 
