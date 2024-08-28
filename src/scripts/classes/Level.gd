@@ -11,47 +11,47 @@ enum Growth {
 	SLOW
 }
 
-var level : int = 0
+var level : int = 1
 var owner : Monster
 var growth : Growth
-var exp_cap : int = 0
-var curr_exp : int = 0 :
+var exp_required : int = 0
+var experience : int = 0 :
 	set(v):
 		#print_debug(v)
-		curr_exp = v
-var total_exp : int = 0 :
+		experience = v
+var experience_total : int = 0 :
 	set(v):
-		total_exp = v
+		experience_total = v
 
-func _init( _o : Monster, starting_level := 0, growth_type : Growth = Growth.FAST):
+func _init( _o : Monster, starting_level : int, growth_type : Growth = Growth.FAST):
 	owner = _o
 	growth = growth_type
-	exp_cap = _calculate_exp_to_next_level( growth, starting_level+1 )
+	exp_required = _calculate_exp_to_next_level( growth, starting_level+1 )
 	leveled_up.connect(owner._on_level_up)
 	while level < starting_level:
-		gain_exp( exp_cap, owner )
+		gain_exp( exp_required, owner )
 
 #region
 func gain_exp( amount, monster: Monster ) -> void:
-	curr_exp += amount
-	total_exp += amount
+	experience += amount
+	experience_total += amount
+	gained_exp.emit(experience)
 	await handle_level_ups(monster)
-	print("%s gained %d EXP!" % [monster.nickname, amount])
-	gained_exp.emit(curr_exp)
+	print_debug("%s gained %d EXP!" % [monster.nickname, amount])
 
 func handle_level_ups( monster: Monster ) -> void:
 	while _can_level_up():
-		curr_exp -= exp_cap
+		experience -= exp_required
 		level_up(monster)
-		await owner.move_learned
+		owner.move_learned
 
 func level_up(monster : Monster, discrete := false):
 	level += 1
-	exp_cap = _calculate_exp_to_next_level( self.growth, level )
-	recalculate_stats(monster)
+	exp_required = _calculate_exp_to_next_level( self.growth, level+1 )
+	#recalculate_stats(monster)
 	if not discrete:
-		print("%s leveled up to level %d!" % [monster.nickname, level])
-		#print_debug("level: %d\nexp: %d" % [level, curr_exp])
+		print_debug("%s leveled up to level %d!" % [monster.nickname, level])
+		#print_debug("level: %d\nexp: %d" % [level, experience])
 	leveled_up.emit(level)
 	
 func recalculate_stats(monster: Monster) -> void:
@@ -78,7 +78,7 @@ func _calculate_exp_to_next_level(_growth : Growth, current_level: int = level) 
 			return _slow(current_level)
 
 func _can_level_up() -> bool:
-	return curr_exp >= exp_cap and curr_exp != 0
+	return experience >= exp_required and experience != 0
 #endregion
 
 #region FUNCTIONS

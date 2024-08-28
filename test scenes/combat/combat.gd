@@ -12,39 +12,41 @@ signal battle_over(winner, loser)
 
 func _ready():
 	CombatHandler.battle_started.connect(start_battle)
-	CombatHandler.battle_over.connect(finish_combat)
+	#CombatHandler.battle_over.connect(finish_combat)
 	#var fighters = test_fighters # debug
 	#start_battle(fighters)
 
-func start_battle( fighters ):
-	print_debug(fighters)
-	pass
-	#for data : Monster in fighters:
-		#if not data.is_instance:
-			#data = data.initialize()
-		#var combatant = data.battle_scene.instantiate() as Combatant
-		#combatant.set_data( data )
-		#if data.captured_status == Monster.TAMED:
-			#combatant.add_to_group(&"players")
-			#combatant.name = "Player"
-			##print_debug("Player monster level: %d" % data.level)
-		#else:
-			#combatant.add_to_group(&"opponents")
-			#var ai = WildAi.new()
-			#ai.combatant = combatant
-			#ai.list = combatants
-			#combatant.add_child(ai)
-			#combatant.turn_start.connect(ai.act)
-			#var timer = Timer.new()
-			#timer.wait_time = 0.25
-			#timer.one_shot = true
-			#combatant.add_child(timer)
-			#ai.timer = timer
-			#
-		#combatants.add_combatant(combatant)
-		#combatant.health.dead.connect(_on_combatant_death)
-	#battle_ui.start()
-	#turn_queue.start()
+func start_battle( monsters : Array[Monster] ):
+	for monster in monsters:
+		print(monster.nickname)
+		monster = monster if monster.is_instance else monster.initialize()
+		var combatant = monster.battle_scene.instantiate() as Combatant
+		combatant.set_data(monster)
+		_add_combatant(combatant)
+
+		combatants.add_combatant(combatant)
+		combatant.health.dead.connect(_on_combatant_death)
+		
+	battle_ui.start()
+	turn_queue.start()
+
+func _add_combatant(combatant : Combatant):
+	if combatant.data.captured_status == Monster.TAMED:
+		combatant.add_to_group(&"players")
+		combatant.name = "Player"
+		#print_debug("Player monster level: %d" % data.level)
+	else:
+		combatant.add_to_group(&"opponents")
+		var ai = WildAi.new()
+		ai.combatant = combatant
+		ai.list = combatants
+		combatant.add_child(ai)
+		combatant.turn_start.connect(ai.act)
+		var timer = Timer.new()
+		timer.wait_time = 0.25
+		timer.one_shot = true
+		combatant.add_child(timer)
+		ai.timer = timer
 
 func clear_combat():
 	for n in combatants.get_children():
@@ -53,13 +55,13 @@ func clear_combat():
 		combatants.combatants.clear()
 	battle_ui.free_info_nodes()
 
-
 func finish_combat(winner, loser):
-	battle_over.emit(winner, loser)
+	clear_combat()
+	CombatHandler.battle_over.emit(winner, loser)
 
 func _on_combatant_death(combatant):
 	var winner 
-	if _check_for_tag_ins(combatant):
+	if check_for_tag_ins(combatant):
 		#This is where switch logic goes
 		
 		#--
@@ -74,7 +76,7 @@ func _on_combatant_death(combatant):
 				break
 	finish_combat(winner, combatant)
 
-func _check_for_tag_ins( combatant ):
+func check_for_tag_ins( combatant ):
 	return false
 
 func give_exp( to : Combatant, from : Combatant ):
@@ -83,9 +85,9 @@ func give_exp( to : Combatant, from : Combatant ):
 	#Experience = ((Base Experience * Level) * Trainer * Wild) / 7
 	var data : Monster = from.data
 	var is_wild = 1.5 if data.captured_status == Monster.NPC_TAMED else 1.0
-	var exp = ( data.base_exp_worth * data.get_level() * is_wild) / 7
-	to.data.level.gain_exp( exp *100, to.data )
-	#print("%s gained %d EXP." % [to.data.nickname, exp])
-	await battle_ui.update_over
+	var worth = data.base_exp_worth
+	var exp = roundf(( worth * data.get_level() * is_wild) / 7)
+	to.data.level.gain_exp( exp * 100, to.data )
+	print("%s gained %d EXP." % [to.data.nickname, exp])
 
 # EOF #

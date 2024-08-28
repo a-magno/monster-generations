@@ -3,9 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://m36cfapr4mra" path="res://test scenes/combat/combatants/battle_scenes/sparchu.tscn" id="1_d68j3"]
 [ext_resource type="Texture2D" uid="uid://qxr453hkrtdn" path="res://src/assets/monsters/icons/Sparchu.png" id="2_24mca"]
 [ext_resource type="Script" path="res://src/scripts/MonsterData.gd" id="2_cc71u"]
-[ext_resource type="Resource" path="res://src/moves/scratch.tres" id="3_caqum"]
-[ext_resource type="Resource" path="res://src/moves/growl.tres" id="4_4d7se"]
-[ext_resource type="Resource" path="res://src/moves/ember.tres" id="5_ci183"]
+[ext_resource type="Resource" uid="uid://cc3xfri2k4ls5" path="res://src/moves/scratch.tres" id="3_caqum"]
+[ext_resource type="Resource" uid="uid://cdy22uc7l8e3k" path="res://src/moves/growl.tres" id="4_4d7se"]
+[ext_resource type="Resource" uid="uid://dvc3oghy52s16" path="res://src/moves/ember.tres" id="5_ci183"]
 
 [resource]
 script = ExtResource("2_cc71u")
@@ -14,7 +14,7 @@ genderless = false
 type1 = 2
 type2 = 0
 growth_type = 0
-starting_level = 0
+starting_level = 1
 battle_scene = ExtResource("1_d68j3")
 icon = ExtResource("2_24mca")
 dex_color = Color(1, 0.505558, 0.224577, 1)

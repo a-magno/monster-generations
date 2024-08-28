@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dasfj2yccvqp"]
+
+[ext_resource type="Script" path="res://test scenes/leveling/level_test.gd" id="1_bbb5b"]
+
+[node name="LevelTest" type="Node"]
+script = ExtResource("1_bbb5b")

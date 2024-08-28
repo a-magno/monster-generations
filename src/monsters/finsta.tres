@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://src/scripts/MonsterData.gd" id="2_kmimt"]
 [ext_resource type="Texture2D" uid="uid://colx74s4sp7um" path="res://src/assets/monsters/icons/Finsta.png" id="2_yelpr"]
 [ext_resource type="Resource" uid="uid://bnnlq11wu2rxk" path="res://src/moves/tackle.tres" id="3_kir53"]
-[ext_resource type="Resource" path="res://src/moves/growl.tres" id="4_mbl8t"]
+[ext_resource type="Resource" uid="uid://cdy22uc7l8e3k" path="res://src/moves/growl.tres" id="4_mbl8t"]
 [ext_resource type="Resource" uid="uid://b5pvururjd5dh" path="res://src/moves/bubble.tres" id="5_6s8bx"]
 
 [resource]
@@ -14,7 +14,7 @@ genderless = false
 type1 = 3
 type2 = 0
 growth_type = 0
-starting_level = 0
+starting_level = 1
 battle_scene = ExtResource("1_kv563")
 icon = ExtResource("2_yelpr")
 dex_color = Color(0.230608, 0.744264, 0.872282, 1)
