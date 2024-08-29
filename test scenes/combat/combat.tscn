@@ -54,6 +54,27 @@ combatants_list = NodePath("../Combatants")
 [node name="Battle UI" type="CanvasLayer" parent="."]
 script = ExtResource("5_6wtr4")
 
+[node name="Window" type="Window" parent="Battle UI"]
+transparent_bg = true
+initial_position = 2
+size = Vector2i(500, 500)
+transient = true
+transparent = true
+
+[node name="Control" type="ScrollContainer" parent="Battle UI/Window"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TurnQueueLabel" type="RichTextLabel" parent="Battle UI/Window/Control"]
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 2
+bbcode_enabled = true
+text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+fit_content = true
+
 [node name="MarginContainer" type="MarginContainer" parent="Battle UI"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -158,7 +179,6 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[connection signal="active_changed" from="TurnQueue" to="Battle UI" method="_on_active_changed"]
 [connection signal="pressed" from="Battle UI/Control/PanelContainer/MarginContainer/Actions/Attack" to="Battle UI" method="_on_attack_pressed"]
 [connection signal="pressed" from="Battle UI/Control/PanelContainer/MarginContainer/Actions/UseItem" to="Battle UI" method="_on_use_item_pressed"]
 [connection signal="pressed" from="Battle UI/Control/PanelContainer/MarginContainer/Actions/Party" to="Battle UI" method="_on_party_pressed"]

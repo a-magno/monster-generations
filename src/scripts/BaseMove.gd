@@ -52,7 +52,7 @@ func _calculate_damage( target : Combatant, user : Combatant ) -> int:
 	var AD = 0
 	var STAB = 1.0
 	var WeakOrRes = 1
-	var level = data.get_level()
+	var level = data.level
 	match(category):
 		Category.PHYSICAL, Category.SPECIAL:
 			var atk = user.data.get_stat( dmg_key ).get(&"value", 0.0)

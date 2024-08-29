@@ -10,10 +10,21 @@ const MOVE_BUTTON = preload("res://src/scenes/ui/move select/option/button.tscn"
 @onready var actions = %Actions
 @onready var move_list = %MoveList
 
+#region testing
+@onready var turn_queue_label: RichTextLabel = $Window/Control/TurnQueueLabel
+#endregion
+
 func _ready():
 	move_list.hide()
 	for c in move_list.get_children():
 		c.queue_free()
+	
+	CombatHandler.action_queued.connect(
+		func(v):
+			turn_queue_label.text = ""
+			for a in $"../TurnQueue".action_queue:
+				turn_queue_label.text += JSON.stringify(a.as_data(), "\t") + "\n"
+	)
 
 func start():
 	for combatant : Combatant in combatants_list.get_combatants():
@@ -47,11 +58,13 @@ func _on_attack_pressed() -> void:
 func _on_move_selected( move : BaseMove ):
 	var target = combatants_list.get_node("Opponent")
 	var user = combatants_list.get_node("Player")
-	move.use_move(target, user)
+	#move.use_move(target, user)
 	CombatHandler.action_queued.emit( CombatAction.new(
 		user, CombatAction.Actions.FIGHT,
 		target, move
 	))
+	user.active = false
+	user.turn_done.emit()
 	move_list.hide()
 	actions.show()
 	

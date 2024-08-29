@@ -10,7 +10,7 @@ func _ready():
 	CombatHandler.battle_over.connect(_on_battle_finished)
 	remove_child(battle_scene)
 	
-	var starter = await MonsterManager.generate_tamed_monster( MonsterManager.monsters.keys().pick_random(), "Pika de ferro", 5)
+	var starter = await MonsterManager.generate_tamed_monster( MonsterManager.monsters.keys().pick_random(), "", 5)
 	PlayerData.add_to_party( starter )
 #
 	#for c in party_list.get_children():
@@ -40,7 +40,7 @@ func _start_npc_battle( opponent : Tamer ):
 	var combatants = opponent.party
 	for combatant in combatants:
 		if not combatant.is_instance:
-			combatant = combatant.initialize()
+			combatant = await combatant.initialize()
 
 	combatants.push_front(PlayerData.get_party_leader())
 	#combatants.push_back( combatant )

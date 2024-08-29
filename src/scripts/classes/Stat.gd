@@ -73,7 +73,7 @@ func calculate(formula_override_input = formula_override) -> float:
 		"IV": int(IV),
 		"EV": int(EV),
 		"base": int(base),
-		"level": max(owner.get_level(), 1),
+		"level": max(owner.level, 1),
 		# "nature": owner.nature.get_mod(id)
 	}
 	# Default formula

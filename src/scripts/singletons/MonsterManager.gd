@@ -60,14 +60,13 @@ func generate_tamed_monster(monster_id : StringName, nickname: String = "", leve
 		tamed_monster = await tamed_monster.acquire(_nickname) # Ensure the monster is initialized
 		
 		if level > 1:
-			while tamed_monster.get_level() in range(level):
-				tamed_monster.level.gain_exp( tamed_monster.level.exp_required+1, tamed_monster )
-				tamed_monster.level.leveled_up
-
+			while tamed_monster.level in range(level):
+				await tamed_monster.gain_experience( tamed_monster.experience_required )
+				
 		# Assume some taming process is handled here
 		tamed_monster.captured_status = Monster.TAMED
 		tamed_monster.captured_by = PlayerData.player_name  # Assign the monster to the player
-		print("Generated tamed monster: %s at level %d" % [tamed_monster.nickname, tamed_monster.get_level()])
+		print("Generated tamed monster: %s at level %d" % [tamed_monster.nickname, tamed_monster.level])
 
 		return tamed_monster
 	else:

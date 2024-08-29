@@ -54,7 +54,7 @@ func init_containers():
 			var atlas = get_cell_atlas_coords( cell )
 			var c = ItemStorage.new(cell, storage_limit, atlas)
 			known_containers.merge( { cell : c } )
-			print_debug("New container at %s" % str(cell))
+			#print_debug("New container at %s" % str(cell))
 
 func get_known_container( pos : Vector2i ):
 	return known_containers.get(pos, known_containers)

@@ -18,7 +18,7 @@ func _ready():
 	var objects_occupied = objects.get_used_cells()
 	var drop_point_candidates : Array = objects.known_containers.keys()
 	#drop_point_candidates.append(Vector2i(14, 5))
-	prints("drop point candidates:", drop_point_candidates)
+	#prints("drop point candidates:", drop_point_candidates)
 	drop_item( Vector2(10, 0), ItemManager.get_random_item())
 
 #region MOVEMENT

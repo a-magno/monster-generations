@@ -26,15 +26,16 @@ func _set_active(value):
 	active = value
 	set_process(value)
 	set_process_input(value)
+	print("%s active: %s" % [name, active])
 	if not active:
 		return
-	print("%s turn started." % name)
 	turn_start.emit()
 
 func set_data(_data : Monster):
 	data = _data
 	health = Health.new( data.get_stat(&"hp") )
 	health.combatant = self
+	health.name = "HealthNode"
 	add_child(health)
 	initiative = data.get_stat(&"spd").value
 
@@ -43,7 +44,7 @@ func attack( target : Combatant, move : BaseMove ):
 	if not active: return
 	$Sprite.play("attack")
 	await $Sprite.animation_finished
-	await move.use_move( target, self )
+	#await move.use_move( target, self )
 	$Sprite.play("idle")
 	end_turn()
 

@@ -42,16 +42,49 @@ func get_typing():
 @export var ability : Resource #Change to Ability later
 
 #region level
-signal gained_exp( new_amount )
+signal gained_exp( data : Array )
 signal leveled_up( new_level )
 
-@export var growth_type : Level.Growth = Level.Growth.FAST
-@export var starting_level : int = 1
-var level : Level
-func _on_level_up( level ):
-	print_debug("Attempting to learn move...")
-	await learn_move(&"level_up", level)
-	await calculate_stats(self)
+@export var growth_type : Level.GrowthTypes = Level.GrowthTypes.FAST
+var level : int : 
+	set(v):
+		level = max(v, 1)
+		experience_required = get_required_exp(level+1)
+		leveled_up.emit(v)
+var experience : int
+var experience_total : int = 0
+var experience_required : int
+
+func get_required_exp( level ):
+	match( growth_type ):
+		Level.GrowthTypes.FAST:
+			return Level.fast( level )
+		Level.GrowthTypes.MEDIUM_FAST:
+			return Level.medium_fast( level )
+		Level.GrowthTypes.MEDIUM_SLOW:
+			return Level.medium_slow( level )
+		Level.GrowthTypes.SLOW:
+			return Level.slow( level )
+		_:
+			return Level.slow(level)
+
+func gain_experience( amount ):
+	experience_total += amount
+	experience += amount
+	var growth_data = []
+	while experience >= experience_required:
+		experience -= experience_required
+		growth_data.append([experience_required, experience_required])
+		level_up()
+	growth_data.append([experience, experience_required])
+	gained_exp.emit( growth_data )
+
+func level_up():
+	level += 1
+	#handle learning new move
+	learn_moves(&"level_up", level)
+	calculate_stats()
+
 #endregion
 
 @export_category("Sprites")
@@ -89,10 +122,7 @@ func initialize():
 	var d : Monster = self.duplicate()
 	d.is_instance = true
 	d.gender = randi_range(1, 2) if not genderless else 0
-	d.level = Level.new(d, growth_type, starting_level)
-	
 	calculate_stats(d)
-	
 	return d
 
 ## Duplicates the resouce of a 'wild' monster, so it can be added to the player's roster
@@ -110,16 +140,6 @@ func acquire(new_nickname : String):
 	#print_debug(acquired_monster.level.leveled_up.get_connections())
 	return acquired_monster 
 
-func get_level(as_data := false):
-	if as_data:
-		return {
-			&"current": level.level,
-			&"exp_cap": level.exp_cap,
-			&"curr_exp": level.curr_exp,
-			&"total": level.total_exp
-		}
-	return level.level
-
 func get_stat(id : StringName):
 	if id in stats:
 		return {
@@ -129,7 +149,7 @@ func get_stat(id : StringName):
 		}
 	return {}
 
-func calculate_stats(monster : Monster):
+func calculate_stats(monster : Monster = self):
 	var base_values = {
 		&"hp": [hp_base, "( (IV + 2 * base + (EV/4) ) * level/100 ) + 10 + level"],
 		&"atk": [atk_base, null],
@@ -154,18 +174,19 @@ func increase_stat(id, amount):
 
 #region Moves
 
-func learn_move( learnset_key : StringName, move_key ):
+func learn_moves( learnset_key : StringName, move_key ):
 	var learnset = learnsets.get(learnset_key, null)
 	if not learnset: return
 	
 	var to_learn = learnset.get(move_key, null)
 	if not to_learn: return
 	
-	print_debug(to_learn)
+	#print_debug(to_learn)
 	for move in to_learn:
-		learned_moves.push_front(move.duplicate())
-		print("%s learned %s!" % [nickname, move.name])
-		move_learned.emit(move)
+		if not learned_moves.has(move):
+			learned_moves.push_front(move.duplicate())
+			print("%s learned %s!" % [nickname, move.name])
+			#move_learned.emit(move)
 	return
 
 func get_battle_moves()->Array[BaseMove]:

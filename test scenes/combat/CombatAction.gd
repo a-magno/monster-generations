@@ -15,6 +15,15 @@ func _init(_actor : Combatant, _type : Actions, _target : Combatant = null, _act
 	type = _type
 	priority = calculate_priority()
 
+func as_data():
+	return {
+		"attacker": actor,
+		"target" : target,
+		"action": action,
+		"priority": priority,
+		"type": Actions.keys()[type]
+	}
+
 func execute():
 	match(type):
 		Actions.FIGHT: 

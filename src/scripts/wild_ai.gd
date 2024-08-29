@@ -7,30 +7,23 @@ signal queue_action( data : Dictionary )
 var timer : Timer
 const TACKLE = preload("res://src/moves/tackle.tres")
 
-func act():
+func act(_target : Combatant):
+	var target = _target
 	if not timer.is_inside_tree(): return
 	if not timer.is_stopped(): return
 	if not combatant.active:return
-	print("AI attacking...")
 	timer.start()
-	await timer.timeout
-	var target
-	for c in list.get_combatants():
-		if not c == combatant:
-			target = c
-			break
-
-	queue_action.emit(
-		
-		{
-			"action": "attack",
-			"actor": self,
-			"params": [target, TACKLE],
-		}
-		
+	
+	await target.turn_done
+	print("AI attacking...")
+	CombatHandler.action_queued.emit(
+		CombatAction.new(
+			combatant, CombatAction.Actions.FIGHT,
+			target, TACKLE
+		)
 	)
-		
-	combatant.attack(target, TACKLE)
+	await timer.timeout
+	combatant.active = false
 
 ## Chooses between FIGHT or ITEM
 func _evaluate_actions():pass

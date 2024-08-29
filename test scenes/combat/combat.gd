@@ -19,7 +19,7 @@ func _ready():
 func start_battle( monsters : Array[Monster] ):
 	for monster in monsters:
 		print(monster.nickname)
-		monster = monster if monster.is_instance else monster.initialize()
+		monster = monster if monster.is_instance else await monster.initialize()
 		var combatant = monster.battle_scene.instantiate() as Combatant
 		combatant.set_data(monster)
 		_add_combatant(combatant)
@@ -47,6 +47,7 @@ func _add_combatant(combatant : Combatant):
 		timer.one_shot = true
 		combatant.add_child(timer)
 		ai.timer = timer
+		CombatHandler.turn_ended.connect(ai.act)
 
 func clear_combat():
 	for n in combatants.get_children():
@@ -85,8 +86,8 @@ func give_exp( to : Combatant, from : Combatant ):
 	var data : Monster = from.data
 	var is_wild = 1.5 if data.captured_status == Monster.NPC_TAMED else 1.0
 	var worth = data.base_exp_worth
-	var exp = roundf(( worth * data.get_level() * is_wild) / 7)
-	to.data.level.gain_exp( exp * 100, to.data )
+	var exp = roundf(( worth * data.level * is_wild) / 7)
+	to.data.gain_experience( exp * 100 )
 	print("%s gained %d EXP." % [to.data.nickname, exp])
 
 # EOF #

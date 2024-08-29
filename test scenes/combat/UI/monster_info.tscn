@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://n24kpqw8ry6g"]
+[gd_scene load_steps=15 format=3 uid="uid://n24kpqw8ry6g"]
 
 [ext_resource type="Script" path="res://test scenes/combat/UI/monster_info.gd" id="1_dqxqw"]
 [ext_resource type="Gradient" uid="uid://fe1nkhw3h4rk" path="res://test scenes/combat/UI/hp_fill.tres" id="2_1tk30"]
 [ext_resource type="FontFile" uid="uid://bvry3xxuyun5w" path="res://src/assets/fonts/dogicapixelbold.otf" id="2_j7md4"]
 [ext_resource type="Texture2D" uid="uid://b1xjpi8rv0cc0" path="res://src/assets/gender_sprites.png" id="3_axng0"]
+[ext_resource type="Script" path="res://test scenes/leveling/experience_bar.gd" id="5_q4jd2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u20bt"]
 
@@ -209,3 +210,4 @@ theme_override_styles/background = SubResource("StyleBoxFlat_v3upt")
 theme_override_styles/fill = SubResource("StyleBoxFlat_3mgrj")
 value = 50.0
 show_percentage = false
+script = ExtResource("5_q4jd2")
