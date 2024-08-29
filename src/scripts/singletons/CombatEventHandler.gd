@@ -10,6 +10,7 @@ signal battle_started()
 signal battle_over( winner : Combatant, loser : Combatant )
 
 signal turn_started( combatant : Combatant )
+signal action_queued( action : CombatAction )
 signal turn_ended( combatant : Combatant )
 
 signal combatant_switched( combatant : Combatant, new_data : Monster )

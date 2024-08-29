@@ -16,7 +16,7 @@ enum CombatantState {
 @export var data : Monster
 var initiative
 
-var active : bool = false : set = _set_active
+var active : bool = true : set = _set_active
 #region Nodes
 var health : Health
 var battle_sprite : PackedScene
@@ -42,8 +42,8 @@ func set_data(_data : Monster):
 func attack( target : Combatant, move : BaseMove ):
 	if not active: return
 	$Sprite.play("attack")
-	await move.use_move( target, self )
 	await $Sprite.animation_finished
+	await move.use_move( target, self )
 	$Sprite.play("idle")
 	end_turn()
 

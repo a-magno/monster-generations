@@ -44,10 +44,14 @@ func _on_attack_pressed() -> void:
 	actions.hide()
 	move_list.show()
 
-func _on_move_selected( move : BaseMove):
+func _on_move_selected( move : BaseMove ):
 	var target = combatants_list.get_node("Opponent")
 	var user = combatants_list.get_node("Player")
 	move.use_move(target, user)
+	CombatHandler.action_queued.emit( CombatAction.new(
+		user, CombatAction.Actions.FIGHT,
+		target, move
+	))
 	move_list.hide()
 	actions.show()
 	

@@ -28,7 +28,7 @@ func start_battle( monsters : Array[Monster] ):
 		combatant.health.dead.connect(_on_combatant_death)
 		
 	battle_ui.start()
-	turn_queue.start()
+	#turn_queue.start()
 
 func _add_combatant(combatant : Combatant):
 	if combatant.data.captured_status == Monster.TAMED:

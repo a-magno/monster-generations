@@ -62,8 +62,8 @@ func set_health_node( node : Health ):
 
 func set_exp( level ): 
 	level_lbl.text = LVL_DISPLAY %  max(level, 1)
-	exp_bar.max_value = data.level.exp_cap
-	exp_bar.value = data.level.curr_exp
+	exp_bar.max_value = data.level.exp_required
+	exp_bar.value = data.level.experience
 	
 	if not data.level.gained_exp.is_connected(_on_exp_gained):
 		data.level.gained_exp.connect(_on_exp_gained)
