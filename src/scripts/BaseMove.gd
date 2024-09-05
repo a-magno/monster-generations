@@ -38,7 +38,7 @@ var dmg_key : StringName
 var def_key : String
 @export var type : Typing.Types
 @export_multiline var description : String
-
+@export_range(-7, 5, 1) var priority : int = 0
 func use_move(target : Combatant, user : Combatant):
 	uses_left -= 1
 	var dmg = _calculate_damage(target, user)

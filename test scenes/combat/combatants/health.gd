@@ -15,6 +15,7 @@ var max_value : float
 func _init( stat : Dictionary ):
 	max_value = stat.max
 	value = stat.value
+	name = "Health"
 
 func take_damage( amount ):
 	#value -= max(amount, 1)

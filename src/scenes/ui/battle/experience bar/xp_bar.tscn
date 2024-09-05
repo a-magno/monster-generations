@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4fr7m4v6letf"]
+
+[ext_resource type="Script" path="res://test scenes/leveling/experience_bar.gd" id="1_h7kl5"]
+
+[node name="XP Bar" type="ProgressBar"]
+offset_left = 71.0
+offset_top = 185.0
+offset_right = 501.0
+offset_bottom = 209.0
+show_percentage = false
+script = ExtResource("1_h7kl5")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

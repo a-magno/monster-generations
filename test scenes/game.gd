@@ -29,7 +29,7 @@ func _start_wild_battle( monsters : Array ):
 	remove_child(world)
 	add_child( battle_scene )
 	battle_scene.show()
-	battle_scene.start_battle(monsters)
+	battle_scene.begin_combat(monsters)
 	await _fade_in()
 	
 

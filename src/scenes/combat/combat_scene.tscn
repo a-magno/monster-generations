@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://cx2ndolcwgs1h"]
+
+[ext_resource type="Script" path="res://src/scripts/CombatScene.gd" id="1_ij7s1"]
+[ext_resource type="Texture2D" uid="uid://druax0t1ex102" path="res://test scenes/combat/backgrounds/forest.png" id="2_k381n"]
+[ext_resource type="Script" path="res://src/scripts/TurnQueue.gd" id="2_otxoc"]
+[ext_resource type="Script" path="res://src/scripts/combat/CombatantList.gd" id="4_cn4af"]
+[ext_resource type="PackedScene" uid="uid://cimmvruihkthe" path="res://src/scenes/ui/battle/actions/combat_actions.tscn" id="5_pnkm1"]
+[ext_resource type="PackedScene" uid="uid://rjaot33xubk4" path="res://src/scenes/ui/battle/actions/move_container.tscn" id="6_3i5rv"]
+
+[node name="CombatScene" type="Node2D" node_paths=PackedStringArray("turn_queue", "combatants")]
+script = ExtResource("1_ij7s1")
+turn_queue = NodePath("TurnQueue")
+combatants = NodePath("Combatants")
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 640.0
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_k381n")
+
+[node name="TurnQueue" type="Node" parent="." node_paths=PackedStringArray("combatant_container")]
+script = ExtResource("2_otxoc")
+combatant_container = NodePath("../Combatants")
+
+[node name="Combatants" type="Node2D" parent="."]
+script = ExtResource("4_cn4af")
+
+[node name="PlayerMarker" type="Marker2D" parent="Combatants"]
+position = Vector2(192, 384)
+scale = Vector2(-2, 2)
+gizmo_extents = 50.0
+
+[node name="OpponentMarker" type="Marker2D" parent="Combatants"]
+position = Vector2(960, 256)
+gizmo_extents = 50.0
+
+[node name="BattleInterface" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="BattleInterface"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Combatant UI" type="HBoxContainer" parent="BattleInterface/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 320
+
+[node name="MarginContainer2" type="MarginContainer" parent="BattleInterface"]
+offset_left = 856.0
+offset_top = 544.0
+offset_right = 1148.0
+offset_bottom = 644.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="CombatActions" parent="BattleInterface/MarginContainer2" instance=ExtResource("5_pnkm1")]
+visible = false
+layout_mode = 2
+
+[node name="MoveContainer" parent="BattleInterface/MarginContainer2" instance=ExtResource("6_3i5rv")]
+layout_mode = 2

@@ -12,7 +12,7 @@ var exp_req : int = get_required_exp(level+1)
 
 #region testing
 func _ready():
-	$ProgressBar.initialize(experience, exp_req)
+	$"XP Bar".initialize(experience, exp_req)
 
 func _process(delta: float) -> void:
 	$Label.text = "Lv. %3d\nExp:%d\nNext Lv:%d" % [level, experience, exp_req]

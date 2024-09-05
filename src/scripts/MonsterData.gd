@@ -7,7 +7,7 @@ enum Gender {UNKNOWN,MALE,FEMALE}
 enum {WILD,TAMED,NPC_TAMED,BOSS}
 
 #var id, species, type, nickname, level, stats, ability, learnset, learned_move
-var is_instance := false
+var initialized := false
 @export var id : StringName
 @export_category("Information")
 var nickname : StringName = "" :
@@ -88,7 +88,9 @@ func level_up():
 #endregion
 
 @export_category("Sprites")
+# HACK: DEPRECIATED, DELETE AFTER COMBAT REWORK IS DONE
 @export var battle_scene : PackedScene
+@export var combat_sprite : PackedScene
 @export var icon : Texture
 @export var dex_color : Color = Color.WHITE
 @export_subgroup("Moves")
@@ -120,7 +122,7 @@ var stats : Dictionary = {}
 func initialize():
 	randomize()
 	var d : Monster = self.duplicate()
-	d.is_instance = true
+	d.initialized = true
 	d.gender = randi_range(1, 2) if not genderless else 0
 	calculate_stats(d)
 	return d
@@ -196,5 +198,6 @@ func get_battle_moves()->Array[BaseMove]:
 			first_four.push_back(move)
 	
 	return first_four
+#endregion
 
 # EOF #

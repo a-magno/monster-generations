@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://rjaot33xubk4"]
+
+[ext_resource type="Script" path="res://src/scenes/ui/battle/actions/move_container.gd" id="1_akgsf"]
+
+[node name="MoveContainer" type="GridContainer"]
+columns = 2
+script = ExtResource("1_akgsf")
+
+[node name="Move" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+disabled = true
+text = "MOVE1"
+
+[node name="Move2" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+disabled = true
+text = "MOVE1"
+
+[node name="Move3" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+disabled = true
+text = "MOVE1"
+
+[node name="Move4" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+disabled = true
+text = "MOVE1"
