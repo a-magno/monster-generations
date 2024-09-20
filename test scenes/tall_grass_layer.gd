@@ -11,10 +11,10 @@ func check_encounter(target_position):
 		
 		#encounter_triggered.emit( target_cell )
 		if _roll_encounter(chance):
-			var wild_one : Monster = MonsterManager.generate_random_wild_monster()
-			var wild_ones : Array[Monster]
-			wild_ones.push_back(wild_one)
-			CombatHandler.wild_encounter_triggered.emit( wild_ones )
+			var wild_monster : Monster = MonsterManager.generate_random_wild_monster()
+			var encounters : Array[Monster]
+			encounters.push_back(wild_monster)
+			CombatEvent.wild_encounter_triggered.emit( encounters )
 	
 func _roll_encounter(encounter_chance):
 	randomize()

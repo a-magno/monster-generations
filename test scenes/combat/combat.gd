@@ -10,8 +10,8 @@ signal battle_over(winner, loser)
 @onready var battle_ui: CanvasLayer = $"Battle UI"
 @onready var turn_queue: Node = $TurnQueue
 
-func _ready():
-	CombatHandler.battle_started.connect(start_battle)
+#func _ready():
+	#CombatHandler.battle_started.connect(start_battle)
 	#CombatHandler.battle_over.connect(finish_combat)
 	#var fighters = test_fighters # debug
 	#start_battle(fighters)
@@ -47,7 +47,7 @@ func _add_combatant(combatant : Combatant):
 		timer.one_shot = true
 		combatant.add_child(timer)
 		ai.timer = timer
-		CombatHandler.turn_ended.connect(ai.act)
+		#CombatHandler.turn_ended.connect(ai.act)
 
 func clear_combat():
 	for n in combatants.get_children():
@@ -56,8 +56,8 @@ func clear_combat():
 		combatants.combatants.clear()
 	battle_ui.free_info_nodes()
 
-func finish_combat(winner, loser):
-	CombatHandler.battle_over.emit(winner, loser)
+#func finish_combat(winner, loser):
+	#CombatHandler.battle_over.emit(winner, loser)
 
 func _on_combatant_death(combatant):
 	var winner 
@@ -74,7 +74,7 @@ func _on_combatant_death(combatant):
 			if not n.name == "Player":
 				winner = n
 				break
-	finish_combat(winner, combatant)
+	#finish_combat(winner, combatant)
 
 func check_for_tag_ins( combatant ):
 	return false

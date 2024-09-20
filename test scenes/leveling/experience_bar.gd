@@ -1,5 +1,9 @@
 extends ProgressBar
 
+func set_data( data : Monster ):
+	initialize( data.experience, data.experience_required )
+	data.gained_exp.connect(_on_exp_gained)
+
 func initialize(curr, max):
 	max_value = max
 	value = curr
@@ -12,6 +16,7 @@ func _on_exp_gained( data ):
 		await animate_bar(target_exp)
 		if is_equal_approx(max_value, value):
 			value = min_value
+	CombatEvent.exp_updated.emit()
 
 func animate_bar(target, duration := 1.0):
 	var tween = create_tween()

@@ -34,7 +34,7 @@ func _set_active(value):
 func set_data(_data : Monster):
 	data = _data
 	health = Health.new( data.get_stat(&"hp") )
-	health.combatant = self
+	#health.combatant = self
 	health.name = "HealthNode"
 	add_child(health)
 	initiative = data.get_stat(&"spd").value
@@ -67,6 +67,6 @@ func take_damage( amount ):
 
 func end_turn():
 	#await info_node.updated
-	CombatHandler.turn_ended.emit(self)
+	CombatEvent.turn_ended.emit(self)
 
 # EOF #

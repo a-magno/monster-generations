@@ -40,7 +40,7 @@ func set_item( pos : Vector2i, item : Item ):
 
 func get_item( pos : Vector2i )->Item:
 	var items = items_present.get(pos, null)
-	return items.first() if items else null
+	return items[0] if items else null
 
 func remove_item( pos : Vector2i):
 	items_present.erase(pos)

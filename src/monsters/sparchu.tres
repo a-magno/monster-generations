@@ -14,7 +14,6 @@ genderless = false
 type1 = 2
 type2 = 0
 growth_type = 0
-starting_level = 1
 battle_scene = ExtResource("1_d68j3")
 icon = ExtResource("2_24mca")
 dex_color = Color(1, 0.505558, 0.224577, 1)

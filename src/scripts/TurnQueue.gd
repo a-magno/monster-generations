@@ -4,6 +4,8 @@ signal play_turn( combatant )
 signal round_over
 
 @export var combatant_container : Node
+var round_count : int = 0
+var active : bool = true
 
 func execute_actions():
 	var combatants = _get_combatants()
@@ -11,16 +13,21 @@ func execute_actions():
 	
 	for combatant in combatants:
 		combatant.queued_action.execute()
-		combatant.active = false
+		await CombatEvent.hp_updated
 
-func _check_all_inactive():
+func _check_all_inactive(_t, _a):
+	if not active: return
 	for combatant : Node2D in _get_combatants():
 		if combatant.active:
-			if combatant.is_in_group(CombatHandler.PLAYER_GROUP):
+			#print_debug("%s is active!" % combatant.name)
+			if combatant.is_in_group(CombatantMonster.PLAYER_GROUP):
 				play_turn.emit( combatant )
 			return false
+	#print_debug("All inactive, executing actions...")
 	await execute_actions()
-	round_over.emit()
+	#print_debug("All actions executed.")
+	round_count += 1
+	CombatEvent.round_over.emit()
 	return true
 
 func _get_combatants()->Array:
@@ -30,3 +37,12 @@ func _sort_by_priority(a : CombatantMonster, b : CombatantMonster):
 	if a.queued_action.priority == b.queued_action.priority:
 		return a.initiative > b.initiative
 	return a.queued_action.priority > b.queued_action.priority
+
+func _ready():
+	CombatEvent.action_queued.connect(_check_all_inactive)
+	CombatEvent.combatant_dead.connect(func(_c): active = false)
+	active = true
+
+func clear():
+	round_count = 0
+	CombatEvent.action_queued.disconnect(_check_all_inactive)

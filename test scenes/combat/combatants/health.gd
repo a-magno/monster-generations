@@ -4,7 +4,7 @@ class_name Health
 signal dead( combatant )
 signal health_changed( new_value )
 
-@onready var combatant : Combatant
+@onready var combatant : CombatantMonster
 
 var value : float : 
 	set(v):
@@ -23,9 +23,9 @@ func take_damage( amount ):
 	if value <= 0:
 		combatant.active = false
 		# TODO: Replace with death anim later
-		await get_tree().create_timer(1.0).timeout
+		#await get_tree().create_timer(1.0).timeout
 		
-		dead.emit( combatant )
+		CombatEvent.combatant_dead.emit( combatant )
 		
 
 func heal( amount ):
@@ -36,3 +36,4 @@ func _tween_amount( amount ):
 	var target_v = clamp(value+amount, 0, max_value)
 	tween.tween_property(self, "value", target_v, 0.4)
 	await tween.finished
+	CombatEvent.hp_updated.emit()

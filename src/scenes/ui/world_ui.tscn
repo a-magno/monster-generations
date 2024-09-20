@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://vraeqh70pqet"]
+[gd_scene load_steps=9 format=3 uid="uid://vraeqh70pqet"]
 
 [ext_resource type="Texture2D" uid="uid://nvyp4llpwe8a" path="res://src/assets/Other_29.png" id="1_3t4wl"]
 [ext_resource type="Script" path="res://src/scenes/ui/inventory/v2/inventory_grid.gd" id="2_a3vft"]
 [ext_resource type="PackedScene" uid="uid://dlu3qsuojeck6" path="res://src/scenes/ui/inventory/v2/slot.tscn" id="3_by54p"]
+[ext_resource type="PackedScene" uid="uid://bfh6ac05b3tix" path="res://src/scenes/ui/team summary/team_summary.tscn" id="4_huthc"]
+[ext_resource type="PackedScene" uid="uid://gnjku8xlwj2m" path="res://src/scenes/ui/pause menu/pause_menu.tscn" id="5_2pnhg"]
 
 [sub_resource type="GDScript" id="GDScript_uj2rx"]
 script/source = "extends CanvasLayer
@@ -125,5 +127,9 @@ layout_mode = 2
 
 [node name="PanelContainer12" parent="InventoryContainer/MarginContainer/Inventory" instance=ExtResource("3_by54p")]
 layout_mode = 2
+
+[node name="TeamSummary" parent="." instance=ExtResource("4_huthc")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("5_2pnhg")]
 
 [connection signal="toggled" from="HBoxContainer/OpenBag" to="." method="_on_open_bag_toggled"]

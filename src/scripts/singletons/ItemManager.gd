@@ -44,4 +44,11 @@ func unload_all_items() -> void:
 func get_random_item()->Item:
 	var item = items.values().pick_random()
 	return item.duplicate()
-	
+
+func get_item( id : StringName, amount : int = 1) -> Item:
+	for item : Item in items.values():
+		if item.id == id:
+			var i : Item = item.duplicate()
+			i.stack = amount
+			return i
+	return null

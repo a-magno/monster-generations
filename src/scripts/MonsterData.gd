@@ -5,9 +5,9 @@ signal move_learned( move )
 
 enum Gender {UNKNOWN,MALE,FEMALE}
 enum {WILD,TAMED,NPC_TAMED,BOSS}
+enum StatusCondition {SLEEP, BURN, PARALYZE, POISON, FREEZE}
 
-#var id, species, type, nickname, level, stats, ability, learnset, learned_move
-var initialized := false
+var pid : int = -1
 @export var id : StringName
 @export_category("Information")
 var nickname : StringName = "" :
@@ -15,8 +15,11 @@ var nickname : StringName = "" :
 		if not nickname.is_empty():
 			return nickname
 		return id.capitalize()
-var captured_by : StringName
+var original_trainer : StringName
+var trainer_id : int #Original Trainer ID
+var _secret_trainer_id : int # OT ID but secret
 var captured_status = WILD
+var friendship : float = 0.0
 @export var genderless := false
 var gender : Gender = 0
 @export var evolvesInto : Monster
@@ -46,10 +49,11 @@ signal gained_exp( data : Array )
 signal leveled_up( new_level )
 
 @export var growth_type : Level.GrowthTypes = Level.GrowthTypes.FAST
-var level : int : 
+var level : int = 1: 
 	set(v):
 		level = max(v, 1)
 		experience_required = get_required_exp(level+1)
+		calculate_stats()
 		leveled_up.emit(v)
 var experience : int
 var experience_total : int = 0
@@ -83,7 +87,6 @@ func level_up():
 	level += 1
 	#handle learning new move
 	learn_moves(&"level_up", level)
-	calculate_stats()
 
 #endregion
 
@@ -103,6 +106,7 @@ func level_up():
 var learned_moves : Array[BaseMove] #Change to Array[Move] later
 
 @export_category("Statistics")
+var status_condition : StatusCondition = -1
 @export var base_exp_worth : int = 0
 @export var hp_base : float = 0.0
 @export var atk_base : float = 0.0
@@ -122,8 +126,10 @@ var stats : Dictionary = {}
 func initialize():
 	randomize()
 	var d : Monster = self.duplicate()
-	d.initialized = true
 	d.gender = randi_range(1, 2) if not genderless else 0
+	d.pid = randi()
+	
+	#print_debug( "Gender threshold: " , str(d.pid).pad_zeros(32).right(8) )
 	calculate_stats(d)
 	return d
 
@@ -132,18 +138,58 @@ func acquire(new_nickname : String):
 	var acquired_monster = await initialize()
 	if new_nickname.length() > 0:
 		acquired_monster.nickname = new_nickname
-	acquired_monster.captured_by = PlayerData.player_name
-	for stat_id in acquired_monster.stats.keys():
-		if acquired_monster.stats[stat_id].value == 0.0:
-			acquired_monster.stats[stat_id].calculate()
+	
+	acquired_monster.trainer_id = PlayerHandler.get_id()
+	acquired_monster._secret_trainer_id = PlayerHandler.get_id(true)
+	acquired_monster.original_trainer = PlayerHandler.get_trainer()
+	acquired_monster.captured_status = Monster.TAMED
+	#calculate_stats(acquired_monster)
 	#acquired_monster.recalculate_stats(acquired_monster)
 	
 	#acquired_monster.level.leveled_up.connect(_on_level_up)
 	#print_debug(acquired_monster.level.leveled_up.get_connections())
 	return acquired_monster 
 
+## Turns self into a JSON Dictionary
+func serialize():
+	return {
+		"pid": pid,
+		"nickname" : nickname,
+		"OT": [trainer_id, _secret_trainer_id],
+		"trainer_name" : original_trainer,
+		"status_condition" : status_condition,
+		"level" : level,
+		"stats" : serialize_stats(),
+		"data" : {
+			"learned_moves" : serialize_moves(),
+			"species" : id,
+			"experience" : [experience, experience_required, experience_total],
+			"friendship" : friendship
+		}
+	}
+
+func deserialize( monster : Dictionary ):
+	pid = monster.get("pid", null)
+	if not pid:
+		push_warning("Could not find PID, canceling deserialization.")
+		return
+	nickname = monster.get("nickname", monster.data.get("species") )
+	id = monster.data.get("species", null)
+	trainer_id = monster.get("OT")[0]
+	_secret_trainer_id = monster.get("OT")[1]
+	original_trainer = monster.get("trainer_name")
+	level = monster.get("level", 1)
+	status_condition = monster.get("status_condition", -1)
+
+#region STAT MANIPULATION
+func serialize_stats():
+	var serialized : Array = []
+	for s in stats.values():
+		serialized.push_back( s.serialize() )
+	return serialized
+
 func get_stat(id : StringName):
-	if id in stats:
+	if id in stats.keys():
 		return {
 			&"self" : stats[id],
 			&"value" : stats[id].value,
@@ -173,8 +219,15 @@ func decrease_stat(id, amount):
 func increase_stat(id, amount):
 	if id in stats:
 		stats[id].increase(amount)
+#endregion
 
 #region Moves
+
+func serialize_moves():
+	var serial : Array
+	for move : BaseMove in learned_moves:
+		serial.push_back( move.serialize() )
+	return serial
 
 func learn_moves( learnset_key : StringName, move_key ):
 	var learnset = learnsets.get(learnset_key, null)
@@ -186,7 +239,7 @@ func learn_moves( learnset_key : StringName, move_key ):
 	#print_debug(to_learn)
 	for move in to_learn:
 		if not learned_moves.has(move):
-			learned_moves.push_front(move.duplicate())
+			learned_moves.push_front(move.duplicate(true))
 			print("%s learned %s!" % [nickname, move.name])
 			#move_learned.emit(move)
 	return

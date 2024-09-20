@@ -15,10 +15,11 @@ var INITIAL_HOUR = 5:
 	set(h):
 		INITIAL_HOUR = h
 		time = INGAME_TO_REAL_MINUTE_DURATION * MINUTES_PER_HOUR * INITIAL_HOUR
+		pause(false)
 
 var time:float= 0.0
 var past_minute:int= -1
-var paused := false
+var paused := true
 
 const TimeOfDay : Dictionary = {
 	0 : "MIDNIGHT",

@@ -5,14 +5,17 @@ extends Node
 #@onready var party_list = $"World/WorldUI/Party List"
 
 func _ready():
-	CombatHandler.wild_encounter_triggered.connect(_start_wild_battle)
-	CombatHandler.npc_encounter_triggered.connect(_start_npc_battle)
-	CombatHandler.battle_over.connect(_on_battle_finished)
+	CombatEvent.wild_encounter_triggered.connect(_start_wild_battle)
+	CombatEvent.npc_encounter_triggered.connect(_start_npc_battle)
+	CombatEvent.battle_over.connect(_on_battle_finished)
 	remove_child(battle_scene)
 	
-	var starter = await MonsterManager.generate_tamed_monster( MonsterManager.monsters.keys().pick_random(), "", 5)
-	PlayerData.add_to_party( starter )
-#
+	#var starter = await MonsterManager.generate_tamed_monster( MonsterManager.monsters.keys().pick_random(), "", 5)
+	#PlayerData.add_to_party( starter )
+	
+	#for monster in PlayerData.party:
+		#print(JSON.stringify( monster.serialize(), "\t") )
+
 	#for c in party_list.get_children():
 		#c.queue_free()
 	#for member in PlayerData.party:
@@ -22,7 +25,7 @@ func _ready():
 
 func _start_wild_battle( monsters : Array ):
 	WorldTime.pause()
-	PlayerData.player_instance.state = Player.BATTLING
+	PlayerData.set_player_state( Player.BATTLING )
 	monsters.push_front(PlayerData.get_party_leader())
 	
 	await _fade_out()
@@ -35,7 +38,7 @@ func _start_wild_battle( monsters : Array ):
 
 func _start_npc_battle( opponent : Tamer ):
 	WorldTime.pause()
-	PlayerData.player_instance.state = Player.BATTLING
+	PlayerData.set_player_state( Player.BATTLING )
 	
 	var combatants = opponent.party
 	for combatant in combatants:
@@ -58,7 +61,7 @@ func _on_battle_finished(winner, loser):
 	_fade_in()
 	WorldTime.pause(false)
 	
-	if winner.name == "Player":
+	if winner.is_in_group(CombatantMonster.PLAYER_GROUP):
 		print("Player Win")
 	else:
 		print("Player Lost")
@@ -67,10 +70,10 @@ func _on_battle_finished(winner, loser):
 	##check for evolutions
 	
 	#await animation player finished for...something
-	var player = PlayerData.get_player()
+	#var player = PlayerData.get_player()
 	#play some dialogue
 	battle_scene.clear_combat()
-	PlayerData.player_instance.state = Player.IDLE
+	PlayerData.set_player_state( Player.IDLE )
 
 #region Animations
 func _fade_out():

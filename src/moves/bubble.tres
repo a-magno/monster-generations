@@ -12,3 +12,4 @@ power = 40.0
 accuracy = 100.0
 type = 3
 description = "Shoots bubbles."
+priority = 0

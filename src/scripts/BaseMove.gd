@@ -30,23 +30,25 @@ var uses_left :
 			Category.SPECIAL:
 				dmg_key = &"spAtk"
 				def_key = &"spDef"
-			Category.STATUS_EFFECT:
+			_:
 				dmg_key = &""
 @export var power : float = 10.0
 @export var accuracy : float = 100.0
 var dmg_key : StringName
-var def_key : String
+var def_key : StringName
 @export var type : Typing.Types
 @export_multiline var description : String
 @export_range(-7, 5, 1) var priority : int = 0
-func use_move(target : Combatant, user : Combatant):
+
+func use_move(target, user):
 	uses_left -= 1
+	category = category
 	var dmg = _calculate_damage(target, user)
 	await target.take_damage( dmg )
 	
 ## Calculates damage based on the Gen1 formula
-func _calculate_damage( target : Combatant, user : Combatant ) -> int:
-	var data := target.data
+func _calculate_damage( target, user ) -> int:
+	var data = target.monster_data
 	var damage : int
 	var AttackStat = 0
 	var AD = 0
@@ -55,8 +57,8 @@ func _calculate_damage( target : Combatant, user : Combatant ) -> int:
 	var level = data.level
 	match(category):
 		Category.PHYSICAL, Category.SPECIAL:
-			var atk = user.data.get_stat( dmg_key ).get(&"value", 0.0)
-			var def = data.get_stat( dmg_key ).get(&"value", 0.0)
+			var atk = user.monster_data.get_stat( dmg_key ).value
+			var def = data.get_stat( dmg_key ).value
 			
 			AttackStat = atk
 			AD = power/def
@@ -66,7 +68,7 @@ func _calculate_damage( target : Combatant, user : Combatant ) -> int:
 	if type in data.get_typing():
 		STAB = 1.5
 	
-	for t in target.data.get_typing():
+	for t in target.monster_data.get_typing():
 		WeakOrRes += Typing.matchup( t, type)
 	
 	randomize()
@@ -74,3 +76,10 @@ func _calculate_damage( target : Combatant, user : Combatant ) -> int:
 	
 	damage = ((((2 * level / 5 + 2) * AttackStat * AD) / 50) + 2) * STAB * WeakOrRes * RandomNumber / 100
 	return int(damage)
+
+func serialize():
+	return {
+		"id": id,
+		"uses" : uses_left,
+		"times_boosted": 0
+	}

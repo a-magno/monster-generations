@@ -23,7 +23,7 @@ func set_data( _data : BaseMove ):
 
 	pressed.connect(
 		func():
-			print_debug("%s Used" % data.name)
+			#print_debug("%s Used" % data.name)
 			move_selected.emit(data)
 	)
 

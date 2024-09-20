@@ -37,6 +37,9 @@ func _check_objects(target_cell)->bool:
 	var occupied_cells = objects.get_used_cells()
 	if target_cell in occupied_cells:
 		return false
+	var has_item = items.get_item( target_cell )
+	if has_item:
+		return false
 	return true
 
 func _check_map(target_cell)->bool:

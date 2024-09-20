@@ -1,4 +1,13 @@
 extends GridContainer
 
+@export var move_container : Control  : 
+	set(m):
+		move_container = m
+
+func activate():
+	show()
+	grab_focus()
+
 func _on_fight_pressed() -> void:
-	print_debug("_on_fighter_pressed")
+	move_container.activate()
+	hide()

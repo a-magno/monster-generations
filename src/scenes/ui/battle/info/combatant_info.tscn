@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhgihscb742ki"]
+
+[ext_resource type="PackedScene" uid="uid://bh0wfpepeb4f0" path="res://src/scenes/ui/battle/health bar/health_bar.tscn" id="1_bx7cw"]
+[ext_resource type="Script" path="res://src/scenes/ui/battle/info/combatant_info.gd" id="1_oidrm"]
+[ext_resource type="PackedScene" uid="uid://b4fr7m4v6letf" path="res://src/scenes/ui/battle/experience bar/xp_bar.tscn" id="2_aycx0"]
+[ext_resource type="FontFile" uid="uid://bvry3xxuyun5w" path="res://src/assets/fonts/dogicapixelbold.otf" id="2_yhvd5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5wrh6"]
+bg_color = Color(0, 0, 0, 0.333333)
+corner_radius_top_left = 16
+corner_radius_bottom_right = 16
+
+[sub_resource type="Gradient" id="Gradient_oq40d"]
+resource_local_to_scene = true
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.207, 0.563)
+colors = PackedColorArray(0.977382, 0.00094524, 0.135321, 1, 1, 0.848966, 0.303828, 1, 0.358867, 0.918431, 0.325315, 1)
+
+[node name="CombatantInfo" type="PanelContainer"]
+custom_minimum_size = Vector2(320, 64)
+offset_right = 320.0
+offset_bottom = 66.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_5wrh6")
+script = ExtResource("1_oidrm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/normal_font = ExtResource("2_yhvd5")
+text = "NICKNAME"
+fit_content = true
+
+[node name="Level" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_fonts/normal_font = ExtResource("2_yhvd5")
+bbcode_enabled = true
+text = "[right]Lv. 100"
+fit_content = true
+
+[node name="Health Bar" parent="MarginContainer/VBoxContainer" instance=ExtResource("1_bx7cw")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 2
+step = 0.1
+value = 100.0
+gradient = SubResource("Gradient_oq40d")
+
+[node name="XP Bar" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_aycx0")]
+unique_name_in_owner = true
+layout_mode = 2
