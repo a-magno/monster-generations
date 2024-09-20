@@ -43,7 +43,7 @@ func set_data( _data : Monster ):
 		$SkewNode.skew = deg_to_rad( -7.5 )
 		exp_bar.hide()
 		_simplify()
-	set_exp(data.get_level())
+	set_exp(data.level)
 
 func set_health_node( node : Health ):
 	health_node = node
@@ -62,17 +62,17 @@ func set_health_node( node : Health ):
 
 func set_exp( level ): 
 	level_lbl.text = LVL_DISPLAY %  max(level, 1)
-	exp_bar.max_value = data.level.exp_cap
-	exp_bar.value = data.level.curr_exp
+	exp_bar.max_value = data.experience_required
+	exp_bar.value = data.experience
 	
-	if not data.level.gained_exp.is_connected(_on_exp_gained):
-		data.level.gained_exp.connect(_on_exp_gained)
+	if not data.gained_exp.is_connected(exp_bar._on_exp_gained):
+		data.gained_exp.connect(exp_bar._on_exp_gained)
 
 func update():
 	set_health_node(health_node)
-	set_exp(data.get_level())
+	#set_exp(data.level)
 	_update_bar_color()
-	updated.emit(combatant)
+	#updated.emit(combatant)
 
 func _simplify():
 	$"%Health Display".hide()
@@ -88,17 +88,6 @@ func _update_bar_color():
 	healthbar.add_theme_stylebox_override( "background", hp_bg )
 
 #region SIGNAL FUNCTIONS
-func _on_exp_gained( _exp, discrete := false ):
-	if not discrete:
-		tween = create_tween()
-		tween.set_parallel(true)
-		tween.tween_property(exp_bar, "value", _exp, 0.4)
-		await tween.finished
-		update()
-	else:
-		exp_bar.value = _exp
-		update()
-
 func _on_health_changed( _health, discrete := true ):
 	healthbar.value = _health
 	_update_bar_color()

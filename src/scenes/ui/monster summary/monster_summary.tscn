@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://5qtr8fh0mk8d"]
+
+[ext_resource type="PackedScene" uid="uid://buuy6d8wo8rwq" path="res://src/scenes/ui/move select/option/button.tscn" id="1_0ge4h"]
+
+[node name="MonsterSummary" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Info" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Moves" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Moves"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Moves/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" parent="VBoxContainer/Moves/HBoxContainer/VBoxContainer" instance=ExtResource("1_0ge4h")]
+layout_mode = 2
+
+[node name="Button2" parent="VBoxContainer/Moves/HBoxContainer/VBoxContainer" instance=ExtResource("1_0ge4h")]
+layout_mode = 2
+
+[node name="Button3" parent="VBoxContainer/Moves/HBoxContainer/VBoxContainer" instance=ExtResource("1_0ge4h")]
+layout_mode = 2
+
+[node name="Button4" parent="VBoxContainer/Moves/HBoxContainer/VBoxContainer" instance=ExtResource("1_0ge4h")]
+layout_mode = 2

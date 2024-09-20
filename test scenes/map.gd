@@ -18,8 +18,8 @@ func _ready():
 	var objects_occupied = objects.get_used_cells()
 	var drop_point_candidates : Array = objects.known_containers.keys()
 	#drop_point_candidates.append(Vector2i(14, 5))
-	prints("drop point candidates:", drop_point_candidates)
-	drop_item(drop_point_candidates.pick_random(), ItemManager.get_random_item())
+	#prints("drop point candidates:", drop_point_candidates)
+	drop_item( Vector2(10, 0), ItemManager.get_random_item())
 
 #region MOVEMENT
 func is_stepping_on(pos : Vector2):
@@ -36,6 +36,9 @@ func request_move(target_position)->bool:
 func _check_objects(target_cell)->bool:
 	var occupied_cells = objects.get_used_cells()
 	if target_cell in occupied_cells:
+		return false
+	var has_item = items.get_item( target_cell )
+	if has_item:
 		return false
 	return true
 
@@ -62,11 +65,12 @@ func check_for_item( target_pos ):
 func drop_item( at : Vector2, item : Item):
 	var has_container = objects.get_known_container( at )
 	print("has_container: ", has_container)
-	if has_container:
+	if at in has_container.keys():
 		print("Item to be dropped in container %s" % str(at))
 		var stored = objects.store_in_container(at, item)
 		if not stored:
 			print("Could not store item")
+			return
 		print("Item stored")
 	else:
 		print("Item to be dropped on ground at %s" % str(at))
@@ -86,7 +90,6 @@ func request_items( target_pos : Vector2 ):
 	else:
 		_item_present = items.get_items( tile_pos )
 		items.remove_item(tile_pos)
-	
 	if not _item_present.is_empty():
 		return {
 			"success" : true,

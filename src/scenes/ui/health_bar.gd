@@ -11,7 +11,6 @@ func _ready():
 	if not bg_style:
 		bg_style = get_theme_stylebox("background")
 	_update_color()
-	print("print ratio: ", _get_hp_ratio())
 	value_changed.connect(
 		func(v):
 			_update_color()

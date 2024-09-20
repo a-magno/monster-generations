@@ -36,17 +36,19 @@ func unload_monster(monster_id : StringName) -> void:
 	else:
 		print("Error: Monster with ID '%s' not found." % monster_id)
 
-func generate_random_wild_monster():
+func generate_random_wild_monster( level_range : Array = [1, 5] ):
 	randomize()
 	var monster_id = monsters.keys().pick_random()
-	return generate_wild_monster(monster_id)
+	var monster = _generate_wild_monster(monster_id)
+	monster.level = randi_range(level_range[0], level_range[1])
+	print("Generated wild monster: %s (lv. %3d)" % [monster.nickname, monster.level])
+	return monster 
 
 # Generates a wild monster by duplicating one of the loaded monsters
-func generate_wild_monster(monster_id : StringName) -> Monster:
+func _generate_wild_monster(monster_id : StringName, ) -> Monster:
 	if monster_id in monsters:
-		var wild_monster = monsters[monster_id].duplicate()
-		wild_monster.initialize() # Ensure the monster is initialized
-		print("Generated wild monster: %s" % wild_monster.nickname)
+		var wild_monster = monsters[monster_id].initialize()
+		#wild_monster.initialize() # Ensure the monster is initialized
 		return wild_monster
 	else:
 		print("Error: Monster with ID '%s' not found." % monster_id)
@@ -57,17 +59,16 @@ func generate_tamed_monster(monster_id : StringName, nickname: String = "", leve
 	if monster_id in monsters:
 		var tamed_monster : Monster = monsters[monster_id].duplicate()
 		var _nickname = nickname if nickname != "" else monster_id.capitalize()
-		tamed_monster = tamed_monster.acquire(_nickname) # Ensure the monster is initialized
+		tamed_monster = await tamed_monster.acquire(_nickname) # Ensure the monster is initialized
 		
 		if level > 1:
-			while tamed_monster.get_level() in range(level):
-				tamed_monster.level.gain_exp( tamed_monster.level.exp_cap+1, tamed_monster )
-				tamed_monster.level.leveled_up
-
+			while tamed_monster.level in range(level):
+				await tamed_monster.gain_experience( tamed_monster.experience_required )
+				
 		# Assume some taming process is handled here
-		tamed_monster.captured_status = Monster.TAMED
-		tamed_monster.captured_by = PlayerData.player_name  # Assign the monster to the player
-		print("Generated tamed monster: %s at level %d" % [tamed_monster.nickname, tamed_monster.get_level()])
+		
+		#tamed_monster.original_trainer = PlayerData.get_player()  # Assign the monster to the player
+		print("Generated tamed monster: %s at level %d" % [tamed_monster.nickname, tamed_monster.level])
 
 		return tamed_monster
 	else:

@@ -27,14 +27,16 @@ func set_data( d : Monster):
 	identity.text = IDENTITY_FORMAT.format({
 		"name" : data.nickname,
 		"gender": ["-", "M", "F"][data.gender],
-		"level": "%3d" % data.get_level(),
+		"level": "%3d" % data.level,
 		"types" : "%s / %s" % [Typing.as_string(data.type1), Typing.as_string(data.type2)] if data.type2 else Typing.as_string(data.type1)
 	})
 	
 	data.get_stat(&"hp").self.connect_to_signal(_update_max_health, "max_value_changed")
 	data.get_stat(&"hp").self.connect_to_signal(_update_health, "value_changed")
+	
 	healthbar.value = data.get_stat(&"hp").value
 	healthbar.max_value = data.get_stat(&"hp").max
+	
 	health_display.text = "%3d/%3d" % [ healthbar.value, healthbar.max_value]
 	#set_stats()
 	open()

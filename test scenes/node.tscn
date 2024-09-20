@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://src/scripts/day-night-cycle/daynightcycle.gd" id="2_qoarc"]
 [ext_resource type="Texture2D" uid="uid://ugepioyfokfv" path="res://src/scripts/day-night-cycle/daynightcycle-gradient-texture.tres" id="3_t0k1o"]
 [ext_resource type="PackedScene" uid="uid://vraeqh70pqet" path="res://src/scenes/ui/world_ui.tscn" id="4_f0pk2"]
-[ext_resource type="PackedScene" uid="uid://c6qnjpqg33mhg" path="res://test scenes/combat/combat.tscn" id="5_5bt0q"]
+[ext_resource type="PackedScene" uid="uid://cx2ndolcwgs1h" path="res://src/scenes/combat/combat_scene.tscn" id="4_lv7fe"]
 
 [sub_resource type="Animation" id="Animation_qscco"]
 length = 0.001
@@ -46,7 +46,7 @@ _data = {
 
 [node name="Node" type="Node" node_paths=PackedStringArray("battle_scene", "world")]
 script = ExtResource("1_4h63a")
-battle_scene = NodePath("Combat")
+battle_scene = NodePath("CombatScene")
 world = NodePath("World")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -72,8 +72,7 @@ color = Color(0.168627, 0.180392, 0.333333, 1)
 script = ExtResource("2_qoarc")
 gradient_texture = ExtResource("3_t0k1o")
 
-[node name="Combat" parent="." instance=ExtResource("5_5bt0q")]
-visible = false
+[node name="CombatScene" parent="." instance=ExtResource("4_lv7fe")]
 
 [node name="World" parent="." instance=ExtResource("2_lfpq6")]
 

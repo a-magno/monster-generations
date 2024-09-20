@@ -4,7 +4,7 @@ extends TileMapLayer
 @export var ground : TileMapLayer
 
 var items_present : Dictionary = {}
-
+var item_sprites : Dictionary = {}
 func get_items( pos : Vector2i )->Array:
 	print("Getting items at %s" % str(pos))
 	var res = items_present.get(pos, [])
@@ -26,32 +26,45 @@ func set_item( pos : Vector2i, item : Item ):
 	stack = {pos : items}
 	items_present.merge( stack )
 	set_cell( pos, 0, Vector2(9, 8) )
+	
+	var sprite = Sprite2D.new()
+	sprite.texture = item.icon
+	sprite.position = map_to_local( pos )
+	sprite.name = str(pos)
+	item_sprites.merge( { pos : sprite })
+	add_child(sprite)
+	
 	#for s in items_present:
 		#print(JSON.stringify(stack))
 	#print("Item [%s] set at %s" % [item.id, str(pos)])
 
 func get_item( pos : Vector2i )->Item:
 	var items = items_present.get(pos, null)
-	return items.first() if items else null
+	return items[0] if items else null
 
 func remove_item( pos : Vector2i):
 	items_present.erase(pos)
+	var sprite = item_sprites.get(pos, null)
+	if not sprite:
+		return
+	sprite.queue_free()
+	item_sprites.erase(pos)
 
-func drop_item( pos : Vector2i, item : Item):
-	var present_items = []
-	
-	#if items: present_items.append_array(items)
-	
-	if get_tile_volume( pos ) <= 0.0:
-		print("Insufficient volume at %s" % str(pos))
-		return false
-	var data : TileData = get_cell_tile_data( pos )
-	
-	present_items.append(item.id)
-	data.set_custom_data( "items", present_items )
-	print("present items size: ", present_items.size())
-	print("%s dropped at %s" % [ item.id, str(pos) ])
-	return true
+#func drop_item( pos : Vector2i, item : Item):
+	#var present_items = []
+	#
+	##if items: present_items.append_array(items)
+	#
+	#if get_tile_volume( pos ) <= 0.0:
+		#print("Insufficient volume at %s" % str(pos))
+		#return false
+	#var data : TileData = get_cell_tile_data( pos )
+	#
+	#present_items.append(item.id)
+	#data.set_custom_data( "items", present_items )
+	#print("present items size: ", present_items.size())
+	#print("%s dropped at %s" % [ item.id, str(pos) ])
+	#return true
 #endregion
 
 func get_tile_volume( pos : Vector2i ):

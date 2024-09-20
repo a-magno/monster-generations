@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://dasfj2yccvqp"]
+
+[ext_resource type="Script" path="res://test scenes/leveling/level_test.gd" id="1_bbb5b"]
+[ext_resource type="PackedScene" uid="uid://b4fr7m4v6letf" path="res://src/scenes/ui/battle/experience bar/xp_bar.tscn" id="2_klejj"]
+
+[node name="LevelTest" type="Node"]
+script = ExtResource("1_bbb5b")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 509.0
+offset_top = 190.0
+offset_right = 633.0
+offset_bottom = 216.0
+text = "Lv.  3"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 215.0
+offset_top = 124.0
+offset_right = 374.0
+offset_bottom = 174.0
+text = "Gain EXP"
+
+[node name="XP Bar" parent="." instance=ExtResource("2_klejj")]
+
+[connection signal="gained_exp" from="." to="XP Bar" method="_on_exp_gained"]
+[connection signal="leveled_up" from="." to="XP Bar" method="_on_leveled_up"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

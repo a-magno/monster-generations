@@ -1,0 +1,105 @@
+[gd_scene load_steps=10 format=3 uid="uid://cx2ndolcwgs1h"]
+
+[ext_resource type="Script" path="res://src/scripts/CombatScene.gd" id="1_ij7s1"]
+[ext_resource type="Texture2D" uid="uid://druax0t1ex102" path="res://test scenes/combat/backgrounds/forest.png" id="2_k381n"]
+[ext_resource type="Script" path="res://src/scripts/TurnQueue.gd" id="2_otxoc"]
+[ext_resource type="Script" path="res://src/scripts/combat/CombatantList.gd" id="4_cn4af"]
+[ext_resource type="Script" path="res://src/scenes/ui/battle/battle_interface.gd" id="5_gmhnf"]
+[ext_resource type="PackedScene" uid="uid://cimmvruihkthe" path="res://src/scenes/ui/battle/actions/combat_actions.tscn" id="5_pnkm1"]
+[ext_resource type="PackedScene" uid="uid://bhgihscb742ki" path="res://src/scenes/ui/battle/info/combatant_info.tscn" id="5_xu3qy"]
+[ext_resource type="PackedScene" uid="uid://rjaot33xubk4" path="res://src/scenes/ui/battle/actions/move_container.tscn" id="6_3i5rv"]
+[ext_resource type="PackedScene" uid="uid://sx05qur3h3n5" path="res://src/scenes/ui/battle/actions/target_container.tscn" id="9_w7lep"]
+
+[node name="CombatScene" type="Node2D" node_paths=PackedStringArray("turn_queue", "combatants", "battle_interface")]
+script = ExtResource("1_ij7s1")
+turn_queue = NodePath("TurnQueue")
+combatants = NodePath("Combatants")
+battle_interface = NodePath("BattleInterface")
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 640.0
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_k381n")
+
+[node name="TurnQueue" type="Node" parent="." node_paths=PackedStringArray("combatant_container")]
+script = ExtResource("2_otxoc")
+combatant_container = NodePath("../Combatants")
+
+[node name="Combatants" type="Node2D" parent="."]
+script = ExtResource("4_cn4af")
+
+[node name="PlayerMarker" type="Marker2D" parent="Combatants"]
+position = Vector2(192, 384)
+scale = Vector2(-2, 2)
+gizmo_extents = 50.0
+
+[node name="OpponentMarker" type="Marker2D" parent="Combatants"]
+position = Vector2(960, 256)
+gizmo_extents = 50.0
+
+[node name="BattleInterface" type="CanvasLayer" parent="."]
+script = ExtResource("5_gmhnf")
+
+[node name="InfoPanels" type="MarginContainer" parent="BattleInterface"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Combatant UI" type="HBoxContainer" parent="BattleInterface/InfoPanels"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 320
+
+[node name="CombatantInfo" parent="BattleInterface/InfoPanels/Combatant UI" instance=ExtResource("5_xu3qy")]
+layout_mode = 2
+
+[node name="CombatantInfo2" parent="BattleInterface/InfoPanels/Combatant UI" instance=ExtResource("5_xu3qy")]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="Actions" type="MarginContainer" parent="BattleInterface"]
+offset_left = 736.0
+offset_top = 416.0
+offset_right = 1148.0
+offset_bottom = 644.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="CombatActions" parent="BattleInterface/Actions" node_paths=PackedStringArray("move_container") instance=ExtResource("5_pnkm1")]
+layout_mode = 2
+move_container = NodePath("../MoveContainer")
+
+[node name="MoveContainer" parent="BattleInterface/Actions" instance=ExtResource("6_3i5rv")]
+visible = false
+layout_mode = 2
+
+[node name="TargetContainer" parent="BattleInterface/Actions" instance=ExtResource("9_w7lep")]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BattleInterface"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 12.0
+grow_horizontal = 2
+horizontal_alignment = 1
+
+[connection signal="tree_entered" from="TurnQueue" to="TurnQueue" method="_on_tree_entered"]

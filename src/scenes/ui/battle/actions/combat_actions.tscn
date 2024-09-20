@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://cimmvruihkthe"]
+
+[ext_resource type="Script" path="res://src/scenes/ui/battle/actions/combat_actions.gd" id="1_r8wvh"]
+
+[node name="CombatActions" type="GridContainer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -136.0
+offset_right = -60.0
+offset_bottom = -68.0
+grow_horizontal = 0
+grow_vertical = 0
+columns = 2
+script = ExtResource("1_r8wvh")
+
+[node name="Fight" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+text = "FIGHT"
+
+[node name="UseItem" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+disabled = true
+text = "ITEMS"
+
+[node name="Switch" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+disabled = true
+text = "SWITCH"
+
+[node name="Flee" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+disabled = true
+text = "FLEE"
+
+[connection signal="pressed" from="Fight" to="." method="_on_fight_pressed"]

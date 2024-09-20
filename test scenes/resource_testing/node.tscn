@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://mmu0h4lb3yuo"]
+
+[ext_resource type="Script" path="res://test.gd" id="1_q85u2"]
+[ext_resource type="Script" path="res://src/data/Monster.gd" id="2_55du8"]
+
+[sub_resource type="Resource" id="Resource_wmako"]
+script = ExtResource("2_55du8")
+id = &""
+gender_threshold = 255
+type1 = 0
+type2 = 0
+base_hp = 0
+base_atk = 0
+base_def = 0
+base_spd = 0
+base_spAtk = 0
+base_spDef = 0
+growth_type = 0
+catch_rate = 0.0
+base_exp_yield = 0
+egg_cycle = 0
+group1 = 0
+group2 = 0
+learnset = {
+"level": {}
+}
+items = {
+0.05: null,
+0.5: null
+}
+
+[node name="Node" type="Node"]
+script = ExtResource("1_q85u2")
+monster = SubResource("Resource_wmako")

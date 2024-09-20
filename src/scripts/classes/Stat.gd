@@ -5,7 +5,7 @@ signal value_changed(new_value: float)
 signal max_value_changed(new_max_value: float)
 
 var id: StringName
-var owner: Monster
+var owner: Resource
 var formula_override = null
 var base: float = 0.0
 var EV: float = 0.0
@@ -49,7 +49,7 @@ func get_value() -> int:
 var max_value: int : set = set_max_value, get = get_max_value
 var value: int : set = set_value, get = get_value
 
-func _init(_id: StringName, _base: float, _o: Monster, _formula = null):
+func _init(_id: StringName, _base: float, _o: Resource, _formula = null):
 	randomize()
 	id = _id
 	owner = _o
@@ -73,7 +73,7 @@ func calculate(formula_override_input = formula_override) -> float:
 		"IV": int(IV),
 		"EV": int(EV),
 		"base": int(base),
-		"level": max(owner.get_level(), 1),
+		"level": max(owner.level, 1),
 		# "nature": owner.nature.get_mod(id)
 	}
 	# Default formula
@@ -102,3 +102,10 @@ func connect_to_signal( callable : Callable, signal_name : StringName):
 	if not is_connected(signal_name, callable):
 		connect(signal_name, callable)
 	
+func serialize():
+	return {
+		"value": value,
+		"EV": EV,
+		"IV": IV,
+		"object": self
+	}

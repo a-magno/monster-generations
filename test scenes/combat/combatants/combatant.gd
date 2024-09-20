@@ -16,7 +16,7 @@ enum CombatantState {
 @export var data : Monster
 var initiative
 
-var active : bool = false : set = _set_active
+var active : bool = true : set = _set_active
 #region Nodes
 var health : Health
 var battle_sprite : PackedScene
@@ -26,15 +26,16 @@ func _set_active(value):
 	active = value
 	set_process(value)
 	set_process_input(value)
+	print("%s active: %s" % [name, active])
 	if not active:
 		return
-	print("%s turn started." % name)
 	turn_start.emit()
 
 func set_data(_data : Monster):
 	data = _data
 	health = Health.new( data.get_stat(&"hp") )
-	health.combatant = self
+	#health.combatant = self
+	health.name = "HealthNode"
 	add_child(health)
 	initiative = data.get_stat(&"spd").value
 
@@ -42,8 +43,8 @@ func set_data(_data : Monster):
 func attack( target : Combatant, move : BaseMove ):
 	if not active: return
 	$Sprite.play("attack")
-	await move.use_move( target, self )
 	await $Sprite.animation_finished
+	#await move.use_move( target, self )
 	$Sprite.play("idle")
 	end_turn()
 
@@ -66,6 +67,6 @@ func take_damage( amount ):
 
 func end_turn():
 	#await info_node.updated
-	CombatHandler.turn_ended.emit(self)
+	CombatEvent.turn_ended.emit(self)
 
 # EOF #

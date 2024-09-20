@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://bh0wfpepeb4f0"]
+
+[ext_resource type="Script" path="res://src/scenes/ui/battle/health bar/health_bar.gd" id="1_kggr0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_51p81"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omjwa"]
+bg_color = Color(0.358867, 0.918431, 0.325315, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="Health Bar" type="ProgressBar"]
+custom_minimum_size = Vector2(0, 12)
+offset_right = 192.0
+offset_bottom = 8.0
+theme_override_styles/background = SubResource("StyleBoxFlat_51p81")
+theme_override_styles/fill = SubResource("StyleBoxFlat_omjwa")
+value = 50.0
+show_percentage = false
+script = ExtResource("1_kggr0")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 8
+text = "100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="value_changed" from="." to="." method="_on_value_changed"]

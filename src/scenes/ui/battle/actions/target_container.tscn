@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://sx05qur3h3n5"]
+
+[ext_resource type="Script" path="res://src/scenes/ui/battle/actions/target_container.gd" id="1_5pphl"]
+
+[node name="TargetContainer" type="GridContainer"]
+script = ExtResource("1_5pphl")
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]

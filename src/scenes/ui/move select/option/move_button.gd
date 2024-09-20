@@ -10,13 +10,8 @@ signal move_selected( data )
 var done_ready := false
 const DESC_FORMAT = "[center]{value}/{max_value}"
 
-func _ready():
-	set_data(data)
-	pressed.connect(
-		func():
-			print("%s Used" % data.name)
-			move_selected.emit(data)
-	)
+#func _ready():
+	#set_data(data)
 
 func set_data( _data : BaseMove ):
 	data = _data
@@ -25,6 +20,12 @@ func set_data( _data : BaseMove ):
 	update()
 	if not data.move_used.is_connected(update):
 		data.move_used.connect(update)
+
+	pressed.connect(
+		func():
+			#print_debug("%s Used" % data.name)
+			move_selected.emit(data)
+	)
 
 func update():
 	description_label.text = DESC_FORMAT.format({

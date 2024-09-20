@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4fr7m4v6letf"]
+
+[ext_resource type="Script" path="res://test scenes/leveling/experience_bar.gd" id="1_h7kl5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_236rs"]
+bg_color = Color(0, 0, 0, 0.333333)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.498039)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kr87k"]
+bg_color = Color(0.567227, 0.3204, 0.89, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="XP Bar" type="ProgressBar"]
+custom_minimum_size = Vector2(0, 4)
+offset_left = 71.0
+offset_top = 185.0
+offset_right = 501.0
+offset_bottom = 209.0
+theme_override_styles/background = SubResource("StyleBoxFlat_236rs")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kr87k")
+value = 50.0
+show_percentage = false
+script = ExtResource("1_h7kl5")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
